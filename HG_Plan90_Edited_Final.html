@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90-Day Video War Plan — Santony × HG</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:wght@300;400;500;600;700&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0e8;
+  --ink: #0f0d0a;
+  --red: #d63b2f;
+  --gold: #c9a84c;
+  --green: #2d6a4f;
+  --blue: #1a3a5c;
+  --muted: #6b6456;
+  --card: #fff;
+  --border: #d4c9b5;
+  --surface: #ede8dc;
+  --orange: #e07b39;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden}
+
+/* ── NOISE TEXTURE ── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+
+/* ── HERO ── */
+.hero{background:var(--ink);color:var(--bg);padding:48px 40px 40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;border:60px solid rgba(201,168,76,0.12)}
+.hero::after{content:'WAR\APLAN';white-space:pre;position:absolute;bottom:-20px;right:30px;font-family:'Bebas Neue',sans-serif;font-size:160px;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,8vw,80px);line-height:0.95;margin-bottom:16px}
+.hero h1 span{color:var(--gold)}
+.hero-sub{font-size:14px;color:rgba(245,240,232,0.55);max-width:480px;line-height:1.6}
+.hero-meta{display:flex;gap:24px;margin-top:28px;flex-wrap:wrap}
+.meta-pill{padding:8px 16px;border:1px solid rgba(245,240,232,0.15);border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(245,240,232,0.7)}
+.meta-pill strong{color:var(--gold);display:block;font-size:18px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+
+/* ── LAYOUT ── */
+.page{max-width:1100px;margin:0 auto;padding:40px 20px}
+
+/* ── SECTION HEADER ── */
+.sec-head{display:flex;align-items:center;gap:14px;margin:44px 0 20px}
+.sec-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--border);line-height:1}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px}
+.sec-line{flex:1;height:1px;background:var(--border)}
+
+/* ── REVENUE TARGET ── */
+.rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.rev-grid{grid-template-columns:repeat(4,1fr)}}
+.rev-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:18px 16px;position:relative;overflow:hidden}
+.rev-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.rev-card.c1::before{background:var(--red)}
+.rev-card.c2::before{background:var(--orange)}
+.rev-card.c3::before{background:var(--blue)}
+.rev-card.c4::before{background:var(--green)}
+.rev-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.rev-amt{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1}
+.rev-card.c1 .rev-amt{color:var(--red)}
+.rev-card.c2 .rev-amt{color:var(--orange)}
+.rev-card.c3 .rev-amt{color:var(--blue)}
+.rev-card.c4 .rev-amt{color:var(--green)}
+.rev-desc{font-size:11px;color:var(--muted);margin-top:4px}
+.rev-total{background:var(--ink);color:var(--bg);border-radius:6px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:12px}
+.rev-total-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(245,240,232,0.5)}
+.rev-total-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);line-height:1}
+.rev-total-note{font-size:12px;color:rgba(245,240,232,0.4);margin-top:2px}
+
+/* ── PHASE TIMELINE ── */
+.phase-wrap{display:flex;flex-direction:column;gap:0}
+.phase{display:grid;grid-template-columns:80px 1fr;gap:0}
+.phase-left{display:flex;flex-direction:column;align-items:center;padding-top:4px}
+.phase-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--bg);flex-shrink:0;z-index:1}
+.phase-dot.active{background:var(--red);border-color:var(--red)}
+.phase-dot.warn{background:var(--orange);border-color:var(--orange)}
+.phase-dot.ok{background:var(--green);border-color:var(--green)}
+.phase-line{width:2px;flex:1;background:var(--border);margin:4px 0}
+.phase-label{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1px;color:var(--muted);writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);margin-top:8px}
+.phase-body{padding:0 0 32px 20px}
+.phase-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:4px}
+.phase-period{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:14px}
+.phase-kpi-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.pkpi{background:var(--surface);border-radius:4px;padding:8px 14px;font-size:11px}
+.pkpi strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--red)}
+.pkpi.g strong{color:var(--green)}
+.pkpi.b strong{color:var(--blue)}
+
+/* ── VIDEO FACTORY ── */
+.factory-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:700px){.factory-grid{grid-template-columns:1fr 1fr}}
+.factory-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.fc-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.fc-type{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px}
+.fc-badge{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:3px;letter-spacing:1px}
+.fc-badge.red{background:rgba(214,59,47,0.1);color:var(--red)}
+.fc-badge.gold{background:rgba(201,168,76,0.1);color:var(--gold)}
+.fc-badge.blue{background:rgba(26,58,92,0.1);color:var(--blue)}
+.fc-badge.green{background:rgba(45,106,79,0.1);color:var(--green)}
+.fc-badge.orange{background:rgba(224,123,57,0.1);color:var(--orange)}
+.fc-body{padding:14px 18px}
+.fc-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;font-size:13px}
+.fc-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.fc-stat-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.fcs{flex:1;min-width:70px;background:var(--surface);border-radius:4px;padding:8px 10px}
+.fcs-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.fcs-val{font-family:'Bebas Neue',sans-serif;font-size:18px}
+
+/* ── MODULE FORMULA ── */
+.formula-box{background:var(--ink);border-radius:8px;padding:24px;margin:14px 0}
+.formula-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--gold);margin-bottom:16px}
+.formula-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.f-module{background:rgba(245,240,232,0.08);border:1px solid rgba(245,240,232,0.15);border-radius:6px;padding:10px 14px;text-align:center}
+.f-module-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:rgba(245,240,232,0.4);text-transform:uppercase}
+.f-module-name{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--bg);line-height:1.2;margin-top:2px}
+.f-module-count{font-size:9px;color:rgba(245,240,232,0.4);margin-top:2px}
+.f-arrow{font-size:20px;color:var(--gold)}
+.f-result{background:var(--gold);border-radius:6px;padding:10px 16px;text-align:center}
+.f-result-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:rgba(15,13,10,0.6);text-transform:uppercase}
+.f-result-name{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--ink);line-height:1.2;margin-top:2px}
+.mix-formula{background:rgba(245,240,232,0.05);border:1px solid rgba(245,240,232,0.1);border-radius:6px;padding:14px 18px;margin-top:16px;font-family:'DM Mono',monospace;font-size:12px;color:rgba(245,240,232,0.65);line-height:2}
+.mix-formula strong{color:var(--gold)}
+
+/* ── RESOURCE TABLE ── */
+.res-table{width:100%;border-collapse:collapse;font-size:13px}
+.res-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:8px 12px;border-bottom:2px solid var(--border);text-align:left}
+.res-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.res-table tr:last-child td{border-bottom:none}
+.res-table tr:hover td{background:var(--surface)}
+.role-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500}
+.role-new{background:rgba(214,59,47,0.1);color:var(--red)}
+.role-exist{background:rgba(45,106,79,0.1);color:var(--green)}
+.role-ctv{background:rgba(201,168,76,0.1);color:var(--gold)}
+.quota-bar{display:flex;align-items:center;gap:8px}
+.qbar{height:4px;width:80px;background:var(--border);border-radius:2px}
+.qfill{height:100%;border-radius:2px;background:var(--red)}
+
+/* ── KOL DEAL ── */
+.kol-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.kol-grid{grid-template-columns:repeat(3,1fr)}}
+.kol-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px}
+.kol-name{font-family:'Bebas Neue',sans-serif;font-size:22px;margin-bottom:4px}
+.kol-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
+.kol-item{display:flex;gap:8px;font-size:12px;margin-bottom:6px;line-height:1.4}
+.kol-item-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px}
+.kol-deadline{margin-top:12px;padding:8px 10px;background:var(--surface);border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;color:var(--red)}
+
+/* ── WEEKLY SPRINT ── */
+.sprint-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.sprint-table{border-collapse:collapse;width:100%;min-width:680px}
+.sprint-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:2px solid var(--border);text-align:center}
+.sprint-table th:first-child{text-align:left}
+.sprint-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;text-align:center;vertical-align:top}
+.sprint-table td:first-child{text-align:left;font-weight:600;white-space:nowrap}
+.sprint-table tr:last-child td{border-bottom:none}
+.cell-target{font-family:'Bebas Neue',sans-serif;font-size:15px;display:block}
+.cell-note{font-size:10px;color:var(--muted);line-height:1.3}
+.phase-tag{font-family:'Bebas Neue',sans-serif;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px}
+.pt-1{background:rgba(214,59,47,0.1);color:var(--red)}
+.pt-2{background:rgba(201,168,76,0.1);color:var(--gold)}
+.pt-3{background:rgba(45,106,79,0.1);color:var(--green)}
+
+/* ── KPI DASHBOARD ── */
+.kpi-tracker{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:640px){.kpi-tracker{grid-template-columns:repeat(4,1fr)}}
+.kpi-t-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px}
+.kpi-t-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.kpi-t-val{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;color:var(--red)}
+.kpi-t-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.kpi-t-bar{height:3px;background:var(--border);border-radius:2px;margin-top:8px}
+.kpi-t-fill{height:100%;border-radius:2px;background:var(--red)}
+
+/* ── RISK TABLE ── */
+.risk-grid{display:flex;flex-direction:column;gap:8px}
+.risk-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:start;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px 16px;font-size:13px}
+@media(max-width:600px){.risk-row{grid-template-columns:auto 1fr;row-gap:6px}}
+.risk-icon{font-size:18px}
+.risk-text{}
+.risk-title{font-weight:600;margin-bottom:2px}
+.risk-desc{font-size:11px;color:var(--muted)}
+.risk-level{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;border-radius:3px;white-space:nowrap;align-self:start}
+.rl-h{background:rgba(214,59,47,0.1);color:var(--red)}
+.rl-m{background:rgba(201,168,76,0.1);color:var(--gold)}
+.risk-action{font-size:11px;color:var(--muted);max-width:200px;line-height:1.4}
+@media(max-width:600px){.risk-action,.risk-level{grid-column:2}}
+
+/* ── ALERT BOX ── */
+.alert{border-left:3px solid var(--red);background:rgba(214,59,47,0.06);border-radius:0 6px 6px 0;padding:12px 16px;font-size:13px;line-height:1.6;margin:16px 0}
+.alert-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--red);text-transform:uppercase;margin-bottom:4px}
+.tip{border-left:3px solid var(--green);background:rgba(45,106,79,0.06);border-radius:0 6px 6px 0;padding:12px 16px;font-size:13px;line-height:1.6;margin:16px 0}
+.tip-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:4px}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(245,240,232,0.4);padding:24px 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:'DM Mono',monospace;font-size:10px}
+
+@media(max-width:480px){
+  .hero{padding:32px 20px 28px}
+  .page{padding:28px 16px}
+  .formula-flow{justify-content:center}
+  .risk-row{grid-template-columns:auto 1fr}
+  .phase{grid-template-columns:60px 1fr}
+}
+
+/* ── ONE-TIME VISUAL EDITOR TOOLBAR ── */
+.edit-toolbar{position:fixed;right:18px;bottom:18px;z-index:10000;background:#0f0d0a;color:#f5f0e8;border:1px solid rgba(245,240,232,.18);border-radius:10px;padding:10px;display:flex;gap:8px;box-shadow:0 12px 30px rgba(0,0,0,.25);font-family:'DM Sans',sans-serif}
+.edit-toolbar button{border:0;border-radius:6px;padding:9px 12px;font-weight:700;cursor:pointer;background:#c9a84c;color:#0f0d0a;font-size:12px}
+.edit-toolbar button.secondary{background:rgba(245,240,232,.12);color:#f5f0e8}
+.edit-hint{position:fixed;left:18px;bottom:18px;z-index:10000;background:#fff8e8;color:#0f0d0a;border:1px solid #c9a84c;border-radius:8px;padding:10px 12px;font-size:12px;max-width:360px;box-shadow:0 12px 30px rgba(0,0,0,.12);display:none}
+body.edit-mode .edit-hint{display:block}
+body.edit-mode .hero,body.edit-mode .page,body.edit-mode footer{outline:2px dashed rgba(214,59,47,.55);outline-offset:-6px}
+body.edit-mode [contenteditable="true"]:focus{outline:2px solid #d63b2f;outline-offset:2px;background:rgba(255,255,255,.45)}
+@media print{.edit-toolbar,.edit-hint{display:none!important}}
+
+</style>
+</head>
+<body class="">
+
+<div class="edit-toolbar" contenteditable="false">
+  <button id="toggleEditBtn" type="button">Bật Edit</button>
+  <button id="downloadHtmlBtn" type="button" class="secondary">Tải HTML đã sửa</button>
+  <button id="printBtn" type="button" class="secondary">In/PDF</button>
+</div>
+<div class="edit-hint" contenteditable="false">Đang bật chế độ sửa trực tiếp. Click vào chữ/số bất kỳ để sửa như Word. Sau khi xong bấm <b>Tải HTML đã sửa</b> để lưu lại file mới.</div>
+
+
+<!-- HERO -->
+<div class="hero" contenteditable="false" spellcheck="false">
+  <div class="hero-eyebrow">Santony × Hương Giang — Post-Event Recovery</div>
+  <h1>90-DAY<br><span>VIDEO</span><br>WAR PLAN</h1>
+  <div class="hero-sub">Kế hoạch sản xuất 3.000 video &amp; thu hồi 15 tỷ doanh thu — 05/06 đến 02/09/2026</div>
+  <div class="hero-meta">
+    <div class="meta-pill"><strong>15 TỶ</strong>Target doanh thu</div>
+    <div class="meta-pill"><strong>3.000</strong>Video cần sản xuất</div>
+    <div class="meta-pill"><strong>90</strong>Ngày thực thi</div>
+    <div class="meta-pill"><strong>~33/ngày</strong>Velocity cần đạt</div>
+  </div>
+</div>
+
+<div class="page" contenteditable="false" spellcheck="false">
+
+  <!-- 01 REVENUE SPLIT -->
+  <div class="sec-head">
+    <div class="sec-num">01</div>
+    <div class="sec-title">Revenue Target Breakdown</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="rev-grid">
+    <div class="rev-card c1">
+      <div class="rev-label">BD KOC Affiliate</div>
+      <div class="rev-amt">4 TỶ</div>
+      <div class="rev-desc">Mạng lưới KOC affiliate diện rộng · commission-based · ~400 KOC active</div>
+    </div>
+    <div class="rev-card c2">
+      <div class="rev-label">GMV Max Livestream</div>
+      <div class="rev-amt">3 TỶ</div>
+      <div class="rev-desc">Phiên live TikTok + Facebook · ít nhất 2 phiên/ngày · push flash deal</div>
+    </div>
+    <div class="rev-card c3">
+      <div class="rev-label">GMV Max Video</div>
+      <div class="rev-amt">3 TỶ</div>
+      <div class="rev-desc">Video shoppable viral · 3.000 video × 3 tháng · kéo traffic vào giỏ</div>
+    </div>
+    <div class="rev-card c4">
+      <div class="rev-label">Facebook Channel</div>
+      <div class="rev-amt">3 TỶ</div>
+      <div class="rev-desc">Bài đăng + Reels + Ads remarketing · tệp khách hàng đã tương tác HG</div>
+    </div>
+  </div>
+  <div class="rev-total">
+    <div>
+      <div class="rev-total-label">Tổng target 90 ngày</div>
+      <div class="rev-total-num">15 TỶ VNĐ</div>
+      <div class="rev-total-note">≈ 167 triệu/ngày · hoàn vốn đầu tư Hương Giang</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(245,240,232,0.4)">Break-even milestone</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold)">Tháng 3 = Full ROI</div>
+      <div style="font-size:11px;color:rgba(245,240,232,0.35)">Nếu T1 đạt 40% · T2 đạt 35% · T3 đạt 25%</div>
+    </div>
+  </div>
+
+  <!-- 02 PHASE -->
+  <div class="sec-head">
+    <div class="sec-num">02</div>
+    <div class="sec-title">3-Phase Execution Roadmap</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="phase-wrap">
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-left">
+        <div class="phase-dot active"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-title" style="color:var(--red)">Phase 1 — Build &amp; Launch</div>
+        <div class="phase-period">05/06 — 04/07/2026 · Tháng 1</div>
+        <div class="phase-kpi-row">
+          <div class="pkpi"><strong>800</strong>Video target</div>
+          <div class="pkpi"><strong>≥5 TỶ</strong>GMV target</div>
+          <div class="pkpi b"><strong>Deal KOL</strong>Chốt trong tuần 1</div>
+          <div class="pkpi g"><strong>100 KOC</strong>Onboard affiliate</div>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:#3a3530">
+          <strong>Mục tiêu cốt lõi:</strong> Dựng máy sản xuất content từ đầu. Tuần 1 tập trung 100% vào setup hạ tầng — tuyển người, chốt deal KOL, dựng thư viện module. Tuần 2–3 bắt đầu output. Tuần 4 review &amp; điều chỉnh công thức mix.<br><br>
+          <strong>Priority action:</strong> Giao 1 người làm "Video Factory Manager" duy nhất chịu trách nhiệm 3.000 video. Họp daily standup 15 phút lúc 9h sáng. Mọi video phải tag vào module trước khi đăng.
+        </div>
+        <div class="alert">
+          <div class="alert-label">⚡ Critical Week 1</div>
+          Chốt deal KOL (Hương Giang, Phạm Thoại, Long Chun) <strong>trước 11/06</strong>. Nếu không có source KOL lớn trong tháng 1, doanh thu T1 sẽ mất ít nhất 30–40%. KOL source là yếu tố không thể thay thế bằng inhouse trong giai đoạn này.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-left">
+        <div class="phase-dot warn"></div>
+        <div class="phase-line"></div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-title" style="color:var(--orange)">Phase 2 — Scale &amp; Optimize</div>
+        <div class="phase-period">09/06 — 03/08/2026 · Tháng 2</div>
+        <div class="phase-kpi-row">
+          <div class="pkpi"><strong>1.200</strong>Video target</div>
+          <div class="pkpi"><strong>≥6 TỶ</strong>GMV target</div>
+          <div class="pkpi b"><strong>Top 20%</strong>Nhân đôi video winning</div>
+          <div class="pkpi g"><strong>300 KOC</strong>Network mở rộng</div>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:#3a3530">
+          <strong>Mục tiêu cốt lõi:</strong> Dữ liệu tuần 3–4 của T1 sẽ cho biết công thức mix nào thắng. T2 là tháng nhân bản — không sáng tạo thêm formula mới, chỉ scale những gì đã thắng. Bổ sung nguồn AI-generated và nguồn video Trung Quốc để tăng tốc. Mở rộng KOC affiliate từ 100 lên 300.
+        </div>
+        <div class="tip">
+          <div class="tip-label">🎯 Scale Rule</div>
+          Mỗi video có CTR &gt;3% và CR &gt;1% → tạo thêm 5 biến thể với hook khác nhau. Đây là đòn bẩy chính của tháng 2. Không waste nguồn lực vào video chưa có data.
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-left">
+        <div class="phase-dot ok"></div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-title" style="color:var(--green)">Phase 3 — Harvest &amp; Defend</div>
+        <div class="phase-period">04/08 — 02/09/2026 · Tháng 3</div>
+        <div class="phase-kpi-row">
+          <div class="pkpi"><strong>1.000</strong>Video target</div>
+          <div class="pkpi"><strong>≥4 TỶ</strong>GMV target</div>
+          <div class="pkpi b"><strong>Retargeting</strong>Push tệp warm audience</div>
+          <div class="pkpi g"><strong>ROI Report</strong>Full P&amp;L hoàn vốn</div>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:#3a3530">
+          <strong>Mục tiêu cốt lõi:</strong> Giảm sản xuất mới, tối ưu phân phối — tập trung ads retargeting tệp đã xem video của HG, remarketing giỏ hàng bỏ dở. T3 là tháng thu hoạch, không phải tháng thử nghiệm. Chuẩn bị báo cáo P&amp;L toàn chiến dịch để đánh giá ROI thực tế của deal HG.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 VIDEO FACTORY -->
+  <div class="sec-head">
+    <div class="sec-num">03</div>
+    <div class="sec-title">Video Factory — Cỗ Máy Sản Xuất</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <!-- MODULE FORMULA -->
+  <div class="formula-box">
+    <div class="formula-title">📐 Công Thức Mix Video Viral Bán Hàng</div>
+    <div class="formula-flow">
+      <div class="f-module">
+        <div class="f-module-label">Module A</div>
+        <div class="f-module-name">HOOK<br>DIRECT ATTENTION</div>
+        <div class="f-module-count">HG · PT · LC · MGI · Drama</div>
+      </div>
+      <div class="f-arrow">+</div>
+      <div class="f-module">
+        <div class="f-module-label">Module B</div>
+        <div class="f-module-name">REASON TO<br>BELIEVE</div>
+        <div class="f-module-count">Idol · Quốc tế · Số liệu · Báo chí</div>
+      </div>
+      <div class="f-arrow">+</div>
+      <div class="f-module">
+        <div class="f-module-label">Module C</div>
+        <div class="f-module-name">REASON TO<br>BUY</div>
+        <div class="f-module-count">Chất liệu · Công nghệ · Test · Use-case</div>
+      </div>
+      <div class="f-arrow">+</div>
+      <div class="f-module">
+        <div class="f-module-label">Module D</div>
+        <div class="f-module-name">CALL TO<br>ACTION</div>
+        <div class="f-module-count">Follow · Comment · Giỏ hàng · Live</div>
+      </div>
+      <div class="f-arrow">=</div>
+      <div class="f-result">
+        <div class="f-result-label">Output</div>
+        <div class="f-result-name">VIDEO<br>VIRAL BÁN HÀNG</div>
+      </div>
+    </div>
+    <div class="mix-formula">
+      <strong>Module A — HOOK:</strong> Hương Giang · Phạm Thoại · Long Chun · MGI 2026 · Drama / Tranh luận / Curiosity<br>
+      <strong>Module B — REASON TO BELIEVE:</strong> Hương Giang · Phạm Thoại · Long Chun · Top 1 GMV Douyin · KOL/KOC quốc tế · Báo chí · MGI · Các con số bán hàng<br>
+      <strong>Module C — REASON TO BUY:</strong> Chất liệu · Công nghệ · Thiết kế · Clip test · Review · Use-case · Pain Point · Bối cảnh mặc<br>
+      <strong>Module D — CALL TO ACTION:</strong> Follow · Comment · Check giỏ hàng · Xem Livestream · Nhắn tin · Tham gia Reward Day<br><br>
+      <strong>Quy tắc mix:</strong> 1 video = 1 Hook + 1 Reason To Believe + 1 Reason To Buy + 1 CTA. Mỗi video thay đổi ít nhất 1 module, không re-upload video giống hệt, bắt buộc tag version tracking.
+    </div>
+  </div>
+
+  <div class="factory-grid">
+    <!-- Source 1: KOL -->
+    <div class="factory-card">
+      <div class="fc-head">
+        <div class="fc-type">🎤 KOL Hương Giang</div>
+        <div class="fc-badge red">HIGH IMPACT</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-row"><div class="fc-icon">📋</div><div>Đàm phán gói <strong>content shoot riêng</strong> sau sự kiện 30/6 — không cần live, chỉ cần footage raw để cắt module</div></div>
+        <div class="fc-row"><div class="fc-icon">🎬</div><div>1 ngày quay = 20–30 module clips (hook, review, unbox, CTA) → dùng được 6–8 tháng</div></div>
+        <div class="fc-row"><div class="fc-icon">💰</div><div>Negotiate theo dạng <strong>buyout footage</strong> thay vì pay-per-post — ROI cao hơn nhiều</div></div>
+        <div class="fc-row"><div class="fc-icon">⚡</div><div>Ưu tiên clip HG mặc sản phẩm + nói "Pier No5" + reaction thật → đây là asset chủ lực</div></div>
+        <div class="fc-stat-row">
+          <div class="fcs"><div class="fcs-label">Video tạo được</div><div class="fcs-val">~600+</div></div>
+          <div class="fcs"><div class="fcs-label">Deadline deal</div><div class="fcs-val" style="font-size:14px">11/06</div></div>
+          <div class="fcs"><div class="fcs-label">Priority</div><div class="fcs-val" style="color:var(--red)">P0</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source 2: KOL khác -->
+    <div class="factory-card">
+      <div class="fc-head">
+        <div class="fc-type">📱 Phạm Thoại + Long Chun</div>
+        <div class="fc-badge gold">VOLUME</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-row"><div class="fc-icon">🎭</div><div>Phạm Thoại: format <strong>drama/reaction</strong> — hook mạnh, engagement cao, phù hợp TikTok viral</div></div>
+        <div class="fc-row"><div class="fc-icon">😂</div><div>Long Chun: format <strong>hài hước/thử thách</strong> — reach rộng, phù hợp tệp trẻ chưa biết thương hiệu</div></div>
+        <div class="fc-row"><div class="fc-icon">📦</div><div>Brief theo module: mỗi KOL quay <strong>hook set</strong> riêng + <strong>CTA set</strong> riêng để mix đa dạng</div></div>
+        <div class="fc-row"><div class="fc-icon">🔄</div><div>Negotiate <strong>usage rights</strong> rõ ràng — footage thuộc về Santony để tái sử dụng</div></div>
+        <div class="fc-stat-row">
+          <div class="fcs"><div class="fcs-label">Video tạo được</div><div class="fcs-val">~400+</div></div>
+          <div class="fcs"><div class="fcs-label">Format chính</div><div class="fcs-val" style="font-size:13px">Hook+CTA</div></div>
+          <div class="fcs"><div class="fcs-label">Priority</div><div class="fcs-val" style="color:var(--orange)">P1</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source 3: KOC Inhouse -->
+    <div class="factory-card">
+      <div class="fc-head">
+        <div class="fc-type">🏠 Inhouse Team</div>
+        <div class="fc-badge blue">BACKBONE</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-row"><div class="fc-icon">👥</div><div>Huy động <strong>toàn bộ nhân sự công ty</strong> — ai cũng có thể quay 1 clip/ngày (unbox, review, test sản phẩm)</div></div>
+        <div class="fc-row"><div class="fc-icon">📱</div><div>Format ưu tiên: <strong>POV test sản phẩm</strong>, <strong>before-after</strong>, <strong>comparison với đối thủ</strong></div></div>
+        <div class="fc-row"><div class="fc-icon">⚙️</div><div>Lập lịch quay theo <strong>assembly line</strong>: người A quay hook, người B quay USP, người C edit &amp; mix</div></div>
+        <div class="fc-row"><div class="fc-icon">🎯</div><div>Target: <strong>10–15 video inhouse/ngày</strong> → chiếm 30–40% tổng output</div></div>
+        <div class="fc-stat-row">
+          <div class="fcs"><div class="fcs-label">Video tạo được</div><div class="fcs-val">~1.200</div></div>
+          <div class="fcs"><div class="fcs-label">Video/ngày</div><div class="fcs-val">13</div></div>
+          <div class="fcs"><div class="fcs-label">Chi phí</div><div class="fcs-val" style="color:var(--green)">Thấp</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source 4: CN source -->
+    <div class="factory-card">
+      <div class="fc-head">
+        <div class="fc-type">🇨🇳 Source Video Trung Quốc</div>
+        <div class="fc-badge orange">SPEED</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-row"><div class="fc-icon">🛒</div><div>Liên hệ <strong>nhãn hàng gốc Trung Quốc</strong> xin toàn bộ footage thô: factory, material, test, packshot</div></div>
+        <div class="fc-row"><div class="fc-icon">✂️</div><div>Cắt ghép lại với <strong>voiceover tiếng Việt</strong> + overlay text + nhạc nền trending</div></div>
+        <div class="fc-row"><div class="fc-icon">🔤</div><div>Dịch caption + localize messaging cho thị trường VN — không dùng nguyên gốc</div></div>
+        <div class="fc-row"><div class="fc-icon">⚠️</div><div>Kiểm tra bản quyền trước khi dùng — ưu tiên footage được cấp phép rõ ràng</div></div>
+        <div class="fc-stat-row">
+          <div class="fcs"><div class="fcs-label">Video tạo được</div><div class="fcs-val">~500</div></div>
+          <div class="fcs"><div class="fcs-label">Thời gian</div><div class="fcs-val" style="font-size:13px">1–3 ngày</div></div>
+          <div class="fcs"><div class="fcs-label">Chi phí</div><div class="fcs-val" style="color:var(--green)">Rất thấp</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source 5: AI -->
+    <div class="factory-card">
+      <div class="fc-head">
+        <div class="fc-type">🤖 AI + Ghép Ảnh / Digital</div>
+        <div class="fc-badge green">SCALE</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-row"><div class="fc-icon">🖼️</div><div><strong>AI voiceover:</strong> ElevenLabs / Murf — lồng tiếng Việt chuyên nghiệp vào footage sẵn có</div></div>
+        <div class="fc-row"><div class="fc-icon">🎨</div><div><strong>CapCut AI / Runway:</strong> tạo B-roll từ ảnh sản phẩm, thêm hiệu ứng thử sản phẩm ảo</div></div>
+        <div class="fc-row"><div class="fc-icon">📸</div><div><strong>Slideshow video:</strong> ảnh packshot + text động + nhạc trending — format đơn giản nhất, tốc độ cao nhất</div></div>
+        <div class="fc-row"><div class="fc-icon">🔁</div><div><strong>Auto-remix:</strong> dùng CapCut template remix hàng loạt với footage đã có — 1 người làm được 20 video/giờ</div></div>
+        <div class="fc-stat-row">
+          <div class="fcs"><div class="fcs-label">Video tạo được</div><div class="fcs-val">~300+</div></div>
+          <div class="fcs"><div class="fcs-label">Tool chính</div><div class="fcs-val" style="font-size:12px">CapCut AI</div></div>
+          <div class="fcs"><div class="fcs-label">Tốc độ</div><div class="fcs-val" style="color:var(--green)">Nhanh nhất</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source 6: KOC affiliate -->
+    <div class="factory-card">
+      <div class="fc-head">
+        <div class="fc-type">🌐 KOC Affiliate Network</div>
+        <div class="fc-badge red">REACH</div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-row"><div class="fc-icon">📦</div><div>Gửi <strong>product seeding</strong> cho 400 KOC micro — mỗi KOC target 1–3 video/tháng × 3 tháng</div></div>
+        <div class="fc-row"><div class="fc-icon">📋</div><div>Cung cấp <strong>content brief chuẩn + module sẵn có</strong> để KOC chỉ cần quay phần hook cá nhân</div></div>
+        <div class="fc-row"><div class="fc-icon">💳</div><div>Commission 8–12% GMV + thưởng video đạt 10K views — tạo động lực tự nhiên</div></div>
+        <div class="fc-row"><div class="fc-icon">📊</div><div>Track qua link affiliate riêng — đo được GMV từng KOC, cắt người không perform</div></div>
+        <div class="fc-stat-row">
+          <div class="fcs"><div class="fcs-label">Video tạo được</div><div class="fcs-val">Bonus</div></div>
+          <div class="fcs"><div class="fcs-label">KOC target</div><div class="fcs-val">400</div></div>
+          <div class="fcs"><div class="fcs-label">GMV target</div><div class="fcs-val" style="color:var(--red)">4 TỶ</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 RESOURCE PLAN -->
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <div class="sec-title">Nhân Sự &amp; Phân Công</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="alert">
+    <div class="alert-label">🚨 Toàn Công Ty Vào Chiến</div>
+    3.000 video trong 90 ngày không thể chỉ là việc của team content. Đây là chiến dịch <strong>huy động toàn bộ nguồn lực công ty</strong>. Mỗi phòng ban đóng góp theo năng lực tương ứng. GĐ cần phát thông điệp rõ ràng từ ngày đầu.
+  </div>
+
+  <div style="overflow-x:auto">
+  <table class="res-table">
+    <thead>
+      <tr>
+        <th>Vai trò</th>
+        <th>Số lượng</th>
+        <th>Loại</th>
+        <th>Nhiệm vụ chính</th>
+        <th>Quota video/ngày</th>
+        <th>% tổng output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Video Factory Manager</strong></td>
+        <td>1</td>
+        <td><span class="role-badge role-exist">Nội bộ</span></td>
+        <td>Quản lý toàn bộ pipeline, tracking daily, báo cáo GĐ</td>
+        <td>
+          <div class="quota-bar"><div class="qbar"><div class="qfill" style="width:100%"></div></div><span style="font-family:'DM Mono',monospace;font-size:11px">PM</span></div>
+        </td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>Content Creator / Quay phim</strong></td>
+        <td>3–4</td>
+        <td><span class="role-badge role-new">Tuyển thêm</span></td>
+        <td>Quay hook, USP demo, test sản phẩm theo lịch assembly line</td>
+        <td>
+          <div class="quota-bar"><div class="qbar"><div class="qfill" style="width:90%"></div></div><span style="font-family:'DM Mono',monospace;font-size:11px">5–8/người</span></div>
+        </td>
+        <td>~25%</td>
+      </tr>
+      <tr>
+        <td><strong>Video Editor</strong></td>
+        <td>2–3</td>
+        <td><span class="role-badge role-new">Tuyển thêm</span></td>
+        <td>Mix module, xuất video hàng loạt, auto-resize format</td>
+        <td>
+          <div class="quota-bar"><div class="qbar"><div class="qfill" style="width:95%"></div></div><span style="font-family:'DM Mono',monospace;font-size:11px">8–12/người</span></div>
+        </td>
+        <td>~30%</td>
+      </tr>
+      <tr>
+        <td><strong>AI/Tool Operator</strong></td>
+        <td>1–2</td>
+        <td><span class="role-badge role-new">Tuyển/đào tạo</span></td>
+        <td>CapCut mass remix, AI voiceover, slideshow video hàng loạt</td>
+        <td>
+          <div class="quota-bar"><div class="qbar"><div class="qfill" style="width:80%"></div></div><span style="font-family:'DM Mono',monospace;font-size:11px">15–20/người</span></div>
+        </td>
+        <td>~15%</td>
+      </tr>
+      <tr>
+        <td><strong>KOC/Affiliate Manager</strong></td>
+        <td>1</td>
+        <td><span class="role-badge role-exist">Nội bộ</span></td>
+        <td>Onboard KOC, gửi brief, seeding, theo dõi GMV affiliate</td>
+        <td><span style="font-family:'DM Mono',monospace;font-size:11px">Manage 400 KOC</span></td>
+        <td>~13%</td>
+      </tr>
+      <tr>
+        <td><strong>Nhân sự toàn công ty</strong></td>
+        <td>Tất cả</td>
+        <td><span class="role-badge role-ctv">Bắt buộc đóng góp</span></td>
+        <td>Quay 1 clip/ngày (unbox, reaction, dùng sản phẩm) theo lịch phân công</td>
+        <td>
+          <div class="quota-bar"><div class="qbar"><div class="qfill" style="width:30%"></div></div><span style="font-family:'DM Mono',monospace;font-size:11px">1/người/ngày</span></div>
+        </td>
+        <td>~10%</td>
+      </tr>
+      <tr>
+        <td><strong>CTV Freelance Editor</strong></td>
+        <td>3–5</td>
+        <td><span class="role-badge role-ctv">CTV</span></td>
+        <td>Nhận batch edit cuối ngày, xuất bản theo template chuẩn</td>
+        <td>
+          <div class="quota-bar"><div class="qbar"><div class="qfill" style="width:60%"></div></div><span style="font-family:'DM Mono',monospace;font-size:11px">5–8/người</span></div>
+        </td>
+        <td>~7%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- 05 KOL DEAL PLAN -->
+  <div class="sec-head">
+    <div class="sec-num">05</div>
+    <div class="sec-title">KOL Deal Strategy</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="kol-grid">
+    <div class="kol-card">
+      <div class="kol-name">Hương Giang</div>
+      <div class="kol-tag">Hero KOL · Brand Ambassador</div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Đề xuất: <strong>Buyout footage 1 ngày quay</strong> (không phải pay-per-post) — đàm phán giá trọn gói cho 20–30 raw clips</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Leverage: HG cũng cần duy trì association với Santony để tránh deal cảm giác "one-off"</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Format ưu tiên: mặc sản phẩm nói về Pier No5 · reaction mở hộp · testimonial ngắn 15–30 giây</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Thêm điều khoản: HG được share lại video Santony trên trang cá nhân ≥ 2 lần/tháng (earned media)</div></div>
+      <div class="kol-deadline">⏰ Deadline đàm phán: <strong>11/06/2026</strong> · Quay: tuần 3 tháng 6</div>
+    </div>
+    <div class="kol-card">
+      <div class="kol-name">Phạm Thoại</div>
+      <div class="kol-tag">Volume KOL · Drama/Story Format</div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Brief module: 6 hook clips dạng drama/câu chuyện + 4 CTA clips — không cần full video</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Format mạnh nhất: "Lý do tôi mua sản phẩm này cho vợ/bạn gái" — emotional hook, share cao</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Negotiate package: 2 buổi quay module (T6 + T7) — 40–50 raw clips mỗi buổi</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Usage rights: unlimited trong 6 tháng, không giới hạn số video mix</div></div>
+      <div class="kol-deadline">⏰ Deadline đàm phán: <strong>14/06/2026</strong> · Quay: cuối tháng 6</div>
+    </div>
+    <div class="kol-card">
+      <div class="kol-name">Long Chun</div>
+      <div class="kol-tag">Reach KOL · Comedy/Challenge</div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Brief module: challenge/thử thách liên quan sản phẩm + phản ứng hài hước + recommendation thật</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Audience Long Chun = tệp trẻ chưa biết thương hiệu → mục tiêu awareness + top-of-funnel</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Format: 1 video chính full (để đăng kênh LC) + 10 clip phụ (Santony dùng mix)</div></div>
+      <div class="kol-item"><div class="kol-item-dot"></div><div>Bonus nếu video đạt 1M views: thêm 1 buổi quay T2 miễn phí — incentive để LC push thật sự</div></div>
+      <div class="kol-deadline">⏰ Deadline đàm phán: <strong>16/06/2026</strong> · Quay: đầu tháng 7</div>
+    </div>
+  </div>
+
+  <!-- 06 WEEKLY SPRINT -->
+  <div class="sec-head">
+    <div class="sec-num">06</div>
+    <div class="sec-title">Weekly Sprint Target — 13 Tuần</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="sprint-wrap">
+  <table class="sprint-table">
+    <thead>
+      <tr>
+        <th>Tuần</th>
+        <th>Giai đoạn</th>
+        <th>Video Target</th>
+        <th>GMV Target</th>
+        <th>Inhouse</th>
+        <th>KOL/Page</th>
+        <th>AI/CN Source</th>
+        <th>Milestone chính</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>W1 · 05–12/06</td>
+        <td><span class="phase-tag pt-1">SETUP</span></td>
+        <td><span class="cell-target">50</span><span class="cell-note">Ưu tiên setup</span></td>
+        <td><span class="cell-target">500M</span></td>
+        <td>30</td><td>10</td><td>10</td>
+        <td style="text-align:left;font-size:11px">Chốt deal KOL · Tuyển editor · Dựng thư viện module</td>
+      </tr>
+      <tr>
+        <td>W2 · 12–18/06</td>
+        <td><span class="phase-tag pt-1">BUILD</span></td>
+        <td><span class="cell-target">150</span><span class="cell-note">Tăng tốc</span></td>
+        <td><span class="cell-target">800M</span></td>
+        <td>80</td><td>40</td><td>30</td>
+        <td style="text-align:left;font-size:11px">Onboard 100 KOC affiliate · Bắt đầu quay KOL source</td>
+      </tr>
+      <tr>
+        <td>W3 · 19–25/06</td>
+        <td><span class="phase-tag pt-1">BUILD</span></td>
+        <td><span class="cell-target">200</span></td>
+        <td><span class="cell-target">1.2 TỶ</span></td>
+        <td>100</td><td>60</td><td>40</td>
+        <td style="text-align:left;font-size:11px">Quay HG footage · Test 20 công thức mix đầu tiên</td>
+      </tr>
+      <tr>
+        <td>W4 · 26/06–04/07</td>
+        <td><span class="phase-tag pt-1">REVIEW</span></td>
+        <td><span class="cell-target">200</span></td>
+        <td><span class="cell-target">1.5 TỶ</span></td>
+        <td>100</td><td>60</td><td>40</td>
+        <td style="text-align:left;font-size:11px">Review T1 · Xác định top 3 công thức thắng · Điều chỉnh T2</td>
+      </tr>
+      <tr style="background:rgba(201,168,76,0.05)">
+        <td colspan="3" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px">THÁNG 1 TỔNG CỘNG</td>
+        <td><strong style="color:var(--red)">4 TỶ TARGET</strong></td>
+        <td colspan="4" style="font-size:11px;color:var(--muted)">800 video · 26% tổng target · Foundation phase</td>
+      </tr>
+      <tr>
+        <td>W5 · 05–11/07</td>
+        <td><span class="phase-tag pt-2">SCALE</span></td>
+        <td><span class="cell-target">280</span></td>
+        <td><span class="cell-target">1.5 TỶ</span></td>
+        <td>120</td><td>100</td><td>60</td>
+        <td style="text-align:left;font-size:11px">Scale công thức thắng · Quay PT footage · Mở rộng 300 KOC</td>
+      </tr>
+      <tr>
+        <td>W6 · 12–18/07</td>
+        <td><span class="phase-tag pt-2">SCALE</span></td>
+        <td><span class="cell-target">300</span></td>
+        <td><span class="cell-target">1.5 TỶ</span></td>
+        <td>130</td><td>100</td><td>70</td>
+        <td style="text-align:left;font-size:11px">Push Phạm Thoại video · A/B test giá sản phẩm trong video</td>
+      </tr>
+      <tr>
+        <td>W7 · 19–25/07</td>
+        <td><span class="phase-tag pt-2">PEAK</span></td>
+        <td><span class="cell-target">320</span></td>
+        <td><span class="cell-target">1.5 TỶ</span></td>
+        <td>130</td><td>110</td><td>80</td>
+        <td style="text-align:left;font-size:11px">Push Long Chun · Kích flash sale mid-month</td>
+      </tr>
+      <tr>
+        <td>W8 · 26/07–03/08</td>
+        <td><span class="phase-tag pt-2">REVIEW</span></td>
+        <td><span class="cell-target">300</span></td>
+        <td><span class="cell-target">1.5 TỶ</span></td>
+        <td>120</td><td>110</td><td>70</td>
+        <td style="text-align:left;font-size:11px">Review T2 · Chuẩn bị retargeting T3 · Báo cáo mid-point</td>
+      </tr>
+      <tr style="background:rgba(201,168,76,0.05)">
+        <td colspan="3" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px">THÁNG 2 TỔNG CỘNG</td>
+        <td><strong style="color:var(--orange)">6 TỶ TARGET</strong></td>
+        <td colspan="4" style="font-size:11px;color:var(--muted)">1.200 video · 40% tổng target · Peak production</td>
+      </tr>
+      <tr>
+        <td>W9 · 04–10/08</td>
+        <td><span class="phase-tag pt-3">HARVEST</span></td>
+        <td><span class="cell-target">280</span></td>
+        <td><span class="cell-target">1.2 TỶ</span></td>
+        <td>100</td><td>100</td><td>80</td>
+        <td style="text-align:left;font-size:11px">Bật retargeting ads tệp warm · Push video winning T1-T2</td>
+      </tr>
+      <tr>
+        <td>W10 · 11–17/08</td>
+        <td><span class="phase-tag pt-3">HARVEST</span></td>
+        <td><span class="cell-target">250</span></td>
+        <td><span class="cell-target">1 TỶ</span></td>
+        <td>90</td><td>90</td><td>70</td>
+        <td style="text-align:left;font-size:11px">Flash sale mid-September · Push bundle deal</td>
+      </tr>
+      <tr>
+        <td>W11–12 · 18–31/08</td>
+        <td><span class="phase-tag pt-3">CLOSE</span></td>
+        <td><span class="cell-target">300</span></td>
+        <td><span class="cell-target">1.2 TỶ</span></td>
+        <td>100</td><td>100</td><td>100</td>
+        <td style="text-align:left;font-size:11px">Final push · Countdown end-of-campaign · Full ROI report</td>
+      </tr>
+      <tr>
+        <td>W13 · 01–02/09</td>
+        <td><span class="phase-tag pt-3">WRAP</span></td>
+        <td><span class="cell-target">170</span></td>
+        <td><span class="cell-target">600M</span></td>
+        <td>60</td><td>60</td><td>50</td>
+        <td style="text-align:left;font-size:11px">Close campaign · Bảo toàn asset video · Lập kế hoạch Q4</td>
+      </tr>
+      <tr style="background:rgba(45,106,79,0.05)">
+        <td colspan="3" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px">THÁNG 3 TỔNG CỘNG</td>
+        <td><strong style="color:var(--green)">5 TỶ TARGET</strong></td>
+        <td colspan="4" style="font-size:11px;color:var(--muted)">1.000 video · 34% tổng target · Harvest + Close</td>
+      </tr>
+      <tr style="background:var(--ink)">
+        <td colspan="3" style="font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;color:var(--gold)">90 NGÀY TỔNG CỘNG</td>
+        <td style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold)">15 TỶ</td>
+        <td style="color:rgba(245,240,232,0.6);font-family:'DM Mono',monospace;font-size:11px">~1.100</td>
+        <td style="color:rgba(245,240,232,0.6);font-family:'DM Mono',monospace;font-size:11px">~1.100</td>
+        <td style="color:rgba(245,240,232,0.6);font-family:'DM Mono',monospace;font-size:11px">~800</td>
+        <td style="color:rgba(245,240,232,0.5);font-size:11px;text-align:left">3.000 video · Full ROI hoàn vốn HG</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- 07 KPI TRACKING -->
+  <div class="sec-head">
+    <div class="sec-num">07</div>
+    <div class="sec-title">KPI Framework — Chỉ Số Theo Dõi Hàng Ngày</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="kpi-tracker">
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">Video Output / ngày</div>
+      <div class="kpi-t-val">33</div>
+      <div class="kpi-t-sub">Minimum để đạt 3.000 video</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">GMV / ngày</div>
+      <div class="kpi-t-val">167M</div>
+      <div class="kpi-t-sub">Bình quân để đạt 15 tỷ / 90 ngày</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%;background:var(--orange)"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">Video CTR tối thiểu</div>
+      <div class="kpi-t-val">3%</div>
+      <div class="kpi-t-sub">Ngưỡng để giữ video · dưới → cắt</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%;background:var(--green)"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">Conversion Rate</div>
+      <div class="kpi-t-val">1%+</div>
+      <div class="kpi-t-sub">Video view → add to cart</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%;background:var(--blue)"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">KOC Active / tháng</div>
+      <div class="kpi-t-val">400</div>
+      <div class="kpi-t-sub">KOC đăng ít nhất 1 video/tháng</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%;background:var(--gold)"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">GMV/KOC/tháng</div>
+      <div class="kpi-t-val">3.3M</div>
+      <div class="kpi-t-sub">Target để đạt 4 tỷ từ affiliate</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%;background:var(--red)"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">Live sessions / ngày</div>
+      <div class="kpi-t-val">2+</div>
+      <div class="kpi-t-sub">TikTok + Facebook · mỗi phiên ≥2h</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:0%;background:var(--orange)"></div></div>
+    </div>
+    <div class="kpi-t-card">
+      <div class="kpi-t-label">Review hàng tuần</div>
+      <div class="kpi-t-val">Thứ 2</div>
+      <div class="kpi-t-sub">9h: GĐ + Factory Manager + Channel leads</div>
+      <div class="kpi-t-bar"><div class="kpi-t-fill" style="width:100%;background:var(--green)"></div></div>
+    </div>
+  </div>
+
+  <!-- 08 RISK -->
+  <div class="sec-head">
+    <div class="sec-num">08</div>
+    <div class="sec-title">Risk Register &amp; Mitigation</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-row">
+      <div class="risk-icon">🤝</div>
+      <div class="risk-text">
+        <div class="risk-title">KOL không chốt được deal hoặc giá quá cao</div>
+        <div class="risk-desc">Hương Giang đặt giá buyout footage không thương lượng được</div>
+      </div>
+      <div class="risk-level rl-h">HIGH</div>
+      <div class="risk-action">Plan B: tận dụng tối đa footage sự kiện 30/6 đã có · tìm micro-KOL thay thế trong ngành beauty/fashion · tăng tỷ trọng AI-generated</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">⚡</div>
+      <div class="risk-text">
+        <div class="risk-title">Velocity sản xuất không đạt 33 video/ngày</div>
+        <div class="risk-desc">Team nhỏ (5–10 người) chưa quen assembly line production</div>
+      </div>
+      <div class="risk-level rl-h">HIGH</div>
+      <div class="risk-action">Tuần 1 chỉ cần 7/ngày, tăng dần. Đầu tư CapCut Pro + template chuẩn từ ngày đầu. Bù bằng AI batch tool nếu manual chậm</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">📉</div>
+      <div class="risk-text">
+        <div class="risk-title">Video nhiều nhưng conversion thấp</div>
+        <div class="risk-desc">Số lượng không đảm bảo chất lượng — video đăng nhưng không bán được</div>
+      </div>
+      <div class="risk-level rl-h">HIGH</div>
+      <div class="risk-action">Review CTR + CR hàng tuần. Cắt ngay video dưới ngưỡng. Phân bổ 80% resource vào top 20% format thắng</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">🌐</div>
+      <div class="risk-text">
+        <div class="risk-title">Algorithm TikTok/FB giảm reach organic</div>
+        <div class="risk-desc">Platform liên tục thay đổi — organic reach tụt không lường trước</div>
+      </div>
+      <div class="risk-level rl-m">MEDIUM</div>
+      <div class="risk-action">Dự phòng ngân sách boost tối thiểu 50–100M/tháng cho các video có tín hiệu tốt. Không phụ thuộc 100% organic</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">🏃</div>
+      <div class="risk-text">
+        <div class="risk-title">Nhân sự overload → burnout → nghỉ việc</div>
+        <div class="risk-desc">33 video/ngày khi huy động toàn công ty tạo áp lực lớn</div>
+      </div>
+      <div class="risk-level rl-m">MEDIUM</div>
+      <div class="risk-action">Thưởng hiệu suất rõ ràng. Rotation lịch quay đều tay. Không để 1–2 người gánh toàn bộ. Acknowledge publicly khi đạt milestone</div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-icon">⚖️</div>
+      <div class="risk-text">
+        <div class="risk-title">Vi phạm bản quyền source video CN</div>
+        <div class="risk-desc">Dùng footage Trung Quốc không có giấy phép rõ ràng</div>
+      </div>
+      <div class="risk-level rl-m">MEDIUM</div>
+      <div class="risk-action">Chỉ dùng footage được nhãn hàng cấp phép bằng văn bản. Không lấy từ nguồn thứ ba. Kiểm tra trước khi đăng</div>
+    </div>
+  </div>
+
+  <!-- 09 ACTION -->
+  <div class="sec-head">
+    <div class="sec-num">09</div>
+    <div class="sec-title">Action Items — 7 Ngày Đầu Tiên</div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--red);white-space:nowrap;margin-top:1px">D1 · 05/06</div>
+      <div>Họp toàn công ty thông báo chiến dịch 90 ngày — GĐ phát biểu trực tiếp · Phân công Video Factory Manager</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--red);white-space:nowrap;margin-top:1px">D1–D2</div>
+      <div>Gửi email/gặp trực tiếp manager KOL của HG, Phạm Thoại, Long Chun — đặt lịch đàm phán trước 09/06</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--orange);white-space:nowrap;margin-top:1px">D2–D3</div>
+      <div>Đăng JD tuyển 2 Editor + 1 AI Operator — đặt target phỏng vấn và nhận việc trong tuần 2</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--orange);white-space:nowrap;margin-top:1px">D3–D4</div>
+      <div>Liên hệ nhãn hàng Trung Quốc xin toàn bộ footage thô · Kiểm tra library footage sự kiện 30/6 đã có</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);white-space:nowrap;margin-top:1px">D4–D5</div>
+      <div>Thiết lập CapCut Pro workspace + template library · Tạo Google Drive cấu trúc module A/B/C/D · Setup tracking sheet</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);white-space:nowrap;margin-top:1px">D5–D6</div>
+      <div>Onboard 50 KOC đầu tiên · Gửi product seeding + brief kit · Kích hoạt tracking link affiliate</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--green);white-space:nowrap;margin-top:1px">D7 · 11/06</div>
+      <div>Review tuần đầu · Chốt deal KOL xong · Publish 50 video đầu tiên · Thiết lập nhịp daily standup 9h</div>
+    </div>
+  </div>
+
+</div>
+
+<footer contenteditable="false" spellcheck="false">
+  <div>Santony × HG — 90-Day Video War Plan v1.0 · Confidential · June 2026</div>
+  <div>Target: 3.000 video · 15 tỷ VNĐ · 05/06 — 02/09/2026</div>
+</footer>
+
+
+<script>
+(function(){
+  const btn = document.getElementById('toggleEditBtn');
+  const dl = document.getElementById('downloadHtmlBtn');
+  const pr = document.getElementById('printBtn');
+  const editableSelectors = ['.hero', '.page', 'footer'];
+  function setEdit(on){
+    document.body.classList.toggle('edit-mode', on);
+    editableSelectors.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      el.setAttribute('contenteditable', on ? 'true' : 'false');
+      el.setAttribute('spellcheck', 'false');
+    }));
+    btn.textContent = on ? 'Tắt Edit' : 'Bật Edit';
+  }
+  btn.addEventListener('click', function(){ setEdit(!document.body.classList.contains('edit-mode')); });
+  dl.addEventListener('click', function(){
+    const wasEdit = document.body.classList.contains('edit-mode');
+    setEdit(false);
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'HG_Plan90_Edited_Final.html';
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+    if(wasEdit) setEdit(true);
+  });
+  pr.addEventListener('click', function(){ window.print(); });
+})();
+</script>
+
+
+
+</body></html>
