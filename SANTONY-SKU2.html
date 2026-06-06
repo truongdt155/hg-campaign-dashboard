@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SANTONY SKU</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:0 0 2.5rem;font-size:13px;color:var(--color-text-primary)}
+.nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.1rem;padding-bottom:.85rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.nb{font-size:12px;padding:4px 13px;border-radius:20px;border:.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.nb:hover{background:var(--color-background-secondary)}
+.nb.on{background:var(--color-background-secondary);border-color:var(--color-border-primary);color:var(--color-text-primary);font-weight:500}
+.sec{display:none}.sec.show{display:block}
+.lbl{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.5rem;margin-top:1rem}
+.lbl:first-child{margin-top:0}
+.notice{padding:.5rem .8rem;border-radius:var(--border-radius-md);font-size:12px;line-height:1.65;border:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);margin-top:.5rem;margin-bottom:.75rem}
+
+.sku-strip{display:flex;gap:2px;margin-bottom:1rem;flex-wrap:nowrap}
+.sku-blk{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.sku-char{width:100%;height:34px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:monospace;border:.5px solid transparent}
+.sc-cat{background:#F1EFE8;color:#444441;border-color:#B4B2A9}
+.sc-size{background:#E1F5EE;color:#085041;border-color:#5DCAA5}
+.sc-kf{background:#E6F1FB;color:#0C447C;border-color:#85B7EB}
+.sc-brand{background:#FBEAF0;color:#72243E;border-color:#ED93B1}
+.sc-design{background:#F1EFE8;color:#444441;border-color:#B4B2A9}
+.sc-color{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.sc-year{background:#FAEEDA;color:#633806;border-color:#EF9F27}
+@media(prefers-color-scheme:dark){
+  .sc-cat{background:#2C2C2A;color:#D3D1C7;border-color:#5F5E5A}
+  .sc-size{background:#04342C;color:#9FE1CB;border-color:#1D9E75}
+  .sc-kf{background:#042C53;color:#B5D4F4;border-color:#378ADD}
+  .sc-brand{background:#4B1528;color:#F4C0D1;border-color:#D4537E}
+  .sc-design{background:#2C2C2A;color:#D3D1C7;border-color:#5F5E5A}
+  .sc-color{background:#26215C;color:#CECBF6;border-color:#7F77DD}
+  .sc-year{background:#412402;color:#FAC775;border-color:#BA7517}
+}
+.sku-label{font-size:9px;color:var(--color-text-tertiary);text-align:center;line-height:1.2}
+
+.tbl{width:100%;border-collapse:collapse;margin-bottom:.75rem}
+.tbl th{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;padding:.35rem .65rem;text-align:left;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
+.tbl th.c{text-align:center}
+.tbl td{font-size:12px;padding:.38rem .65rem;border-bottom:.5px solid var(--color-border-tertiary);vertical-align:middle;color:var(--color-text-secondary)}
+.tbl td.code{font-family:monospace;font-weight:700;font-size:13px;color:var(--color-text-primary);text-align:center}
+.tbl td.nm{font-weight:500;color:var(--color-text-primary)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr.grp td{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary);font-size:11px;padding:.28rem .65rem;text-transform:uppercase;letter-spacing:.05em}
+
+.badge{display:inline-block;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:500}
+.b-cat{background:#F1EFE8;color:#444441}
+.b-size{background:#E1F5EE;color:#085041}
+.b-kf{background:#E6F1FB;color:#0C447C}
+.b-brand{background:#FBEAF0;color:#72243E}
+.b-design{background:#F1EFE8;color:#444441}
+.b-color{background:#EEEDFE;color:#3C3489}
+.b-year{background:#FAEEDA;color:#633806}
+@media(prefers-color-scheme:dark){
+  .b-cat{background:#2C2C2A;color:#D3D1C7}
+  .b-size{background:#04342C;color:#9FE1CB}
+  .b-kf{background:#042C53;color:#B5D4F4}
+  .b-brand{background:#4B1528;color:#F4C0D1}
+  .b-design{background:#2C2C2A;color:#D3D1C7}
+  .b-color{background:#26215C;color:#CECBF6}
+  .b-year{background:#412402;color:#FAC775}
+}
+
+.color-swatch{width:14px;height:14px;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:5px;border:.5px solid var(--color-border-secondary)}
+.ex-sku{font-family:monospace;font-size:17px;font-weight:700;letter-spacing:.04em;padding:.6rem .9rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin:.5rem 0;color:var(--color-text-primary)}
+.ex-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:.5rem 0}
+.ex-cell{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.45rem .6rem;border:.5px solid var(--color-border-tertiary)}
+.ex-lbl{font-size:10px;color:var(--color-text-tertiary);margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.ex-val{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+
+
+/* ===== Mobile responsive layer ===== */
+:root{
+  --color-text-primary:#111827;
+  --color-text-secondary:#374151;
+  --color-text-tertiary:#6B7280;
+  --color-border-primary:#9CA3AF;
+  --color-border-secondary:#D1D5DB;
+  --color-border-tertiary:#E5E7EB;
+  --color-background-primary:#FFFFFF;
+  --color-background-secondary:#F9FAFB;
+  --border-radius-md:10px;
+}
+body{margin:0;background:var(--color-background-primary);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+select,input,button{font:inherit;border:.5px solid var(--color-border-secondary);border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);padding:8px 10px;min-height:38px}
+button{-webkit-tap-highlight-color:transparent}
+.tbl-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl{min-width:680px}
+#s4 .tbl{min-width:760px}
+#s6 .tbl{min-width:720px}
+
+@media (max-width: 768px){
+  .w{padding:12px 12px 2rem;font-size:14px;max-width:100vw;overflow-x:hidden}
+  .nav{position:sticky;top:0;z-index:10;display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -12px 1rem;padding:10px 12px;background:var(--color-background-primary);border-bottom:.5px solid var(--color-border-tertiary);scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nb{flex:0 0 auto;font-size:13px;padding:8px 13px;min-height:36px;white-space:nowrap;background:var(--color-background-primary)}
+  .lbl{font-size:11px;line-height:1.4;margin-top:1rem;margin-bottom:.55rem}
+  .notice{font-size:13px;line-height:1.6;padding:.75rem .85rem;border-radius:10px;margin:.65rem 0 .85rem}
+
+  .sku-strip{display:grid;grid-template-columns:repeat(7,minmax(38px,1fr));gap:5px;margin-bottom:1rem}
+  .sku-char{height:32px;font-size:13px;border-radius:6px}
+  .sku-label{font-size:8.5px;line-height:1.15}
+
+  .tbl{display:block;min-width:0;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:.5px solid var(--color-border-tertiary);border-radius:10px;background:var(--color-background-primary);margin-bottom:.9rem}
+  .tbl thead,.tbl tbody{min-width:620px;display:table;width:100%;border-collapse:collapse}
+  .tbl th{font-size:10px;padding:.5rem .55rem;white-space:nowrap}
+  .tbl td{font-size:12.5px;padding:.55rem .55rem;line-height:1.45}
+  .tbl td.code{font-size:12.5px;white-space:nowrap}
+  .tbl td.nm{min-width:120px}
+  .tbl tr.grp td{font-size:10.5px;padding:.45rem .55rem}
+
+  .ex-sku{font-size:18px;line-height:1.4;word-break:break-all;padding:.75rem .85rem;border-radius:10px;text-align:center}
+  .ex-row{grid-template-columns:1fr 1fr}
+  .ex-cell{padding:.6rem .65rem}
+  .color-swatch{width:16px;height:16px}
+
+  #s8 > div[style*="grid-template-columns:1fr 1fr"]{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+  #s8 select,#s8 input{width:100%!important;font-size:14px;min-height:42px}
+  #g-breakdown{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}
+  #g-breakdown > div div:first-child{font-size:14px!important;padding:8px 4px!important;border-radius:7px!important}
+  #g-breakdown > div div:last-child{font-size:11px!important}
+}
+
+@media (max-width: 390px){
+  .w{padding-left:10px;padding-right:10px}
+  .nav{margin-left:-10px;margin-right:-10px;padding-left:10px;padding-right:10px}
+  .sku-strip{grid-template-columns:repeat(7,minmax(34px,1fr));gap:4px}
+  .sku-char{height:30px;font-size:12px}
+  .sku-label{font-size:8px}
+  .ex-sku{font-size:16px}
+}
+
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-text-primary:#F9FAFB;
+    --color-text-secondary:#D1D5DB;
+    --color-text-tertiary:#9CA3AF;
+    --color-border-primary:#6B7280;
+    --color-border-secondary:#4B5563;
+    --color-border-tertiary:#374151;
+    --color-background-primary:#111827;
+    --color-background-secondary:#1F2937;
+  }
+}
+
+</style>
+
+</head>
+<body>
+<div class="w">
+<div class="nav">
+  <button class="nb on" onclick="go('s0',this)">Tổng quan</button>
+  <button class="nb" onclick="go('s1',this)">Category</button>
+  <button class="nb" onclick="go('s2',this)">Size</button>
+  <button class="nb" onclick="go('s3',this)">Key Feature</button>
+  <button class="nb" onclick="go('s4',this)">Brand</button>
+  <button class="nb" onclick="go('s5',this)">Mã thiết kế</button>
+  <button class="nb" onclick="go('s6',this)">Mã màu</button>
+  <button class="nb" onclick="go('s7',this)">Năm SX</button>
+  <button class="nb" onclick="go('s8',this)">Ví dụ & Generator</button>
+</div>
+
+<!-- S0: TỔNG QUAN -->
+<div class="sec show" id="s0">
+  <div class="lbl">Cấu trúc SKU Santony — 14 ký tự, không dấu phân cách</div>
+  <div class="sku-strip">
+    <div class="sku-blk"><div class="sku-char sc-cat">1</div><div class="sku-label">Cat<br>1</div></div>
+    <div class="sku-blk"><div class="sku-char sc-cat">0</div><div class="sku-label">Cat<br>2</div></div>
+    <div class="sku-blk"><div class="sku-char sc-size">0</div><div class="sku-label">Size</div></div>
+    <div class="sku-blk"><div class="sku-char sc-kf">L</div><div class="sku-label">KF<br>1</div></div>
+    <div class="sku-blk"><div class="sku-char sc-kf">F</div><div class="sku-label">KF<br>2</div></div>
+    <div class="sku-blk"><div class="sku-char sc-brand">S</div><div class="sku-label">Brand<br>1</div></div>
+    <div class="sku-blk"><div class="sku-char sc-brand">T</div><div class="sku-label">Brand<br>2</div></div>
+    <div class="sku-blk"><div class="sku-char sc-design">5</div><div class="sku-label">Mã TK<br>1</div></div>
+    <div class="sku-blk"><div class="sku-char sc-design">1</div><div class="sku-label">Mã TK<br>2</div></div>
+    <div class="sku-blk"><div class="sku-char sc-design">0</div><div class="sku-label">Mã TK<br>3</div></div>
+    <div class="sku-blk"><div class="sku-char sc-design">1</div><div class="sku-label">Mã TK<br>4</div></div>
+    <div class="sku-blk"><div class="sku-char sc-color">W</div><div class="sku-label">Màu<br>1</div></div>
+    <div class="sku-blk"><div class="sku-char sc-color">H</div><div class="sku-label">Màu<br>2</div></div>
+    <div class="sku-blk"><div class="sku-char sc-year">6</div><div class="sku-label">Năm</div></div>
+  </div>
+
+  <table class="tbl">
+    <thead><tr>
+      <th>Trường</th><th class="c">Vị trí</th><th class="c">Ký tự</th><th>Ý nghĩa</th><th>Ví dụ</th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="nm"><span class="badge b-cat">Category</span></td><td class="code">1–2</td><td class="code">2</td><td>Nhóm sản phẩm chính</td><td class="code">10, 20, 30…</td></tr>
+      <tr><td class="nm"><span class="badge b-size">Size</span></td><td class="code">3</td><td class="code">1</td><td>Độ rộng 0–9 (nhỏ→lớn)</td><td class="code">0, 3, 5, 7</td></tr>
+      <tr><td class="nm"><span class="badge b-kf">Key Feature</span></td><td class="code">4–5</td><td class="code">2</td><td>Tính năng nổi bật nhất</td><td class="code">LF, TH, DH…</td></tr>
+      <tr><td class="nm"><span class="badge b-brand">Brand</span></td><td class="code">6–7</td><td class="code">2</td><td>Nhãn hàng sở hữu</td><td class="code">ST, HF, AS</td></tr>
+      <tr><td class="nm"><span class="badge b-design">Mã thiết kế</span></td><td class="code">8–11</td><td class="code">4</td><td>ID thiết kế, reset theo Cat+Brand</td><td class="code">0001–9999</td></div></tr>
+      <tr><td class="nm"><span class="badge b-color">Mã màu</span></td><td class="code">12–13</td><td class="code">2</td><td>Màu sắc chuẩn quốc tế</td><td class="code">BK, WH, ND…</td></tr>
+      <tr><td class="nm"><span class="badge b-year">Năm SX</span></td><td class="code">14</td><td class="code">1</td><td>Chữ số cuối của năm</td><td class="code">6=2026, 7=2027</td></tr>
+    </tbody>
+  </table>
+  <div class="notice"><strong style="color:var(--color-text-primary)">Quy tắc đọc nhanh:</strong> 3 ký tự đầu = nhóm hàng + size. 4–5 = biết ngay tính năng. 6–7 = brand. 8–11 = thiết kế cụ thể. 12–13 = màu. 14 = năm sản xuất.</div>
+</div>
+
+<!-- S1: CATEGORY -->
+<div class="sec" id="s1">
+  <div class="lbl">Nguyên tắc đánh số Category</div>
+  <div class="notice" style="margin-top:0">Ký tự đầu = nhóm lớn (1=áo, 2=quần, 3=bộ). Ký tự thứ hai = loại cụ thể trong nhóm (0–9). Tổng sức chứa: 30 category (10 loại × 3 nhóm).</div>
+
+  <table class="tbl">
+    <thead><tr><th>Mã</th><th>Tên danh mục</th><th>Mô tả</th><th>Brand thường dùng</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="4">Nhóm 1 — Áo (innerwear phần trên)</td></tr>
+      <tr><td class="code">10</td><td class="nm">Bra có gọng</td><td>Underwire bra, full support</td><td>ST, AS, HF</td></tr>
+      <tr><td class="code">11</td><td class="nm">Bra không gọng</td><td>Wire-free, soft cup</td><td>ST, HF</td></tr>
+      <tr><td class="code">12</td><td class="nm">Bralette</td><td>Không cấu trúc, co giãn cao</td><td>HF, ST</td></tr>
+      <tr><td class="code">13</td><td class="nm">Nursing bra</td><td>Bra cho con bú, dễ mở</td><td>HF, ST</td></tr>
+      <tr><td class="code">14</td><td class="nm">Áo lót thể thao</td><td>Sports bra, vận động nhẹ–vừa</td><td>AS, ST</td></tr>
+      <tr><td class="code">15</td><td class="nm">Áo ba lỗ / undershirt</td><td>Lót trong áo ngoài</td><td>ST, AS</td></tr>
+      <tr><td class="code">16</td><td class="nm">Áo giữ nhiệt</td><td>Thermal top, mùa lạnh</td><td>AS, ST</td></tr>
+      <tr><td class="code">17</td><td class="nm">Áo ngủ / áo nhà</td><td>Sleepwear top, homewear</td><td>HF, ST</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm 2 — Quần (innerwear phần dưới)</td></tr>
+      <tr><td class="code">20</td><td class="nm">Quần lót cơ bản</td><td>Brief, bikini thông thường</td><td>ST, AS</td></tr>
+      <tr><td class="code">21</td><td class="nm">Quần không viền</td><td>No VPL, seamless</td><td>ST, HF</td></tr>
+      <tr><td class="code">22</td><td class="nm">Quần định hình</td><td>Shapewear, high-waist shaping</td><td>AS, ST</td></tr>
+      <tr><td class="code">23</td><td class="nm">Quần nâng mông</td><td>Butt-lift, booty shaper</td><td>AS, ST</td></tr>
+      <tr><td class="code">24</td><td class="nm">Quần bầu / maternity</td><td>Maternity brief, support bụng</td><td>HF</td></tr>
+      <tr><td class="code">25</td><td class="nm">Quần giữ nhiệt</td><td>Thermal legging, mùa lạnh</td><td>AS, ST</td></tr>
+      <tr><td class="code">26</td><td class="nm">Quần ngủ / quần nhà</td><td>Sleepwear bottom, homewear</td><td>HF, ST</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm 3 — Bộ (set trọn bộ)</td></tr>
+      <tr><td class="code">30</td><td class="nm">Set bra + quần</td><td>Matching set cùng thiết kế</td><td>HF, ST</td></tr>
+      <tr><td class="code">31</td><td class="nm">Set đồ ngủ</td><td>Sleepwear set (áo + quần)</td><td>HF</td></tr>
+      <tr><td class="code">32</td><td class="nm">Set đồ nhà</td><td>Homewear set thoải mái</td><td>HF, ST</td></tr>
+      <tr><td class="code">33</td><td class="nm">Set bầu / nursing</td><td>Bra nursing + quần bầu</td><td>HF</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- S2: SIZE -->
+<div class="sec" id="s2">
+  <div class="lbl">Nguyên tắc size 0–9</div>
+  <div class="notice" style="margin-top:0">Size là <strong style="color:var(--color-text-primary)">thứ tự tương đối theo độ rộng</strong> trong từng dải sản phẩm — không phải số đo tuyệt đối. Quy đổi sang số đo cụ thể lưu trong Product Master Data, không trong SKU.</div>
+
+  <table class="tbl">
+    <thead><tr><th>Mã size</th><th>Bra (band)</th><th>Quần lót (hông cm)</th><th>Bralette / Sleepwear</th><th>Shapewear</th></tr></thead>
+    <tbody>
+      <tr><td class="code">0</td><td>Band 60</td><td>≤58 cm</td><td>XS</td><td>XS</td></tr>
+      <tr><td class="code">1</td><td>Band 65</td><td>58–63 cm</td><td>S</td><td>S</td></tr>
+      <tr><td class="code">2</td><td>Band 70 cup A</td><td>63–68 cm</td><td>S–M</td><td>S–M</td></tr>
+      <tr><td class="code">3</td><td>Band 70 cup B</td><td>68–73 cm</td><td>M</td><td>M</td></tr>
+      <tr><td class="code">4</td><td>Band 75 cup A/B</td><td>73–78 cm</td><td>M–L</td><td>M–L</td></tr>
+      <tr><td class="code">5</td><td>Band 75 cup C</td><td>78–83 cm</td><td>L</td><td>L</td></tr>
+      <tr><td class="code">6</td><td>Band 80 cup B/C</td><td>83–88 cm</td><td>XL</td><td>XL</td></tr>
+      <tr><td class="code">7</td><td>Band 80 cup D / Band 85</td><td>88–93 cm</td><td>2XL</td><td>2XL</td></tr>
+      <tr><td class="code">8</td><td>Band 85 cup C/D / Band 90</td><td>93–100 cm</td><td>3XL</td><td>3XL</td></tr>
+      <tr><td class="code">9</td><td>Band 90+ / cup E+</td><td>≥100 cm</td><td>4XL+</td><td>4XL+</td></tr>
+    </tbody>
+  </table>
+  <div class="notice">Một thiết kế không cần có đủ 10 size — chỉ sản xuất dải thực tế. Ví dụ bra cao cấp có thể chỉ có size 2–6, nursing bra có thể có 3–8. Size nào không có = không tồn tại SKU đó.</div>
+</div>
+
+<!-- S3: KEY FEATURE -->
+<div class="sec" id="s3">
+  <div class="lbl">Key Feature — chữ đầu các tiếng Việt, ưu tiên 2 ký tự</div>
+  <div class="notice" style="margin-top:0">Chỉ encode <strong style="color:var(--color-text-primary)">1 key feature duy nhất</strong> — tính năng nổi bật nhất trong selling proposition. Nếu team tranh luận không ra KF chính → product brief chưa đủ rõ, cần làm rõ trước khi tạo SKU.</div>
+
+  <table class="tbl">
+    <thead><tr><th>Mã KF</th><th>Tên tính năng (TV)</th><th>Giải thích</th><th>Áp dụng cho</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="4">Nhóm comfort & fit</td></tr>
+      <tr><td class="code">TN</td><td class="nm">Thoải Ngực</td><td>Thiết kế tối ưu cảm giác thoải mái toàn ngực</td><td>Bra 10, 11</td></tr>
+      <tr><td class="code">KD</td><td class="nm">Không Gọng</td><td>Wire-free, không cảm giác cứng hay cấn</td><td>Bra 11, 12</td></tr>
+      <tr><td class="code">MM</td><td class="nm">Mặc Mềm</td><td>Chất liệu siêu mềm, seamless, không đường may cứng</td><td>Mọi cat</td></tr>
+      <tr><td class="code">DN</td><td class="nm">Dài Ngày</td><td>Thiết kế tối ưu mặc 8h+ không khó chịu</td><td>Bra 10, 11</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm hình thể & định hình</td></tr>
+      <tr><td class="code">NN</td><td class="nm">Nâng Ngực</td><td>Push-up, lift, tạo đường cong ngực</td><td>Bra 10</td></tr>
+      <tr><td class="code">NM</td><td class="nm">Nâng Mông</td><td>Butt-lift, tôn dáng mông</td><td>Quần 23</td></tr>
+      <tr><td class="code">DH</td><td class="nm">Định Hình</td><td>Shaping toàn thân hoặc vùng bụng/eo</td><td>Quần 22, Bộ</td></tr>
+      <tr><td class="code">CC</td><td class="nm">Cạp Cao</td><td>High-waist, che bụng, hỗ trợ eo</td><td>Quần 20–22</td></tr>
+      <tr><td class="code">KV</td><td class="nm">Không Viền</td><td>No VPL, không lộ viền khi mặc đồ ôm</td><td>Quần 21</td></tr>
+      <tr><td class="code">LF</td><td class="nm">Lót Phẳng</td><td>Bề mặt mịn, invisible dưới áo trắng/mỏng</td><td>Bra 10, 11</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm khí hậu & chất liệu</td></tr>
+      <tr><td class="code">TM</td><td class="nm">Thoáng Mát</td><td>Cooling, thoát nhiệt nhanh, khí hậu nóng VN</td><td>Mọi cat</td></tr>
+      <tr><td class="code">GN</td><td class="nm">Giữ Nhiệt</td><td>Thermal, giữ ấm mùa lạnh</td><td>Cat 16, 25</td></tr>
+      <tr><td class="code">HM</td><td class="nm">Hút Mồ Hôi</td><td>Moisture-wicking, thấm hút nhanh</td><td>Mọi cat</td></tr>
+      <tr><td class="code">TH</td><td class="nm">Thảo Học</td><td>Chất liệu thiên nhiên: bamboo, modal, organic cotton</td><td>HF chủ yếu</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm đặc biệt theo life stage</td></tr>
+      <tr><td class="code">CN</td><td class="nm">Cho Núm</td><td>Nursing clip, dễ mở khi cho con bú</td><td>Cat 13</td></tr>
+      <tr><td class="code">HT</td><td class="nm">Hỗ Trợ (bầu)</td><td>Maternity support, nâng đỡ bụng bầu</td><td>Cat 24, 33</td></tr>
+      <tr><td class="code">SD</td><td class="nm">Sau Đẻ</td><td>Postpartum recovery, hỗ trợ cơ thể sau sinh</td><td>Cat 13, 24</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm thẩm mỹ & dịp</td></tr>
+      <tr><td class="code">RB</td><td class="nm">Ren Bướm (hay Ren Bọc)</td><td>Lace detail, thẩm mỹ nữ tính</td><td>HF chủ yếu</td></tr>
+      <tr><td class="code">GD</td><td class="nm">Gợi Dụng</td><td>Sexy styling, occasion-based</td><td>HF</td></tr>
+    </tbody>
+  </table>
+  <div class="notice">KF mới phải được Product team phê duyệt trước khi dùng. Không tự đặt ngoài bảng.</div>
+</div>
+
+<!-- S4: BRAND -->
+<div class="sec" id="s4">
+  <div class="lbl">Brand code — 2 ký tự</div>
+  <table class="tbl">
+    <thead><tr><th>Mã</th><th>Brand</th><th>Phân khúc</th><th>USP cốt lõi</th><th>Life stage chính</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="code">ST</td>
+        <td class="nm">Santony</td>
+        <td>Phổ thông – trung cấp</td>
+        <td>Bền · giá phải chăng · đáp ứng nhu cầu cơ bản hàng ngày</td>
+        <td>Young, Established</td>
+      </tr>
+      <tr>
+        <td class="code">HF</td>
+        <td class="nm">Herbfree</td>
+        <td>Trung cấp – cao cấp</td>
+        <td>Nữ tính · dễ chịu · tự tin trong cuộc sống hằng ngày</td>
+        <td>Established, Maternity, Wellness</td>
+      </tr>
+      <tr>
+        <td class="code">AS</td>
+        <td class="nm">Aosimanna</td>
+        <td>Trung cấp – chuyên dụng</td>
+        <td>Giải pháp hỗ trợ cơ thể thực dụng cho cuộc sống thật</td>
+        <td>Young, Active, Climate-focused</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="notice">Brand code không thay đổi sau khi ban hành. Nếu mở thêm brand mới → submit request để cấp mã 2 ký tự chưa dùng. Không dùng lại mã của brand đã ngừng hoạt động.</div>
+</div>
+
+<!-- S5: MÃ THIẾT KẾ -->
+<div class="sec" id="s5">
+  <div class="lbl">Mã thiết kế — 4 ký tự số (0001–9999)</div>
+  <div class="notice" style="margin-top:0">Mã thiết kế <strong style="color:var(--color-text-primary)">reset theo từng combo Category + Brand.</strong> Mỗi combo có không gian 9.999 thiết kế riêng biệt — đủ dùng lâu dài mà không bị nhầm lẫn giữa các nhóm.</div>
+
+  <table class="tbl">
+    <thead><tr><th>Combo Cat+Brand</th><th>Dải mã</th><th>Ví dụ mã tiếp theo</th><th>Ghi chú</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">10ST (Bra gọng · Santony)</td><td class="code">0001–9999</td><td class="code">10ST<strong>0001</strong>…</td><td>Dải riêng, đếm từ 0001</td></tr>
+      <tr><td class="nm">10HF (Bra gọng · Herbfree)</td><td class="code">0001–9999</td><td class="code">10HF<strong>0001</strong>…</td><td>Dải riêng, không liên quan 10ST</td></tr>
+      <tr><td class="nm">20ST (Quần cơ bản · Santony)</td><td class="code">0001–9999</td><td class="code">20ST<strong>0001</strong>…</td><td>Dải riêng</td></tr>
+      <tr><td class="nm">30HF (Set · Herbfree)</td><td class="code">0001–9999</td><td class="code">30HF<strong>0001</strong>…</td><td>Dải riêng</td></tr>
+    </tbody>
+  </table>
+
+  <div class="lbl" style="margin-top:.75rem">Quy tắc cấp mã thiết kế</div>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Quy tắc</th></tr></thead>
+    <tbody>
+      <tr><td class="code">1</td><td>Mỗi thiết kế mới → lấy số tiếp theo trong dải của combo Cat+Brand tương ứng</td></tr>
+      <tr><td class="code">2</td><td>Cùng thiết kế, khác size hoặc màu → giữ nguyên mã thiết kế, chỉ đổi ký tự Size và Color</td></tr>
+      <tr><td class="code">3</td><td>Thiết kế cũ tái sản xuất năm mới → giữ nguyên mã thiết kế, chỉ đổi ký tự Năm SX</td></tr>
+      <tr><td class="code">4</td><td>Mã đã dùng không được tái sử dụng cho thiết kế khác, kể cả khi thiết kế cũ đã ngừng</td></tr>
+      <tr><td class="code">5</td><td>Product team là đơn vị duy nhất cấp mã — không tự tạo ngoài quy trình</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- S6: MÃ MÀU -->
+<div class="sec" id="s6">
+  <div class="lbl">Mã màu chuẩn quốc tế — 2 ký tự (theo chuẩn Pantone / ngành dệt may global)</div>
+  <table class="tbl">
+    <thead><tr><th>Mã</th><th>Màu</th><th>Hex tham chiếu</th><th>Ghi chú ngành</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="4">Nhóm trung tính — bán chạy nhất innerwear</td></tr>
+      <tr><td class="code">BK</td><td class="nm"><span class="color-swatch" style="background:#1a1a1a"></span>Đen (Black)</td><td>#1A1A1A</td><td>Staple của mọi brand — chiếm ~30% doanh số</td></tr>
+      <tr><td class="code">WH</td><td class="nm"><span class="color-swatch" style="background:#F5F5F0;border:.5px solid #ddd"></span>Trắng (White)</td><td>#F5F5F0</td><td>Off-white — không dùng pure white</td></tr>
+      <tr><td class="code">ND</td><td class="nm"><span class="color-swatch" style="background:#C4A882"></span>Nude da sáng</td><td>#C4A882</td><td>Beige nude — phổ biến nhất VN</td></tr>
+      <tr><td class="code">N2</td><td class="nm"><span class="color-swatch" style="background:#A0785A"></span>Nude da trung</td><td>#A0785A</td><td>Medium nude</td></tr>
+      <tr><td class="code">N3</td><td class="nm"><span class="color-swatch" style="background:#6B4C38"></span>Nude da tối</td><td>#6B4C38</td><td>Deep nude</td></tr>
+      <tr><td class="code">GY</td><td class="nm"><span class="color-swatch" style="background:#8A8A8A"></span>Xám (Grey)</td><td>#8A8A8A</td><td>Medium grey</td></tr>
+      <tr><td class="code">CR</td><td class="nm"><span class="color-swatch" style="background:#F2ECD8"></span>Kem (Cream)</td><td>#F2ECD8</td><td>Warm white / ivory</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm hồng & đỏ</td></tr>
+      <tr><td class="code">PK</td><td class="nm"><span class="color-swatch" style="background:#F0A8B8"></span>Hồng nhạt (Pink)</td><td>#F0A8B8</td><td>Baby pink</td></tr>
+      <tr><td class="code">DP</td><td class="nm"><span class="color-swatch" style="background:#D4537E"></span>Hồng đậm (Deep Pink)</td><td>#D4537E</td><td>Hot pink / fuchsia</td></tr>
+      <tr><td class="code">RD</td><td class="nm"><span class="color-swatch" style="background:#C0392B"></span>Đỏ (Red)</td><td>#C0392B</td><td>Classic red</td></tr>
+      <tr><td class="code">BG</td><td class="nm"><span class="color-swatch" style="background:#E8C4A0"></span>Be / Hồng be (Blush)</td><td>#E8C4A0</td><td>Blush / rosewood — trend mạnh</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm xanh & tím</td></tr>
+      <tr><td class="code">NV</td><td class="nm"><span class="color-swatch" style="background:#1B2A4A"></span>Xanh navy (Navy)</td><td>#1B2A4A</td><td>Staple thứ 2 sau BK</td></tr>
+      <tr><td class="code">BL</td><td class="nm"><span class="color-swatch" style="background:#4A90D9"></span>Xanh dương (Blue)</td><td>#4A90D9</td><td>Medium blue</td></tr>
+      <tr><td class="code">TL</td><td class="nm"><span class="color-swatch" style="background:#1D9E75"></span>Xanh ngọc (Teal)</td><td>#1D9E75</td><td>Teal / emerald</td></tr>
+      <tr><td class="code">LV</td><td class="nm"><span class="color-swatch" style="background:#B8A0D4"></span>Tím lavender</td><td>#B8A0D4</td><td>Lavender — HF chủ yếu</td></tr>
+      <tr><td class="code">PL</td><td class="nm"><span class="color-swatch" style="background:#6B3FA0"></span>Tím đậm (Purple)</td><td>#6B3FA0</td><td>Deep purple</td></tr>
+      <tr class="grp"><td colspan="4">Nhóm khác</td></tr>
+      <tr><td class="code">GN</td><td class="nm"><span class="color-swatch" style="background:#4A8C5C"></span>Xanh lá (Green)</td><td>#4A8C5C</td><td>Forest green</td></tr>
+      <tr><td class="code">MG</td><td class="nm"><span class="color-swatch" style="background:#98D4C0"></span>Xanh bạc hà (Mint Green)</td><td>#98D4C0</td><td>Mint — sleepwear phổ biến</td></tr>
+      <tr><td class="code">YL</td><td class="nm"><span class="color-swatch" style="background:#F0C040"></span>Vàng (Yellow)</td><td>#F0C040</td><td>Butter yellow</td></tr>
+      <tr><td class="code">BR</td><td class="nm"><span class="color-swatch" style="background:#8B6040"></span>Nâu (Brown)</td><td>#8B6040</td><td>Mocha / chocolate</td></tr>
+      <tr><td class="code">MU</td><td class="nm"><span class="color-swatch" style="background:#C4956A"></span>Moka (Mocha)</td><td>#C4956A</td><td>Camel / mocha — trend 2024–26</td></tr>
+      <tr><td class="code">MT</td><td class="nm"><span class="color-swatch" style="background:#B8E0D8"></span>Xanh mint nhạt (Mint)</td><td>#B8E0D8</td><td>Pastel mint</td></tr>
+    </tbody>
+  </table>
+  <div class="notice">Màu mới chưa có trong bảng → submit yêu cầu kèm mã Pantone TCX tham chiếu. Mã 2 ký tự phải unique và chưa được dùng. Không tự đặt ngoài danh sách.</div>
+</div>
+
+<!-- S7: NĂM SX -->
+<div class="sec" id="s7">
+  <div class="lbl">Năm sản xuất — 1 ký tự cuối của năm dương lịch</div>
+  <table class="tbl">
+    <thead><tr><th>Mã</th><th>Năm</th><th>Ghi chú</th></tr></thead>
+    <tbody>
+      <tr><td class="code">6</td><td class="nm">2026</td><td>Năm hiện tại</td></tr>
+      <tr><td class="code">7</td><td class="nm">2027</td><td></td></tr>
+      <tr><td class="code">8</td><td class="nm">2028</td><td></td></tr>
+      <tr><td class="code">9</td><td class="nm">2029</td><td></td></tr>
+      <tr><td class="code">0</td><td class="nm">2030</td><td>Lưu ý: trùng dạng với 2020 — xử lý bằng Product Master</td></tr>
+      <tr><td class="code">1</td><td class="nm">2031</td><td>Tương tự 2021</td></tr>
+    </tbody>
+  </table>
+  <div class="notice">
+    <strong style="color:var(--color-text-primary)">Phương án xử lý trùng thập kỷ (2030 vs 2020):</strong> SKU thuần túy không phân biệt được — nhưng Product Master Data luôn có trường "Năm SX đầy đủ" (4 số) để tra cứu. Trên thực tế, sản phẩm 2020 hầu như đã hết vòng đời trước khi 2030 đến nên xung đột thực tế rất thấp. Nếu cần phân biệt tuyệt đối → dùng 2 ký tự năm (26, 27…) thay vì 1 ký tự — trade-off thêm 1 ký tự vào SKU.
+  </div>
+</div>
+
+<!-- S8: VÍ DỤ + GENERATOR -->
+<div class="sec" id="s8">
+  <div class="lbl">Bộ sinh mã SKU</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Category</div>
+      <select id="g-cat" onchange="gen()" style="width:100%">
+        <option value="10">10 — Bra có gọng</option>
+        <option value="11">11 — Bra không gọng</option>
+        <option value="12">12 — Bralette</option>
+        <option value="13">13 — Nursing bra</option>
+        <option value="14">14 — Sports bra</option>
+        <option value="15">15 — Undershirt</option>
+        <option value="16">16 — Áo giữ nhiệt</option>
+        <option value="17">17 — Áo ngủ</option>
+        <option value="20">20 — Quần lót cơ bản</option>
+        <option value="21">21 — Quần không viền</option>
+        <option value="22">22 — Quần định hình</option>
+        <option value="23">23 — Quần nâng mông</option>
+        <option value="24">24 — Quần bầu</option>
+        <option value="25">25 — Quần giữ nhiệt</option>
+        <option value="26">26 — Quần ngủ</option>
+        <option value="30">30 — Set bra + quần</option>
+        <option value="31">31 — Set đồ ngủ</option>
+        <option value="32">32 — Set đồ nhà</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Size (0–9)</div>
+      <select id="g-size" onchange="gen()" style="width:100%">
+        <option value="0">0 — XS / Band 60</option>
+        <option value="1">1 — S / Band 65</option>
+        <option value="2">2 — S-M / 70A</option>
+        <option value="3" selected>3 — M / 70B</option>
+        <option value="4">4 — M-L / 75A/B</option>
+        <option value="5">5 — L / 75C</option>
+        <option value="6">6 — XL / 80B/C</option>
+        <option value="7">7 — 2XL / 80D/85</option>
+        <option value="8">8 — 3XL / 85C/D</option>
+        <option value="9">9 — 4XL+ / 90+</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Key Feature</div>
+      <select id="g-kf" onchange="gen()" style="width:100%">
+        <option value="TN">TN — Thoải Ngực</option>
+        <option value="KD">KD — Không Gọng</option>
+        <option value="MM">MM — Mặc Mềm</option>
+        <option value="DN">DN — Dài Ngày</option>
+        <option value="NN">NN — Nâng Ngực</option>
+        <option value="NM">NM — Nâng Mông</option>
+        <option value="DH">DH — Định Hình</option>
+        <option value="CC">CC — Cạp Cao</option>
+        <option value="KV">KV — Không Viền</option>
+        <option value="LF" selected>LF — Lót Phẳng</option>
+        <option value="TM">TM — Thoáng Mát</option>
+        <option value="GN">GN — Giữ Nhiệt</option>
+        <option value="HM">HM — Hút Mồ Hôi</option>
+        <option value="TH">TH — Thảo Học</option>
+        <option value="CN">CN — Cho Núm</option>
+        <option value="HT">HT — Hỗ Trợ bầu</option>
+        <option value="SD">SD — Sau Đẻ</option>
+        <option value="RB">RB — Ren Bướm</option>
+        <option value="GD">GD — Gợi Dụng</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Brand</div>
+      <select id="g-brand" onchange="gen()" style="width:100%">
+        <option value="ST">ST — Santony</option>
+        <option value="HF">HF — Herbfree</option>
+        <option value="AS">AS — Aosimanna</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Mã thiết kế (0001–9999)</div>
+      <input type="number" id="g-design" min="1" max="9999" value="1" oninput="gen()" style="width:100%">
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Mã màu</div>
+      <select id="g-color" onchange="gen()" style="width:100%">
+        <option value="BK">BK — Đen</option>
+        <option value="WH" selected>WH — Trắng</option>
+        <option value="ND">ND — Nude sáng</option>
+        <option value="N2">N2 — Nude trung</option>
+        <option value="N3">N3 — Nude tối</option>
+        <option value="GY">GY — Xám</option>
+        <option value="CR">CR — Kem</option>
+        <option value="PK">PK — Hồng nhạt</option>
+        <option value="DP">DP — Hồng đậm</option>
+        <option value="RD">RD — Đỏ</option>
+        <option value="BG">BG — Blush / Be</option>
+        <option value="NV">NV — Navy</option>
+        <option value="BL">BL — Xanh dương</option>
+        <option value="TL">TL — Teal</option>
+        <option value="LV">LV — Lavender</option>
+        <option value="PL">PL — Tím đậm</option>
+        <option value="GN">GN — Xanh lá</option>
+        <option value="MG">MG — Mint Green</option>
+        <option value="YL">YL — Vàng</option>
+        <option value="BR">BR — Nâu</option>
+        <option value="MU">MU — Moka</option>
+        <option value="MT">MT — Mint nhạt</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">Năm sản xuất</div>
+      <select id="g-year" onchange="gen()" style="width:100%">
+        <option value="6" selected>6 — 2026</option>
+        <option value="7">7 — 2027</option>
+        <option value="8">8 — 2028</option>
+        <option value="9">9 — 2029</option>
+        <option value="0">0 — 2030</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="ex-sku" id="g-result">100LFST00010WH6</div>
+
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:.5rem 0" id="g-breakdown"></div>
+
+  <div class="lbl" style="margin-top:1rem">Ví dụ có sẵn</div>
+  <table class="tbl">
+    <thead><tr><th>SKU</th><th>Đọc ra</th></tr></thead>
+    <tbody>
+      <tr><td class="code">103LFST0001WH6</td><td>Bra có gọng · size 3 (70B) · Lót phẳng · Santony · TK#0001 · Trắng · 2026</td></tr>
+      <tr><td class="code">115TNHF0003ND6</td><td>Bra không gọng · size 5 (75C) · Thoải Ngực · Herbfree · TK#0003 · Nude sáng · 2026</td></tr>
+      <tr><td class="code">214DHAS0012BK6</td><td>Quần định hình · size 4 (M-L) · Định Hình · Aosimanna · TK#0012 · Đen · 2026</td></tr>
+      <tr><td class="code">216NMST0007NV7</td><td>Quần nâng mông · size 6 (XL) · Nâng Mông · Santony · TK#0007 · Navy · 2027</td></tr>
+      <tr><td class="code">133CNHF0002WH6</td><td>Nursing bra · size 3 (70B) · Cho Núm · Herbfree · TK#0002 · Trắng · 2026</td></tr>
+      <tr><td class="code">304RBHF0015PK6</td><td>Set bra+quần · size 4 (M-L) · Ren Bướm · Herbfree · TK#0015 · Hồng nhạt · 2026</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script>
+function go(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('show'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('show');
+  btn.classList.add('on');
+}
+
+function pad(n,l){return String(n).padStart(l,'0')}
+
+function gen(){
+  const cat=document.getElementById('g-cat').value;
+  const size=document.getElementById('g-size').value;
+  const kf=document.getElementById('g-kf').value;
+  const brand=document.getElementById('g-brand').value;
+  const design=pad(Math.min(9999,Math.max(1,parseInt(document.getElementById('g-design').value)||1)),4);
+  const color=document.getElementById('g-color').value;
+  const year=document.getElementById('g-year').value;
+  const sku=cat+size+kf+brand+design+color+year;
+  document.getElementById('g-result').textContent=sku;
+
+  const parts=[
+    {v:cat,l:'Category',cls:'sc-cat'},
+    {v:size,l:'Size',cls:'sc-size'},
+    {v:kf,l:'Key Feature',cls:'sc-kf'},
+    {v:brand,l:'Brand',cls:'sc-brand'},
+    {v:design,l:'Mã TK',cls:'sc-design'},
+    {v:color,l:'Màu',cls:'sc-color'},
+    {v:year,l:'Năm',cls:'sc-year'},
+  ];
+  document.getElementById('g-breakdown').innerHTML=parts.map(p=>
+    `<div style="text-align:center">
+      <div style="font-family:monospace;font-weight:700;font-size:14px;padding:5px 4px;border-radius:4px;margin-bottom:3px" class="${p.cls}">${p.v}</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);line-height:1.2">${p.l}</div>
+    </div>`
+  ).join('');
+}
+gen();
+</script>
+</body>
+</html>
