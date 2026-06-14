@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Hub Auto | hg-campaign-dashboard</title>
+  <style>
+    :root{
+      --bg:#f6f7f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--primary:#0f172a;--soft:#f1f5f9;--blue:#2563eb;--green:#16a34a;--red:#dc2626;--amber:#f59e0b;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:28px}
+    .wrap{max-width:1180px;margin:0 auto}
+    header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}
+    h1{font-size:28px;line-height:1.15;margin-bottom:8px;letter-spacing:-.02em}
+    .sub{color:var(--muted);font-size:14px;max-width:760px}
+    .repo{font-size:13px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;color:var(--muted);white-space:nowrap}
+    .repo strong{color:var(--text)}
+    .toolbar{display:flex;gap:10px;margin:18px 0 18px;flex-wrap:wrap;align-items:center}
+    input,select{padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-size:14px;background:#fff;color:var(--text)}
+    input{flex:1;min-width:240px}
+    select{min-width:150px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);text-decoration:none;font-size:13px;font-weight:700;transition:.15s;cursor:pointer}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+    .btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .btn.blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn.green{background:var(--green);color:#fff;border-color:var(--green)}
+    .btn.red{color:var(--red)}
+    .status{font-size:13px;color:var(--muted);margin:0 0 16px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+    .status b{color:var(--text)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .tag{display:inline-block;font-size:11px;color:var(--muted);background:var(--soft);border-radius:999px;padding:3px 8px;margin-bottom:10px}
+    .title{font-size:16px;font-weight:800;margin-bottom:6px;word-break:break-word}
+    .desc{font-size:13px;color:var(--muted);min-height:36px;margin-bottom:14px;word-break:break-word}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .empty{background:#fff;border:1px dashed var(--border);border-radius:18px;padding:22px;color:var(--muted);grid-column:1/-1;text-align:center}
+    .note{margin-top:24px;font-size:13px;color:var(--muted);background:#fff;border:1px dashed var(--border);padding:14px;border-radius:14px}
+    code{background:#f1f5f9;padding:2px 5px;border-radius:6px;color:#334155}
+    @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}header{display:block}.repo{margin-top:14px;white-space:normal}}
+    @media(max-width:620px){body{padding:16px}.grid{grid-template-columns:1fr}h1{font-size:23px}.toolbar{display:grid;grid-template-columns:1fr}.btn,select,input{width:100%}.actions{display:grid;grid-template-columns:1fr 1fr}.actions .primary{grid-column:1/-1}.status{display:block}.status .right{margin-top:8px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Dashboard Hub</h1>
+        <p class="sub">Trang này tự đọc danh sách file <strong>.html</strong> trong repo GitHub. Khi bạn thêm hoặc xóa file HTML trên GitHub, chỉ cần chờ GitHub Pages deploy xong rồi F5, danh sách sẽ tự cập nhật.</p>
+      </div>
+      <div class="repo">Repo: <strong id="repoText">truongdt155/hg-campaign-dashboard</strong></div>
+    </header>
+
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Tìm dashboard... ví dụ: SKU, Booking, HG" />
+      <select id="sort">
+        <option value="newest" selected>Sắp xếp: File mới cập nhật</option>
+        <option value="name">Sắp xếp: Tên A-Z</option>
+      </select>
+      <button class="btn green" onclick="loadFiles(true)">↻ Refresh list</button>
+      <a class="btn blue" id="uploadBtn" target="_blank">⬆ Upload HTML mới</a>
+      <a class="btn" id="repoBtn" target="_blank">GitHub Repo</a>
+    </div>
+
+    <div class="status">
+      <div id="statusText">Đang tải danh sách file HTML từ GitHub...</div>
+      <div class="right">Pages base: <b id="pagesBase"></b></div>
+    </div>
+
+    <section class="grid" id="grid"></section>
+
+    <div class="note">
+      <strong>Lưu ý:</strong> bản này ưu tiên đọc danh sách file qua jsDelivr CDN để tránh lỗi GitHub API 403/rate limit. Nếu vừa upload/xóa file, GitHub Pages/jsDelivr có thể cần vài phút để cập nhật. Nút <strong>Refresh list</strong> chỉ tải lại danh sách; nó không tự commit code lên GitHub.
+    </div>
+  </div>
+
+<script>
+const OWNER = 'truongdt155';
+const REPO = 'hg-campaign-dashboard';
+const BRANCH = 'main';
+const PAGES_BASE = `https://${OWNER}.github.io/${REPO}/`;
+const REPO_BASE = `https://github.com/${OWNER}/${REPO}`;
+const GITHUB_CONTENTS_API = `https://api.github.com/repos/${OWNER}/${REPO}/contents?ref=${BRANCH}`;
+const GITHUB_TREE_API = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+const JSDELIVR_API = `https://data.jsdelivr.com/v1/package/gh/${OWNER}/${REPO}@${BRANCH}`;
+
+let allFiles = [];
+let metaMap = new Map();
+
+document.getElementById('repoText').textContent = `${OWNER}/${REPO}`;
+document.getElementById('pagesBase').textContent = PAGES_BASE;
+document.getElementById('uploadBtn').href = `${REPO_BASE}/upload/${BRANCH}`;
+document.getElementById('repoBtn').href = REPO_BASE;
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('sort').addEventListener('change', render);
+
+function cleanTitle(filename){
+  return filename
+    .replace(/\.html$/i,'')
+    .replace(/[_-]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim()
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function classify(filename){
+  const n = filename.toLowerCase();
+  if(n === 'index.html') return 'Home';
+  if(n === 'dashboard.html') return 'Hub';
+  if(n.includes('sku')) return 'SKU';
+  if(n.includes('booking')) return 'Booking';
+  if(n.includes('hg') || n.includes('campaign') || n.includes('plan')) return 'Campaign';
+  return 'HTML';
+}
+
+function description(filename){
+  const tag = classify(filename);
+  if(filename.toLowerCase()==='index.html') return 'Trang mặc định của GitHub Pages.';
+  if(filename.toLowerCase()==='dashboard.html') return 'Trang hub tổng hợp link dashboard.';
+  if(tag==='SKU') return 'Dashboard / tài liệu liên quan đến SKU Santony.';
+  if(tag==='Booking') return 'Dashboard / framework booking, định giá, đánh giá hiệu quả.';
+  if(tag==='Campaign') return 'Dashboard / tài liệu liên quan đến campaign Hương Giang.';
+  return 'File HTML trong repo.';
+}
+
+function safeUrl(filename){
+  return encodeURIComponent(filename).replace(/%2F/g,'/');
+}
+
+
+function flattenJsDelivrFiles(nodes, prefix=''){
+  let out = [];
+  (nodes || []).forEach(node => {
+    const name = node.name || '';
+    const path = prefix ? `${prefix}/${name}` : name;
+    if(node.type === 'directory' || node.type === 'dir'){
+      out = out.concat(flattenJsDelivrFiles(node.files || [], path));
+    }else if(node.type === 'file' && /\.html$/i.test(path)){
+      out.push({
+        name: path,
+        size: node.size || 0,
+        updatedAt: node.time || node.mtime || null,
+        source: 'jsDelivr'
+      });
+    }
+  });
+  return out;
+}
+
+function normalizeGithubContent(items){
+  return (items || [])
+    .filter(item => item.type === 'file' && /\.html$/i.test(item.name))
+    .map(item => ({name:item.name, size:item.size || 0, updatedAt:null, source:'GitHub Contents'}));
+}
+
+function normalizeGithubTree(tree){
+  return (tree || [])
+    .filter(item => item.type === 'blob' && /\.html$/i.test(item.path) && !item.path.includes('/'))
+    .map(item => ({name:item.path, size:item.size || 0, updatedAt:null, source:'GitHub Tree'}));
+}
+
+async function fetchJson(url){
+  const res = await fetch(url, {cache:'no-store'});
+  if(!res.ok) throw new Error(`${res.status} từ ${url.includes('jsdelivr') ? 'jsDelivr' : 'GitHub API'}`);
+  return await res.json();
+}
+
+async function loadFiles(force=false){
+  const status = document.getElementById('statusText');
+  status.innerHTML = force ? 'Đang refresh danh sách...' : 'Đang tải danh sách file HTML...';
+  document.getElementById('grid').innerHTML = '';
+
+  const errors = [];
+
+  try{
+    const data = await fetchJson(JSDELIVR_API + `?t=${Date.now()}`);
+    allFiles = flattenJsDelivrFiles(data.files || [])
+      .filter(f => !f.name.includes('/'));
+    metaMap = new Map(allFiles.map(f => [f.name, {updatedAt:f.updatedAt}]));
+    if(allFiles.length) return render('jsDelivr CDN');
+    errors.push('jsDelivr không trả về file HTML');
+  }catch(err){
+    errors.push(err.message);
+  }
+
+  try{
+    const data = await fetchJson(GITHUB_TREE_API + `&t=${Date.now()}`);
+    allFiles = normalizeGithubTree(data.tree || []);
+    metaMap = new Map();
+    if(allFiles.length) return render('GitHub Tree API');
+    errors.push('GitHub Tree API không trả về file HTML');
+  }catch(err){
+    errors.push(err.message);
+  }
+
+  try{
+    const data = await fetchJson(GITHUB_CONTENTS_API + `&t=${Date.now()}`);
+    allFiles = normalizeGithubContent(data);
+    metaMap = new Map();
+    if(allFiles.length) return render('GitHub Contents API');
+    errors.push('GitHub Contents API không trả về file HTML');
+  }catch(err){
+    errors.push(err.message);
+  }
+
+  status.innerHTML = `<b>Không tải được danh sách tự động.</b> Đã thử jsDelivr + GitHub API nhưng vẫn lỗi: ${errors.join(' | ')}.`;
+  document.getElementById('grid').innerHTML = `<div class="empty">Không có dữ liệu để hiển thị. Hãy thử bấm Refresh list sau vài phút hoặc kiểm tra mạng có chặn API/CDN không.</div>`;
+}
+
+function render(sourceName=""){
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const sort = document.getElementById('sort').value;
+  let files = [...allFiles];
+
+  if(q){
+    files = files.filter(f => (f.name + ' ' + cleanTitle(f.name) + ' ' + classify(f.name)).toLowerCase().includes(q));
+  }
+  if(sort === 'newest'){
+    files.sort((a,b) => {
+      const db = new Date((metaMap.get(b.name)||{}).updatedAt || b.updatedAt || 0).getTime();
+      const da = new Date((metaMap.get(a.name)||{}).updatedAt || a.updatedAt || 0).getTime();
+      if(db !== da) return db - da;
+      return a.name.localeCompare(b.name);
+    });
+  }else{
+    files.sort((a,b) => a.name.localeCompare(b.name));
+  }
+
+  const status = document.getElementById('statusText');
+  status.innerHTML = `Đã tìm thấy <b>${allFiles.length}</b> file HTML trong repo. Đang hiển thị <b>${files.length}</b> file.${sourceName ? ' Nguồn: <b>' + sourceName + '</b>.' : ''}`;
+
+  const grid = document.getElementById('grid');
+  if(files.length === 0){
+    grid.innerHTML = `<div class="empty">Không có dashboard nào khớp từ khóa tìm kiếm.</div>`;
+    return;
+  }
+
+  grid.innerHTML = files.map(f => {
+    const encoded = safeUrl(f.name);
+    const openUrl = f.name.toLowerCase() === 'index.html' ? PAGES_BASE : PAGES_BASE + encoded;
+    const editUrl = `${REPO_BASE}/edit/${BRANCH}/${encoded}`;
+    const blobUrl = `${REPO_BASE}/blob/${BRANCH}/${encoded}`;
+    const deleteUrl = `${REPO_BASE}/delete/${BRANCH}/${encoded}`;
+    const meta = metaMap.get(f.name);
+    const updated = meta && meta.updatedAt ? new Date(meta.updatedAt).toLocaleString('vi-VN') : 'Không rõ thời gian cập nhật';
+    return `
+      <article class="card" data-key="${(f.name + ' ' + cleanTitle(f.name)).toLowerCase()}">
+        <span class="tag">${classify(f.name)}</span>
+        <div class="title">${cleanTitle(f.name)}</div>
+        <div class="desc">${description(f.name)}<br><small>Cập nhật: ${updated}</small></div>
+        <div class="actions">
+          <a class="btn primary" href="${openUrl}" target="_blank">Open Dashboard</a>
+          <a class="btn" href="${editUrl}" target="_blank">Update HTML</a>
+          <a class="btn" href="${blobUrl}" target="_blank">View Code</a>
+          <a class="btn red" href="${deleteUrl}" target="_blank">Delete</a>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+loadFiles();
+</script>
+</body>
+</html>
