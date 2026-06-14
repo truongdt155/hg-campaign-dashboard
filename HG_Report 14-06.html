@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>HG Campaign — Comparison Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1520;
+    --surface: #121820;
+    --card: #17202d;
+    --border: #2a3a50;
+    --accent1: #4fc3f7;
+    --accent2: #69f0ae;
+    --accent3: #f0c040;
+    --accent4: #e05a8a;
+    --text: #e8e8f0;
+    --muted: #7a8fa0;
+    --positive: #69f0ae;
+    --negative: #ff6b6b;
+    --neutral: #7a8fa0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.15;
+    pointer-events: none; z-index: 0;
+  }
+  .container {
+    position: relative; z-index: 1;
+    max-width: 1400px; margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 28px; padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .report-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 3px; color: var(--accent1);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 24px; font-weight: 800; line-height: 1.1;
+    background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .subtitle { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .period-box {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    color: var(--muted); line-height: 1.7;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 12px;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase;
+    margin: 28px 0 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border); min-width: 0;
+  }
+
+  /* ── KPI COMPARISON GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .kpi-compare {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .kpi-compare::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+  }
+  .kpi-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .compare-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+  }
+  .compare-item {
+    display: flex; flex-direction: column;
+  }
+  .compare-label {
+    font-size: 9px; color: var(--muted); margin-bottom: 4px;
+  }
+  .compare-value {
+    font-size: 18px; font-weight: 700; color: var(--accent1);
+  }
+  .compare-divider {
+    height: 1px; background: var(--border); margin: 8px 0;
+  }
+  .growth-metric {
+    display: flex; align-items: center; gap: 8px; padding: 8px 0;
+  }
+  .growth-value {
+    font-size: 20px; font-weight: 800;
+  }
+  .growth-positive {
+    color: var(--positive);
+  }
+  .growth-negative {
+    color: var(--negative);
+  }
+  .growth-label {
+    font-size: 10px; color: var(--muted); flex: 1;
+  }
+  .growth-arrow {
+    font-size: 16px; font-weight: 700;
+  }
+
+  /* ── CARD ── */
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    animation: fadeUp 0.4s ease both;
+    margin-bottom: 14px;
+  }
+  .chart-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .chart-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .chart-meta  { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+  /* ── LAYOUT ── */
+  .two-col   { display: flex; flex-direction: column; gap: 14px; }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .comparison-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px; letter-spacing: 1.5px; color: var(--muted);
+    text-transform: uppercase; text-align: left;
+    padding: 12px 12px; border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .comparison-table td {
+    padding: 12px 12px; border-bottom: 1px solid rgba(42,58,80,0.5);
+  }
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .metric-name {
+    font-weight: 600; color: var(--text);
+  }
+  .metric-value {
+    font-family: 'IBM Plex Mono', monospace; text-align: right;
+  }
+  .value-baseline {
+    color: var(--muted);
+  }
+  .value-current {
+    color: var(--accent1); font-weight: 600;
+  }
+  .value-change {
+    font-weight: 700;
+  }
+  .change-positive {
+    color: var(--positive);
+  }
+  .change-negative {
+    color: var(--negative);
+  }
+
+  /* ── INSIGHTS ── */
+  .insights {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .insight-title {
+    font-size: 12px; font-weight: 700; color: var(--accent1);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .insight-list {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .insight-item {
+    display: flex; gap: 10px; padding: 10px; background: var(--surface);
+    border-radius: 8px; border-left: 3px solid var(--accent2);
+  }
+  .insight-icon {
+    font-size: 16px; flex-shrink: 0;
+  }
+  .insight-text {
+    font-size: 11px; line-height: 1.5; color: var(--text);
+  }
+  .insight-text strong {
+    color: var(--accent1);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-text {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+    color: var(--muted); line-height: 1.6;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (min-width: 640px) {
+    .container { padding: 28px 24px; }
+    header { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+    h1 { font-size: 32px; }
+    .period-box { background: none; border: none; padding: 0; text-align: right; }
+    .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (min-width: 900px) {
+    h1 { font-size: 38px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="report-tag">Campaign Performance Comparison</div>
+      <h1>HƯƠNG GIANG × SANTONY</h1>
+      <div class="subtitle">Performance Tracking — So sánh hiệu quả chiến dịch qua 12 ngày</div>
+    </div>
+    <div class="header-right">
+      <div class="period-box">
+        Baseline: 03/06/2026 (241 posts)<br>
+        Current: 11/06/2026 (297 posts)<br>
+        <strong style="color:var(--accent1)">Growth: +56 posts (+23.2%)</strong>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION 01: KPI COMPARISON -->
+  <div class="section-title">01 — KPI Comparison</div>
+  <div class="kpi-grid">
+    <div class="kpi-compare">
+      <div class="kpi-label">📊 Total Views</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">18.3M</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">14/06</div>
+          <div class="compare-value" style="color: var(--accent1);">21.1M</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+2.8M</span>
+        <span class="growth-label">(+15.3%)</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">💬 Total Engagement</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">612K</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">11/06</div>
+          <div class="compare-value" style="color: var(--accent1);">900K</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+288K</span>
+        <span class="growth-label">(+47.1%) 🚀</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">⚡ Avg. ER</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">3.35%</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">11/06</div>
+          <div class="compare-value" style="color: var(--accent1);">4.26%</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+0.91%</span>
+        <span class="growth-label">(+27.2%)</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">❤️ Total Likes</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">584K</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">14/06</div>
+          <div class="compare-value" style="color: var(--accent1);">868K</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+284K</span>
+        <span class="growth-label">(+48.6%)</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">💭 Comments</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">3,905</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">11/06</div>
+          <div class="compare-value" style="color: var(--accent1);">4,319</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+414</span>
+        <span class="growth-label">(+10.6%) ✅</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">🔄 Shares</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">12,082</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">11/06</div>
+          <div class="compare-value" style="color: var(--accent1);">13,258</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+1,176</span>
+        <span class="growth-label">(+9.7%) ✅</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">💾 Saves</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">12,422</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">14/06</div>
+          <div class="compare-value" style="color: var(--accent1);">14,012</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+1,590</span>
+        <span class="growth-label">(+12.8%)</span>
+      </div>
+    </div>
+
+    <div class="kpi-compare">
+      <div class="kpi-label">📝 Posts</div>
+      <div class="compare-row">
+        <div class="compare-item">
+          <div class="compare-label">03/06</div>
+          <div class="compare-value" style="color: var(--muted);">241</div>
+        </div>
+        <div class="compare-item">
+          <div class="compare-label">14/06</div>
+          <div class="compare-value" style="color: var(--accent1);">297</div>
+        </div>
+      </div>
+      <div class="compare-divider"></div>
+      <div class="growth-metric">
+        <span class="growth-arrow growth-positive">↑</span>
+        <span class="growth-value growth-positive">+56</span>
+        <span class="growth-label">(+23.2%)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 02: TREND CHARTS -->
+  <div class="section-title">02 — Growth Trajectory</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Views Growth</div>
+        <div class="chart-meta">18.3M → 21.1M (11/06)</div>
+      </div>
+      <div style="position: relative; height: 200px;">
+        <canvas id="viewsChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Engagement Growth</div>
+        <div class="chart-meta">612K → 900K (11/06)</div>
+      </div>
+      <div style="position: relative; height: 200px;">
+        <canvas id="engagementChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03: DETAILED COMPARISON TABLE -->
+  <div class="section-title">03 — Detailed Metrics Breakdown</div>
+  <div class="chart-card">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>03/06 (Baseline)</th>
+          <th>14/06 (Current)</th>
+          <th>Change</th>
+          <th>% Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric-name">Total Views</td>
+          <td class="metric-value value-baseline">18,300,000</td>
+          <td class="metric-value value-current">21,100,000</td>
+          <td class="metric-value value-change change-positive">+2,800,000</td>
+          <td class="metric-value value-change change-positive">+15.3%</td>
+        </tr>
+        <tr>
+          <td class="metric-name">Total Engagement</td>
+          <td class="metric-value value-baseline">612,000</td>
+          <td class="metric-value value-current">900,000</td>
+          <td class="metric-value value-change change-positive">+288,000</td>
+          <td class="metric-value value-change change-positive">+47.1%</td>
+        </tr>
+        <tr>
+          <td class="metric-name">Engagement Rate (ER)</td>
+          <td class="metric-value value-baseline">3.35%</td>
+          <td class="metric-value value-current">4.26%</td>
+          <td class="metric-value value-change change-positive">+0.91%</td>
+          <td class="metric-value value-change change-positive">+27.2%</td>
+        </tr>
+        <tr>
+          <td class="metric-name">Total Likes</td>
+          <td class="metric-value value-baseline">584,000</td>
+          <td class="metric-value value-current">868,000</td>
+          <td class="metric-value value-change change-positive">+284,000</td>
+          <td class="metric-value value-change change-positive">+48.6%</td>
+        </tr>
+        <tr>
+          <td class="metric-name">Total Comments</td>
+          <td class="metric-value value-baseline">3,905</td>
+          <td class="metric-value value-current">4,319</td>
+          <td class="metric-value value-change change-positive">+414</td>
+          <td class="metric-value value-change change-positive">+10.6%</td>
+        </tr>
+        <tr>
+          <td class="metric-name">Total Shares</td>
+          <td class="metric-value value-baseline">12,082</td>
+          <td class="metric-value value-current">13,258</td>
+          <td class="metric-value value-change change-positive">+1,176</td>
+          <td class="metric-value value-change change-positive">+9.7%</td>
+        </tr>
+        <tr>
+          <td class="metric-name">Total Saves</td>
+          <td class="metric-value value-baseline">12,422</td>
+          <td class="metric-value value-current">14,012</td>
+          <td class="metric-value value-change change-positive">+1,590</td>
+          <td class="metric-value value-change change-positive">+12.8%</td>
+        </tr>
+        <tr style="border-top: 2px solid var(--border); background: var(--surface);">
+          <td class="metric-name">Total Posts</td>
+          <td class="metric-value value-baseline">241</td>
+          <td class="metric-value value-current">297</td>
+          <td class="metric-value value-change change-positive">+56</td>
+          <td class="metric-value value-change change-positive">+23.2%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 04: INSIGHTS & ANALYSIS -->
+  <div class="section-title">04 — Key Insights</div>
+  <div class="insights">
+    <div class="insight-title">📈 Performance Summary</div>
+    <div class="insight-list">
+      <div class="insight-item">
+        <div class="insight-icon">🚀</div>
+        <div class="insight-text"><strong>Engagement explosion:</strong> +47.1% (288K) trong 8 ngày — chiến dịch đang tăng tốc mạnh mẽ. Likes tăng 48.6%, cho thấy content đang resonating tốt với audience.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">📊</div>
+        <div class="insight-text"><strong>ER tăng 27.2%:</strong> Từ 3.35% → 4.26% — dù views chỉ tăng 15.3%, engagement tăng 47.1%, chứng tỏ <em>chất lượng nội dung cải thiện</em>, không phải chỉ số lượng posts.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">✅</div>
+        <div class="insight-text"><strong>Comments & Shares đều tăng:</strong> Comments +414 (+10.6%) và Shares +1,176 (+9.7%) — audience đang engage tích cực và share content. Đây là tín hiệu tích cực cho organic reach.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">💾</div>
+        <div class="insight-text"><strong>Saves tăng +12.8%:</strong> Người dùng save bài nhiều hơn (+1,590) — chỉ báo good quality & long-term interest, không chỉ là quick engagement.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">📈</div>
+        <div class="insight-text"><strong>Content velocity:</strong> +56 posts (23.2%) trong 8 ngày — team đang produce content với tốc độ cao. Nếu ER vẫn tăng dù tăng volume, content strategy đang work.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">✅</div>
+        <div class="insight-text"><strong>Trajectory is positive:</strong> Mọi metric chính (Views, Engagement, ER, Comments, Shares) đều tăng — campaign đang on track và gaining momentum.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-text">HG × Santony Campaign — Comparison Report · 03/06 vs 11/06/2026</div>
+    <div class="footer-text">Generated 11/06/2026 · Confidential</div>
+  </footer>
+</div>
+
+<script>
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false
+    },
+    tooltip: {
+      backgroundColor:'#17202d', borderColor:'#2a3a50', borderWidth:1,
+      titleColor:'#e8e8f0', bodyColor:'#7a8fa0',
+      titleFont:{family:'Plus Jakarta Sans',size:12},
+      bodyFont:{family:'IBM Plex Mono',size:11}
+    }
+  }
+};
+
+new Chart(document.getElementById('viewsChart'), {
+  type: 'line',
+  data: {
+    labels: ['03/06', '11/06'],
+    datasets: [{
+      label: 'Views (M)',
+      data: [18.3, 21.1],
+      borderColor: '#4fc3f7',
+      backgroundColor: 'rgba(79,195,247,0.1)',
+      borderWidth: 3,
+      fill: true,
+      pointRadius: 6,
+      pointBackgroundColor: '#4fc3f7',
+      pointBorderColor: '#0f1520',
+      pointBorderWidth: 2,
+      tension: 0.4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: {
+        ticks: {
+          color: '#7a8fa0',
+          font: {family: 'IBM Plex Mono', size: 9},
+          callback: v => v + 'M'
+        },
+        grid: {color: 'rgba(42,58,80,0.4)'},
+        border: {color: '#2a3a50'}
+      },
+      x: {
+        ticks: {color: '#7a8fa0', font: {family: 'IBM Plex Mono', size: 9}},
+        grid: {display: false},
+        border: {color: '#2a3a50'}
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('engagementChart'), {
+  type: 'line',
+  data: {
+    labels: ['03/06', '11/06'],
+    datasets: [{
+      label: 'Engagement (K)',
+      data: [612, 900],
+      borderColor: '#69f0ae',
+      backgroundColor: 'rgba(105,240,174,0.1)',
+      borderWidth: 3,
+      fill: true,
+      pointRadius: 6,
+      pointBackgroundColor: '#69f0ae',
+      pointBorderColor: '#0f1520',
+      pointBorderWidth: 2,
+      tension: 0.4
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: {
+        ticks: {
+          color: '#7a8fa0',
+          font: {family: 'IBM Plex Mono', size: 9},
+          callback: v => v + 'K'
+        },
+        grid: {color: 'rgba(42,58,80,0.4)'},
+        border: {color: '#2a3a50'}
+      },
+      x: {
+        ticks: {color: '#7a8fa0', font: {family: 'IBM Plex Mono', size: 9}},
+        grid: {display: false},
+        border: {color: '#2a3a50'}
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
