@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HG Campaign Dashboard — Social Performance Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #222230;
+    --accent1: #f0c040;
+    --accent2: #e05a8a;
+    --accent3: #4fc3f7;
+    --accent4: #69f0ae;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --tiktok: #ff4d6d;
+    --facebook: #4a90d9;
+    --inhouse: #a78bfa;
+    --kol: #f0c040;
+    --booking: #4fc3f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+  /* HEADER */
+  header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 40px; padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-left {}
+  .report-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 3px; color: var(--accent1);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 36px; font-weight: 800; line-height: 1;
+    background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .subtitle { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .header-right { text-align: right; }
+  .date-range {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+    color: var(--muted); line-height: 1.8;
+  }
+  .live-dot {
+    display: inline-block; width: 7px; height: 7px;
+    border-radius: 50%; background: var(--accent4);
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase;
+    margin: 32px 0 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* KPI GRID */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .kpi-card.yellow::before { background: var(--accent1); }
+  .kpi-card.pink::before { background: var(--accent2); }
+  .kpi-card.blue::before { background: var(--accent3); }
+  .kpi-card.green::before { background: var(--accent4); }
+  .kpi-card.purple::before { background: var(--inhouse); }
+  .kpi-card.orange::before { background: #ff9f43; }
+  .kpi-card.teal::before { background: #1dd1a1; }
+  .kpi-card.red::before { background: var(--tiktok); }
+  .kpi-card:hover { border-color: var(--muted); }
+  .kpi-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .kpi-value {
+    font-size: 28px; font-weight: 800; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-card.yellow .kpi-value { color: var(--accent1); }
+  .kpi-card.pink .kpi-value { color: var(--accent2); }
+  .kpi-card.blue .kpi-value { color: var(--accent3); }
+  .kpi-card.green .kpi-value { color: var(--accent4); }
+  .kpi-card.purple .kpi-value { color: var(--inhouse); }
+  .kpi-card.orange .kpi-value { color: #ff9f43; }
+  .kpi-card.teal .kpi-value { color: #1dd1a1; }
+  .kpi-card.red .kpi-value { color: var(--tiktok); }
+  .kpi-sub { font-size: 11px; color: var(--muted); }
+
+  /* 2-col layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 0; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* CHART CARDS */
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .chart-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .chart-title { font-size: 13px; font-weight: 700; color: var(--text); }
+  .chart-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .chart-wrap { position: relative; }
+
+  /* PLATFORM SPLIT */
+  .platform-split {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .platform-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .platform-name {
+    font-size: 14px; font-weight: 700; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .platform-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pm-item {}
+  .pm-label { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .pm-value { font-size: 18px; font-weight: 700; }
+
+  /* MBU TABLE */
+  .mbu-table { width: 100%; border-collapse: collapse; }
+  .mbu-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 2px; color: var(--muted);
+    text-transform: uppercase; text-align: left;
+    padding: 8px 12px; border-bottom: 1px solid var(--border);
+  }
+  .mbu-table th:not(:first-child) { text-align: right; }
+  .mbu-table td {
+    padding: 10px 12px; font-size: 13px;
+    border-bottom: 1px solid rgba(34,34,48,0.5);
+  }
+  .mbu-table td:not(:first-child) { text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .mbu-table tr:last-child td { border-bottom: none; }
+  .mbu-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .mbu-name { font-weight: 700; }
+  .er-bar-wrap { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .er-bar {
+    height: 4px; border-radius: 2px;
+    background: var(--border);
+    width: 60px; position: relative;
+  }
+  .er-fill { height: 100%; border-radius: 2px; position: absolute; left: 0; top: 0; }
+  .badge {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 4px; font-size: 10px; font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .badge-tiktok { background: rgba(255,77,109,0.15); color: var(--tiktok); }
+  .badge-fb { background: rgba(74,144,217,0.15); color: var(--facebook); }
+  .badge-mixed { background: rgba(240,192,64,0.15); color: var(--accent1); }
+
+  /* TOP CHANNELS */
+  .channel-list { display: flex; flex-direction: column; gap: 8px; }
+  .channel-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    background: var(--surface);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .channel-rank {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    width: 20px; text-align: center; flex-shrink: 0;
+  }
+  .channel-info { flex: 1; min-width: 0; }
+  .channel-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .channel-type { font-size: 10px; color: var(--muted); }
+  .channel-bar-wrap { width: 120px; flex-shrink: 0; }
+  .channel-views { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent1); text-align: right; margin-bottom: 4px; }
+  .ch-bar { height: 3px; background: var(--border); border-radius: 2px; }
+  .ch-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent1), var(--accent2)); }
+
+  /* CONTENT ANALYSIS */
+  .content-breakdown { display: flex; gap: 16px; align-items: stretch; }
+  .mention-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mention-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px;
+  }
+  .mention-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+  .mention-pct { font-size: 22px; font-weight: 800; }
+  .mention-count { font-size: 10px; color: var(--muted); }
+
+  /* INSIGHT BOX */
+  .insights {
+    background: linear-gradient(135deg, rgba(240,192,64,0.05), rgba(224,90,138,0.05));
+    border: 1px solid rgba(240,192,64,0.2);
+    border-radius: 8px; padding: 20px;
+  }
+  .insight-title {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 3px; color: var(--accent1);
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .insight-list { display: flex; flex-direction: column; gap: 10px; }
+  .insight-item {
+    display: flex; gap: 10px; font-size: 13px; line-height: 1.5;
+  }
+  .insight-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .insight-text { color: var(--text); }
+  .insight-text strong { color: var(--accent1); }
+  .insight-text em { color: var(--accent2); font-style: normal; }
+
+  /* FOOTER */
+  footer {
+    margin-top: 48px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .footer-right { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+  .tab-btn {
+    padding: 6px 14px; border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .tab-btn.active {
+    background: var(--accent1); color: var(--bg);
+    border-color: var(--accent1);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* OUTLIER CALLOUT */
+  .outlier {
+    background: rgba(224,90,138,0.08);
+    border: 1px solid rgba(224,90,138,0.25);
+    border-radius: 6px; padding: 12px 16px;
+    margin-top: 12px; font-size: 12px;
+  }
+  .outlier-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+    color: var(--accent2); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  /* animate in */
+  .kpi-card, .chart-card, .insights {
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .kpi-card:nth-child(1){animation-delay:.05s}
+  .kpi-card:nth-child(2){animation-delay:.1s}
+  .kpi-card:nth-child(3){animation-delay:.15s}
+  .kpi-card:nth-child(4){animation-delay:.2s}
+  .kpi-card:nth-child(5){animation-delay:.25s}
+  .kpi-card:nth-child(6){animation-delay:.3s}
+  .kpi-card:nth-child(7){animation-delay:.35s}
+  .kpi-card:nth-child(8){animation-delay:.4s}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="report-tag">Campaign Performance Report</div>
+      <h1>HƯƠNG GIANG × SANTONY</h1>
+      <div class="subtitle">Social Media Campaign — Tổng hợp hiệu quả nội dung đa kênh</div>
+    </div>
+    <div class="header-right">
+      <div class="date-range">
+        <span class="live-dot"></span>Cập nhật lần cuối: 03/06/2026<br>
+        Giai đoạn: 27/05 — 03/06/2026<br>
+        Tổng số bài: <strong style="color:var(--text)">241 posts</strong>
+      </div>
+    </div>
+  </header>
+
+  <!-- KPI ROW 1 -->
+  <div class="section-title">01 — Tổng quan chiến dịch</div>
+  <div class="kpi-grid">
+    <div class="kpi-card yellow">
+      <div class="kpi-label">Total Views</div>
+      <div class="kpi-value">18.3M</div>
+      <div class="kpi-sub">Tổng lượt xem</div>
+    </div>
+    <div class="kpi-card pink">
+      <div class="kpi-label">Total Engagement</div>
+      <div class="kpi-value">612K</div>
+      <div class="kpi-sub">Likes + Cmt + Share + Save</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Avg. ER</div>
+      <div class="kpi-value">3.35%</div>
+      <div class="kpi-sub">Engagement Rate tổng thể</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Total Posts</div>
+      <div class="kpi-value">241</div>
+      <div class="kpi-sub">Bài đăng toàn chiến dịch</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">Total Likes</div>
+      <div class="kpi-value">584K</div>
+      <div class="kpi-sub">Tổng Likes / Tim</div>
+    </div>
+    <div class="kpi-card teal">
+      <div class="kpi-label">Total Comments</div>
+      <div class="kpi-value">3,905</div>
+      <div class="kpi-sub">Tổng bình luận</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">Total Shares</div>
+      <div class="kpi-value">12,082</div>
+      <div class="kpi-sub">Tổng lượt chia sẻ</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Total Saves</div>
+      <div class="kpi-value">12,422</div>
+      <div class="kpi-sub">Tổng lượt lưu</div>
+    </div>
+  </div>
+
+  <!-- PLATFORM SPLIT -->
+  <div class="section-title">02 — Phân tích theo Nền tảng</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Views & Engagement theo Platform</div>
+        <div class="chart-meta">TikTok vs Facebook</div>
+      </div>
+      <div class="platform-split">
+        <div class="platform-card">
+          <div class="platform-name">
+            <span class="dot" style="background:var(--tiktok)"></span>
+            TikTok
+          </div>
+          <div class="platform-metrics">
+            <div class="pm-item">
+              <div class="pm-label">Posts</div>
+              <div class="pm-value" style="color:var(--tiktok)">197</div>
+            </div>
+            <div class="pm-item">
+              <div class="pm-label">Views</div>
+              <div class="pm-value" style="color:var(--tiktok)">13.7M</div>
+            </div>
+            <div class="pm-item">
+              <div class="pm-label">Engagement</div>
+              <div class="pm-value" style="color:var(--tiktok)">526K</div>
+            </div>
+            <div class="pm-item">
+              <div class="pm-label">Avg ER</div>
+              <div class="pm-value" style="color:var(--tiktok)">3.85%</div>
+            </div>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-name">
+            <span class="dot" style="background:var(--facebook)"></span>
+            Facebook
+          </div>
+          <div class="platform-metrics">
+            <div class="pm-item">
+              <div class="pm-label">Posts</div>
+              <div class="pm-value" style="color:var(--facebook)">44</div>
+            </div>
+            <div class="pm-item">
+              <div class="pm-label">Views</div>
+              <div class="pm-value" style="color:var(--facebook)">4.6M</div>
+            </div>
+            <div class="pm-item">
+              <div class="pm-label">Engagement</div>
+              <div class="pm-value" style="color:var(--facebook)">86K</div>
+            </div>
+            <div class="pm-item">
+              <div class="pm-label">Avg ER</div>
+              <div class="pm-value" style="color:var(--facebook)">1.86%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Phân bổ Views theo Platform</div>
+        <div class="chart-meta">% tỷ trọng</div>
+      </div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="platformChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANNEL TYPE -->
+  <div class="section-title">03 — Phân tích theo Loại Kênh</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Inhouse vs KOL/KOC vs Page/Booking</div>
+        <div class="chart-meta">Views & Engagement Rate</div>
+      </div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="channelTypeChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Engagement Rate theo Loại Kênh</div>
+        <div class="chart-meta">ER % tổng hợp</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px; margin-top:8px;">
+        <!-- Inhouse -->
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:13px;font-weight:600">Inhouse <span style="font-size:10px;color:var(--muted)">(171 posts)</span></span>
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:var(--inhouse)">2.03%</span>
+          </div>
+          <div style="height:6px;background:var(--border);border-radius:3px">
+            <div style="width:24%;height:100%;background:var(--inhouse);border-radius:3px"></div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">Views: 5.66M | Eng: 115K</div>
+        </div>
+        <!-- KOL -->
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:13px;font-weight:600">KOL/KOC <span style="font-size:10px;color:var(--muted)">(6 posts)</span></span>
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:var(--kol)">4.47%</span>
+          </div>
+          <div style="height:6px;background:var(--border);border-radius:3px">
+            <div style="width:53%;height:100%;background:var(--kol);border-radius:3px"></div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">Views: 1.02M | Eng: 45.7K</div>
+        </div>
+        <!-- Page -->
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:13px;font-weight:600">Page/Fanpage/Booking <span style="font-size:10px;color:var(--muted)">(64 posts)</span></span>
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:var(--booking)">3.89%</span>
+          </div>
+          <div style="height:6px;background:var(--border);border-radius:3px">
+            <div style="width:46%;height:100%;background:var(--booking);border-radius:3px"></div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px">Views: 11.6M | Eng: 451K</div>
+        </div>
+      </div>
+      <div class="outlier" style="margin-top:20px">
+        <div class="outlier-label">⚡ Key Insight</div>
+        KOL/KOC có ER cao nhất (4.47%) nhưng chỉ đóng góp 6 bài — potential chưa được khai thác tối đa
+      </div>
+    </div>
+  </div>
+
+  <!-- MBU BREAKDOWN -->
+  <div class="section-title">04 — Hiệu quả theo MBU / Team</div>
+  <div class="chart-card">
+    <div class="chart-header">
+      <div class="chart-title">Performance breakdown theo từng MBU</div>
+      <div class="chart-meta">Views / Engagement / ER</div>
+    </div>
+    <table class="mbu-table">
+      <thead>
+        <tr>
+          <th>MBU / Team</th>
+          <th>Platform</th>
+          <th>Posts</th>
+          <th>Total Views</th>
+          <th>Total Engagement</th>
+          <th>Avg ER</th>
+          <th>% Views</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="mbu-name">MBU Kiệt</span></td>
+          <td><span class="badge badge-tiktok">TikTok</span> <span class="badge badge-fb">FB</span></td>
+          <td><span style="font-family:'Space Mono',monospace">70</span></td>
+          <td><span style="font-family:'Space Mono',monospace;color:var(--accent1)">12.65M</span></td>
+          <td><span style="font-family:'Space Mono',monospace">497K</span></td>
+          <td>
+            <div class="er-bar-wrap">
+              <div class="er-bar"><div class="er-fill" style="width:46.6%;background:var(--accent1)"></div></div>
+              <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent1)">3.93%</span>
+            </div>
+          </td>
+          <td><span style="font-family:'Space Mono',monospace">69.1%</span></td>
+        </tr>
+        <tr>
+          <td><span class="mbu-name">MBU Facebook / Social Commerce</span></td>
+          <td><span class="badge badge-fb">Facebook</span></td>
+          <td><span style="font-family:'Space Mono',monospace">37</span></td>
+          <td><span style="font-family:'Space Mono',monospace;color:var(--facebook)">4.56M</span></td>
+          <td><span style="font-family:'Space Mono',monospace">73.7K</span></td>
+          <td>
+            <div class="er-bar-wrap">
+              <div class="er-bar"><div class="er-fill" style="width:19.3%;background:var(--facebook)"></div></div>
+              <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--facebook)">1.62%</span>
+            </div>
+          </td>
+          <td><span style="font-family:'Space Mono',monospace">24.9%</span></td>
+        </tr>
+        <tr>
+          <td><span class="mbu-name">Santony.news (Khác)</span></td>
+          <td><span class="badge badge-tiktok">TikTok</span></td>
+          <td><span style="font-family:'Space Mono',monospace">19</span></td>
+          <td><span style="font-family:'Space Mono',monospace;color:var(--accent4)">504.8K</span></td>
+          <td><span style="font-family:'Space Mono',monospace">33.3K</span></td>
+          <td>
+            <div class="er-bar-wrap">
+              <div class="er-bar"><div class="er-fill" style="width:78.5%;background:var(--accent4)"></div></div>
+              <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent4)">6.61%</span>
+            </div>
+          </td>
+          <td><span style="font-family:'Space Mono',monospace">2.8%</span></td>
+        </tr>
+        <tr>
+          <td><span class="mbu-name">MBU Livestream HCM</span></td>
+          <td><span class="badge badge-tiktok">TikTok</span></td>
+          <td><span style="font-family:'Space Mono',monospace">52</span></td>
+          <td><span style="font-family:'Space Mono',monospace;color:var(--inhouse)">388.7K</span></td>
+          <td><span style="font-family:'Space Mono',monospace">4.2K</span></td>
+          <td>
+            <div class="er-bar-wrap">
+              <div class="er-bar"><div class="er-fill" style="width:12.8%;background:var(--inhouse)"></div></div>
+              <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--inhouse)">1.08%</span>
+            </div>
+          </td>
+          <td><span style="font-family:'Space Mono',monospace">2.1%</span></td>
+        </tr>
+        <tr>
+          <td><span class="mbu-name">MBU Hoàng Phương</span></td>
+          <td><span class="badge badge-tiktok">TikTok</span></td>
+          <td><span style="font-family:'Space Mono',monospace">63</span></td>
+          <td><span style="font-family:'Space Mono',monospace;color:var(--muted)">209.1K</span></td>
+          <td><span style="font-family:'Space Mono',monospace">3.8K</span></td>
+          <td>
+            <div class="er-bar-wrap">
+              <div class="er-bar"><div class="er-fill" style="width:21.8%;background:var(--accent2)"></div></div>
+              <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2)">1.83%</span>
+            </div>
+          </td>
+          <td><span style="font-family:'Space Mono',monospace">1.1%</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="outlier">
+      <div class="outlier-label">⚠ Alert — MBU Livestream HCM</div>
+      52 bài đăng nhưng ER chỉ 1.08% và views 388K — cần review lại chất lượng nội dung và targeting. Tỷ lệ bài thiếu data (views = 0) cao bất thường.
+    </div>
+  </div>
+
+  <!-- TOP CHANNELS + CHART -->
+  <div class="section-title">05 — Top Kênh & Nội dung</div>
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Top 10 Kênh theo Views</div>
+        <div class="chart-meta">Có data view</div>
+      </div>
+      <div class="channel-list">
+        <div class="channel-row">
+          <div class="channel-rank">#1</div>
+          <div class="channel-info">
+            <div class="channel-name">CHAIEN HOTTREND</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">4.17M</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:100%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#2</div>
+          <div class="channel-info">
+            <div class="channel-name">Santony - Luxury Lingerie</div>
+            <div class="channel-type"><span class="badge badge-fb">Facebook</span> · Inhouse · MBU FB/SC</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">4.56M</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:97%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#3</div>
+          <div class="channel-info">
+            <div class="channel-name">BOSSGIRL BEAUTY</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">2.29M</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:55%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#4</div>
+          <div class="channel-info">
+            <div class="channel-name">Hương Giang (Official)</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · KOL · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">995.5K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:24%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#5</div>
+          <div class="channel-info">
+            <div class="channel-name">INORI ENTERTAINMENT</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">926.8K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:22%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#6</div>
+          <div class="channel-info">
+            <div class="channel-name">Starlight Showbiz</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">597.1K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:14%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#7</div>
+          <div class="channel-info">
+            <div class="channel-name">santony.news</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Inhouse</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">504.8K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:12%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#8</div>
+          <div class="channel-info">
+            <div class="channel-name">VN Beauty Pageant</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">330.7K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:8%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#9</div>
+          <div class="channel-info">
+            <div class="channel-name">Góc Khuất Showbiz</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">250.1K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:6%"></div></div>
+          </div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-rank">#10</div>
+          <div class="channel-info">
+            <div class="channel-name">DEVEE</div>
+            <div class="channel-type"><span class="badge badge-tiktok">TikTok</span> · Page/Booking · MBU Kiệt</div>
+          </div>
+          <div class="channel-bar-wrap">
+            <div class="channel-views">117.6K</div>
+            <div class="ch-bar"><div class="ch-fill" style="width:3%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Phân tích Loại Nội dung</div>
+        <div class="chart-meta">Video / Ảnh / Bài viết</div>
+      </div>
+      <div class="chart-wrap" style="height:180px">
+        <canvas id="contentTypeChart"></canvas>
+      </div>
+      <div style="margin-top:16px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="text-align:center;padding:12px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+            <div style="font-size:20px;font-weight:800;color:var(--accent3)">195</div>
+            <div style="font-size:10px;color:var(--muted)">Video</div>
+            <div style="font-size:10px;color:var(--accent3)">13.74M views</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+            <div style="font-size:20px;font-weight:800;color:var(--facebook)">37</div>
+            <div style="font-size:10px;color:var(--muted)">Bài viết</div>
+            <div style="font-size:10px;color:var(--facebook)">4.56M views</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--surface);border-radius:6px;border:1px solid var(--border)">
+            <div style="font-size:20px;font-weight:800;color:var(--muted)">9</div>
+            <div style="font-size:10px;color:var(--muted)">Ảnh</div>
+            <div style="font-size:10px;color:var(--muted)">8K views</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="chart-header" style="margin-bottom:10px">
+          <div class="chart-title">CTA vs Non-CTA Impact</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="padding:12px;background:var(--surface);border-radius:6px;border:1px solid rgba(105,240,174,0.2)">
+            <div style="font-size:10px;color:var(--accent4);margin-bottom:4px;font-family:'Space Mono',monospace">CÓ CTA (52 bài)</div>
+            <div style="font-size:16px;font-weight:700;color:var(--accent4)">72.4K avg views</div>
+            <div style="font-size:10px;color:var(--muted)">Eng/post: 1,187</div>
+          </div>
+          <div style="padding:12px;background:var(--surface);border-radius:6px;border:1px solid rgba(112,112,160,0.2)">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:4px;font-family:'Space Mono',monospace">KHÔNG CTA (154 bài)</div>
+            <div style="font-size:16px;font-weight:700">93.9K avg views</div>
+            <div style="font-size:10px;color:var(--muted)">Eng/post: 3,558</div>
+          </div>
+        </div>
+        <div class="outlier" style="margin-top:10px">
+          <div class="outlier-label">📊 Insight</div>
+          Bài không CTA có views và eng cao hơn — nội dung organic / storytelling đang perform tốt hơn hard-sell
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENTION ANALYSIS -->
+  <div class="section-title">06 — Mention & Brand Signals</div>
+  <div class="three-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Đề cập Hương Giang</div>
+      </div>
+      <div class="chart-wrap" style="height:140px">
+        <canvas id="hgChart"></canvas>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--accent1)">97.1%</div>
+          <div style="font-size:10px;color:var(--muted)">Có nhắc (234 bài)</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--muted)">2.9%</div>
+          <div style="font-size:10px;color:var(--muted)">Không nhắc (6 bài)</div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Đề cập Santony</div>
+      </div>
+      <div class="chart-wrap" style="height:140px">
+        <canvas id="santonyChart"></canvas>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--accent2)">90.5%</div>
+          <div style="font-size:10px;color:var(--muted)">Có nhắc (218 bài)</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--muted)">9.5%</div>
+          <div style="font-size:10px;color:var(--muted)">Không nhắc (22 bài)</div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Đề cập Pier No5</div>
+      </div>
+      <div class="chart-wrap" style="height:140px">
+        <canvas id="pierChart"></canvas>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--accent3)">5.8%</div>
+          <div style="font-size:10px;color:var(--muted)">Có nhắc (12 bài)</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--muted)">94.2%</div>
+          <div style="font-size:10px;color:var(--muted)">Không nhắc (193 bài)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRATEGIC INSIGHTS -->
+  <div class="section-title">07 — Strategic Insights</div>
+  <div class="insights">
+    <div class="insight-title">⚡ Campaign Intelligence — Key Takeaways</div>
+    <div class="insight-list">
+      <div class="insight-item">
+        <div class="insight-icon">🏆</div>
+        <div class="insight-text"><strong>MBU Kiệt là engine chính</strong> của chiến dịch: 69.1% tổng views (12.65M), ER 3.93% — nhưng tập trung nhiều vào Page/Booking thay vì diversify. Cần cân nhắc tăng tỷ trọng KOL trực tiếp.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">⚠️</div>
+        <div class="insight-text"><strong>CHAIEN HOTTREND</strong> có 1 bài viral 3.7M views nhưng bài đó <em>KHÔNG nhắc Hương Giang</em> — cần kiểm soát brief để đảm bảo brand safety và message consistency.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">📈</div>
+        <div class="insight-text"><strong>santony.news ER cao nhất (6.61%)</strong> với 19 bài — đây là owned channel đang perform tốt, nên tăng tần suất và đầu tư content quality để scale.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">🔴</div>
+        <div class="insight-text"><strong>MBU Livestream HCM</strong>: 52 bài, ER chỉ 1.08%, avg views thấp — phần lớn bài thiếu data view. Cần audit tracking và review lại KPI framework cho kênh này.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">💡</div>
+        <div class="insight-text"><strong>Pier No5 chỉ xuất hiện trong 5.8% bài</strong> — nếu đây là sản phẩm campaign chính, cần tăng brand mention và tích hợp product placement có chủ đích hơn vào content brief.</div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-text"><strong>Video overwhelmingly dominant</strong> (81% bài, 75% views) — tuy nhiên ảnh có ER thấp hơn đáng kể. <em>Nên loại bỏ format ảnh</em> khỏi brief cho giai đoạn tới để tối ưu allocation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">HG × Santony Campaign Report v1.0 · Data source: Data_Campaign_HG.xlsx · 241 posts analyzed</div>
+    <div class="footer-right">Generated 03/06/2026 · Confidential</div>
+  </footer>
+
+</div>
+
+<script>
+const chartDefaults = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      labels: {
+        color: '#7070a0',
+        font: { family: 'IBM Plex Mono', size: 10 },
+        padding: 12
+      }
+    },
+    tooltip: {
+      backgroundColor: '#16161f',
+      borderColor: '#222230',
+      borderWidth: 1,
+      titleColor: '#e8e8f0',
+      bodyColor: '#7070a0',
+      titleFont: { family: 'Plus Jakarta Sans', size: 12 },
+      bodyFont: { family: 'IBM Plex Mono', size: 11 }
+    }
+  }
+};
+
+// Platform doughnut
+new Chart(document.getElementById('platformChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['TikTok', 'Facebook'],
+    datasets: [{
+      data: [13668629, 4639200],
+      backgroundColor: ['rgba(255,77,109,0.8)', 'rgba(74,144,217,0.8)'],
+      borderColor: ['#ff4d6d', '#4a90d9'],
+      borderWidth: 1,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    cutout: '65%',
+    plugins: {
+      ...chartDefaults.plugins,
+      legend: { ...chartDefaults.plugins.legend, position: 'bottom' }
+    }
+  }
+});
+
+// Channel type bar
+new Chart(document.getElementById('channelTypeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Inhouse', 'KOL/KOC', 'Page/Fanpage\nBooking'],
+    datasets: [
+      {
+        label: 'Views (M)',
+        data: [5.66, 1.02, 11.63],
+        backgroundColor: ['rgba(167,139,250,0.7)', 'rgba(240,192,64,0.7)', 'rgba(79,195,247,0.7)'],
+        borderColor: ['#a78bfa', '#f0c040', '#4fc3f7'],
+        borderWidth: 1,
+        yAxisID: 'y',
+      }
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      y: {
+        ticks: { color: '#7070a0', font: { family: 'IBM Plex Mono', size: 9 }, callback: v => v + 'M' },
+        grid: { color: 'rgba(34,34,48,0.8)' },
+        border: { color: '#222230' }
+      },
+      x: {
+        ticks: { color: '#7070a0', font: { family: 'IBM Plex Mono', size: 9 } },
+        grid: { display: false },
+        border: { color: '#222230' }
+      }
+    }
+  }
+});
+
+// Content type doughnut
+new Chart(document.getElementById('contentTypeChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Video', 'Bài viết', 'Ảnh'],
+    datasets: [{
+      data: [13743184, 4556600, 8045],
+      backgroundColor: ['rgba(79,195,247,0.8)', 'rgba(74,144,217,0.8)', 'rgba(112,112,160,0.5)'],
+      borderColor: ['#4fc3f7', '#4a90d9', '#7070a0'],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    cutout: '60%',
+    plugins: {
+      ...chartDefaults.plugins,
+      legend: { ...chartDefaults.plugins.legend, position: 'right' }
+    }
+  }
+});
+
+// Mention charts
+function miniDonut(id, yes, no, color) {
+  new Chart(document.getElementById(id), {
+    type: 'doughnut',
+    data: {
+      labels: ['Có nhắc', 'Không nhắc'],
+      datasets: [{
+        data: [yes, no],
+        backgroundColor: [color + 'cc', 'rgba(34,34,48,0.8)'],
+        borderColor: [color, '#222230'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      cutout: '70%',
+      plugins: {
+        ...chartDefaults.plugins,
+        legend: { display: false }
+      }
+    }
+  });
+}
+miniDonut('hgChart', 234, 6, '#f0c040');
+miniDonut('santonyChart', 218, 22, '#e05a8a');
+miniDonut('pierChart', 12, 193, '#4fc3f7');
+</script>
+</body>
+</html>
