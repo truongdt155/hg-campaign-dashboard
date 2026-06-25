@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đào Tạo Livestream TikTok – Santony</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #FF0050;
+    --red-light: #FF3370;
+    --dark: #0a0a0f;
+    --dark2: #13131a;
+    --dark3: #1c1c28;
+    --dark4: #252535;
+    --accent: #00f2ea;
+    --accent2: #ff6b35;
+    --text: #e8e8f0;
+    --text-dim: #8888aa;
+    --gold: #f5c842;
+    --green: #00e676;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    background: var(--dark2);
+    padding: 60px 40px 50px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid #ffffff10;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, #ff005030 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 80% 80%, #00f2ea18 0%, transparent 60%);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #ff005020; border: 1px solid #ff005050;
+    border-radius: 40px; padding: 6px 18px;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--red-light);
+    margin-bottom: 20px; position: relative;
+  }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--red); animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .hero h1 span { color: var(--red); }
+  .hero h1 .tiktok { color: var(--accent); }
+  .hero-sub {
+    font-size: 15px; color: var(--text-dim);
+    max-width: 560px; margin: 0 auto 32px; line-height: 1.7;
+    position: relative;
+  }
+  .hero-stats {
+    display: flex; justify-content: center; gap: 32px;
+    flex-wrap: wrap; position: relative;
+  }
+  .hero-stat {
+    text-align: center;
+    background: #ffffff08; border: 1px solid #ffffff12;
+    border-radius: 12px; padding: 14px 24px;
+  }
+  .hero-stat .num { font-size: 24px; font-weight: 800; color: var(--accent); }
+  .hero-stat .lbl { font-size: 11px; color: var(--text-dim); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ===== NAV TABS ===== */
+  .tab-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark2);
+    border-bottom: 1px solid #ffffff10;
+    display: flex; gap: 0; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 16px 22px;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-dim); font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 13px; font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s; letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--red); border-bottom-color: var(--red); }
+  .tab-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--dark4); font-size: 10px;
+    margin-right: 6px; font-weight: 700;
+  }
+  .tab-btn.active .tab-num { background: #ff005030; color: var(--red); }
+
+  /* ===== SECTIONS ===== */
+  .section { display: none; padding: 40px; max-width: 1000px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== SECTION HEADER ===== */
+  .sec-header { margin-bottom: 32px; }
+  .sec-tag {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 8px;
+  }
+  .sec-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 800; line-height: 1.2;
+  }
+  .sec-desc { margin-top: 10px; color: var(--text-dim); font-size: 15px; line-height: 1.7; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--dark3);
+    border: 1px solid #ffffff0d;
+    border-radius: 16px; padding: 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #ffffff1a; }
+  .card-title {
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .icon-red { background: #ff005020; }
+  .icon-teal { background: #00f2ea15; }
+  .icon-gold { background: #f5c84220; }
+  .icon-green { background: #00e67620; }
+  .icon-purple { background: #9c27b020; }
+  .icon-orange { background: #ff6b3520; }
+
+  /* ===== GRID ===== */
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+
+  /* ===== LIST ===== */
+  .check-list { list-style: none; }
+  .check-list li {
+    padding: 9px 0; border-bottom: 1px solid #ffffff08;
+    font-size: 14px; line-height: 1.6; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .check-list li:last-child { border-bottom: none; }
+  .check-list li::before {
+    content: '▸';
+    color: var(--red); flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ===== FLOW ===== */
+  .flow {
+    display: flex; align-items: center; gap: 0;
+    flex-wrap: wrap; background: var(--dark3);
+    border-radius: 16px; padding: 24px 28px;
+    margin-bottom: 20px; border: 1px solid #ffffff0d;
+  }
+  .flow-step {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; flex: 1; min-width: 100px;
+    padding: 8px;
+  }
+  .flow-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--red); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800; margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+  .flow-label { font-size: 13px; font-weight: 600; }
+  .flow-arrow { color: var(--text-dim); font-size: 20px; flex-shrink: 0; }
+
+  /* ===== LABEL FORMULA ===== */
+  .formula {
+    background: var(--dark4); border: 1px solid #ff005030;
+    border-radius: 12px; padding: 20px 24px;
+    margin: 20px 0; font-size: 14px; line-height: 2;
+  }
+  .formula-title { font-size: 11px; color: var(--red); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .formula-eq { font-weight: 700; font-size: 15px; }
+  .f-plus { color: var(--text-dim); margin: 0 8px; }
+  .f-term { color: var(--accent); }
+  .f-highlight { color: var(--gold); }
+  .f-note { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+
+  /* ===== TABLE ===== */
+  .tbl-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #ffffff0d; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead { background: var(--dark4); }
+  th { padding: 12px 14px; text-align: left; font-weight: 700; color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+  td { padding: 11px 14px; border-top: 1px solid #ffffff08; }
+  tr:hover td { background: #ffffff04; }
+  .td-center { text-align: center; }
+  .pct { font-weight: 700; }
+  .pct-high { color: var(--green); }
+  .pct-mid { color: var(--gold); }
+  .pct-low { color: var(--text-dim); }
+
+  /* ===== TIMELINE ===== */
+  .timeline { position: relative; }
+  .tl-item {
+    display: flex; gap: 20px; margin-bottom: 8px;
+    padding: 16px; border-radius: 12px;
+    background: var(--dark3); border: 1px solid #ffffff0d;
+    transition: border-color 0.2s;
+  }
+  .tl-item:hover { border-color: #ffffff1a; }
+  .tl-time {
+    flex-shrink: 0; background: var(--red); color: white;
+    border-radius: 8px; padding: 4px 12px;
+    font-size: 12px; font-weight: 700; height: fit-content;
+    white-space: nowrap;
+  }
+  .tl-time.blue { background: #1877f2; }
+  .tl-time.teal { background: #008b8b; }
+  .tl-time.green { background: #2e7d32; }
+  .tl-time.gold { background: #b8860b; }
+  .tl-content { flex: 1; }
+  .tl-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .tl-steps { list-style: none; }
+  .tl-steps li { font-size: 13px; color: var(--text-dim); padding: 3px 0; display: flex; gap: 8px; }
+  .tl-steps li::before { content: '—'; color: var(--red); flex-shrink: 0; }
+
+  /* ===== ROLES ===== */
+  .role-card {
+    background: var(--dark3);
+    border: 1px solid #ffffff0d;
+    border-radius: 14px; padding: 22px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .role-card:hover { border-color: #ffffff1a; }
+  .role-badge {
+    position: absolute; top: 0; right: 0;
+    background: var(--red); color: white;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 5px 14px; border-radius: 0 14px 0 14px; text-transform: uppercase;
+  }
+  .role-icon { font-size: 32px; margin-bottom: 12px; }
+  .role-name { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+  .role-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* ===== KPI CARDS ===== */
+  .kpi-group { margin-bottom: 24px; }
+  .kpi-group-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid #ffffff0d;
+  }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .kpi {
+    background: var(--dark3); border: 1px solid #ffffff0d;
+    border-radius: 10px; padding: 14px;
+    transition: border-color 0.2s;
+  }
+  .kpi:hover { border-color: #ffffff1a; }
+  .kpi-label { font-size: 12px; color: var(--text-dim); margin-bottom: 6px; }
+  .kpi-val { font-size: 20px; font-weight: 800; }
+  .kpi-val.red { color: var(--red); }
+  .kpi-val.teal { color: var(--accent); }
+  .kpi-val.gold { color: var(--gold); }
+  .kpi-val.green { color: var(--green); }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight {
+    border-left: 3px solid var(--red);
+    background: #ff005010; border-radius: 0 10px 10px 0;
+    padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.7;
+  }
+  .highlight.teal { border-left-color: var(--accent); background: #00f2ea0d; }
+  .highlight.gold { border-left-color: var(--gold); background: #f5c84210; }
+  .highlight.green { border-left-color: var(--green); background: #00e67610; }
+
+  /* ===== SCRIPT BLOCK ===== */
+  .script-block {
+    background: var(--dark4); border-radius: 12px;
+    padding: 18px 20px; margin: 10px 0;
+    border: 1px solid #ffffff0d;
+  }
+  .script-phase {
+    font-size: 11px; color: var(--red); font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .script-steps { list-style: none; counter-reset: sc; }
+  .script-steps li {
+    counter-increment: sc;
+    display: flex; gap: 12px; padding: 8px 0;
+    border-bottom: 1px solid #ffffff07; font-size: 14px;
+  }
+  .script-steps li:last-child { border-bottom: none; }
+  .script-steps li::before {
+    content: counter(sc);
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #ff005025; color: var(--red);
+    font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ===== CHECKLIST ACCORDION ===== */
+  .accordion { margin-bottom: 12px; }
+  .acc-header {
+    background: var(--dark3); border: 1px solid #ffffff0d;
+    border-radius: 12px; padding: 16px 20px;
+    cursor: pointer; display: flex; align-items: center; gap: 14px;
+    transition: border-color 0.2s; user-select: none;
+  }
+  .acc-header:hover { border-color: #ffffff1a; }
+  .acc-header.open { border-radius: 12px 12px 0 0; border-bottom-color: transparent; }
+  .acc-icon { font-size: 22px; }
+  .acc-title { font-size: 15px; font-weight: 700; flex: 1; }
+  .acc-arrow { color: var(--text-dim); transition: transform 0.2s; font-size: 12px; }
+  .acc-header.open .acc-arrow { transform: rotate(180deg); }
+  .acc-body {
+    display: none; background: var(--dark3);
+    border: 1px solid #ffffff0d; border-top: none;
+    border-radius: 0 0 12px 12px; padding: 18px 20px;
+  }
+  .acc-body.open { display: block; }
+  .acc-check { list-style: none; }
+  .acc-check li {
+    display: flex; gap: 10px; padding: 7px 0;
+    border-bottom: 1px solid #ffffff07; font-size: 13px; line-height: 1.5;
+  }
+  .acc-check li:last-child { border-bottom: none; }
+  .acc-check li::before { content: '☐'; color: var(--red); flex-shrink: 0; font-size: 14px; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 60px; padding: 30px 40px;
+    border-top: 1px solid #ffffff0d;
+    text-align: center; color: var(--text-dim); font-size: 13px;
+  }
+  .footer strong { color: var(--text); }
+
+  /* ===== RACE RULES (3 nguyên tắc) ===== */
+  .race-rules { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+  .race-rule {
+    display: flex; gap: 16px; background: var(--dark3);
+    border: 1px solid #ffffff0d; border-radius: 14px; padding: 18px 20px;
+    border-left: 3px solid var(--rr-color, var(--red));
+  }
+  .race-rule:nth-child(1) { --rr-color: #00e676; }
+  .race-rule:nth-child(2) { --rr-color: #7F77DD; }
+  .race-rule:nth-child(3) { --rr-color: #f5c842; }
+  .race-num {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--rr-color, var(--red)); color: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800;
+  }
+  .race-rule-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .race-rule-desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+  .race-rule-desc strong { color: var(--text); }
+
+  /* ===== TRAFFIC RACE SIMULATOR ===== */
+  .race-sim {
+    background: var(--dark4); border: 1px solid #ffffff0d;
+    border-radius: 16px; padding: 22px 24px; margin-bottom: 20px;
+  }
+  .race-sim-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 16px;
+  }
+  .race-sim-meta {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    background: var(--dark3); border: 1px solid #ffffff0d;
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 18px;
+  }
+  .race-tag {
+    font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 20px;
+    color: var(--text-dim); background: #ffffff08;
+  }
+  .race-tag.lvl { background: #00e67620; color: var(--green); }
+  .race-tag.test { margin-left: auto; background: #ff005020; color: var(--red-light); }
+  .race-bars { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .race-bar-row { display: flex; align-items: center; gap: 12px; }
+  .race-bar-name { width: 100px; flex-shrink: 0; font-size: 13px; font-weight: 600; }
+  .race-bar-name.me { color: var(--accent); }
+  .race-bar-track { flex: 1; height: 30px; background: var(--dark2); border-radius: 7px; overflow: hidden; position: relative; }
+  .race-bar-fill {
+    height: 100%; border-radius: 7px;
+    display: flex; align-items: center; padding-left: 12px;
+    font-size: 12px; font-weight: 700; color: #fff;
+    transition: width 0.6s ease;
+  }
+  .race-bar-score { width: 36px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: var(--text-dim); }
+  .race-sim-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding-top: 14px; border-top: 1px solid #ffffff0d; }
+  .race-winner { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gold); font-weight: 600; }
+  .race-refresh {
+    background: var(--dark3); border: 1px solid #ffffff15; color: var(--text-dim);
+    font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 8px;
+    cursor: pointer; transition: all 0.2s; font-family: 'Be Vietnam Pro', sans-serif;
+  }
+  .race-refresh:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== SCHOOL ANALOGY ===== */
+  .analogy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px; }
+  .analogy-card { background: var(--dark3); border: 1px solid #ffffff0d; border-radius: 14px; padding: 20px 22px; }
+  .analogy-card-hd {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #ffffff0d;
+  }
+  .analogy-row { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; font-size: 14px; }
+  .analogy-row strong { color: var(--accent2); flex-shrink: 0; min-width: 64px; }
+  .analogy-card:last-child .analogy-row strong { color: var(--red-light); }
+  .analogy-row span { color: var(--text-dim); }
+
+  /* ===== SKU ROLE MINI CARDS ===== */
+  .sku-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 16px 0; }
+  .sku-card {
+    background: var(--dark3); border: 1px solid #ffffff0d; border-radius: 12px;
+    padding: 16px; border-top: 3px solid var(--sku-color, var(--red));
+  }
+  .sku-card.hero { --sku-color: var(--red); }
+  .sku-card.traffic { --sku-color: var(--accent); }
+  .sku-card.conversion { --sku-color: var(--gold); }
+  .sku-card.profit { --sku-color: var(--green); }
+  .sku-card.combo { --sku-color: #9c27b0; }
+  .sku-icon { font-size: 22px; margin-bottom: 8px; }
+  .sku-name { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+  .sku-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.55; margin-bottom: 8px; }
+  .sku-crit { font-size: 11.5px; color: var(--text-dim); border-top: 1px dashed #ffffff15; padding-top: 8px; }
+  .sku-crit strong { color: var(--text); font-weight: 600; }
+
+  .loop-order {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 6px; background: var(--dark4); border-radius: 12px; padding: 16px;
+    margin: 14px 0; font-size: 13px; font-weight: 700;
+  }
+  .loop-order .lo-step { padding: 6px 14px; border-radius: 20px; background: #ffffff08; }
+  .loop-order .lo-arrow { color: var(--text-dim); font-size: 14px; }
+
+  /* ===== COMPARISON 2-COLUMN (Loop 3' approaches) ===== */
+  .compare-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; margin: 16px 0; }
+  .compare-card {
+    background: var(--dark3); border: 1px solid #ffffff0d; border-radius: 14px;
+    overflow: hidden; display: flex; flex-direction: column;
+  }
+  .compare-hd {
+    padding: 16px 20px; font-weight: 800; font-size: 15px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid #ffffff0d;
+  }
+  .compare-hd.a { background: linear-gradient(90deg, #ff005020, transparent); }
+  .compare-hd.b { background: linear-gradient(90deg, #00f2ea15, transparent); }
+  .compare-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .compare-badge.a { background: var(--red); color: #fff; }
+  .compare-badge.b { background: var(--accent); color: #0a0a0f; }
+  .compare-body { padding: 18px 20px; flex: 1; }
+  .compare-row { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid #ffffff07; font-size: 13px; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-time { flex-shrink: 0; width: 78px; font-weight: 700; color: var(--text-dim); font-size: 11.5px; padding-top: 1px; }
+  .compare-step strong { display: block; font-size: 13px; margin-bottom: 2px; }
+  .compare-step span { color: var(--text-dim); font-size: 12.5px; line-height: 1.5; }
+  .compare-fit {
+    margin: 0 20px 18px; padding: 10px 14px; border-radius: 8px;
+    font-size: 12.5px; line-height: 1.6; color: var(--text-dim);
+  }
+  .compare-fit.a { background: #ff005010; }
+  .compare-fit.b { background: #00f2ea0d; }
+  .compare-fit strong { color: var(--text); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .section { padding: 24px 16px; }
+    .hero { padding: 40px 20px 32px; }
+    .flow { padding: 16px; }
+    .flow-arrow { display: none; }
+    .flow { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <span class="live-dot"></span>
+    Tài liệu đào tạo nội bộ
+  </div>
+  <h1>Vận Hành & Host<br><span class="tiktok">TikTok</span> <span>Livestream</span></h1>
+  <p class="hero-sub">Tổng hợp kiến thức vận hành phiên live – từ thuật toán đến kịch bản, từ setup đến đọc dữ liệu</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">4</div><div class="lbl">Module đào tạo</div></div>
+    <div class="hero-stat"><div class="num">3</div><div class="lbl">Bước quy trình</div></div>
+    <div class="hero-stat"><div class="num">4</div><div class="lbl">Vai trò nhân sự</div></div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('tab1', this)"><span class="tab-num">1</span>Thuật Toán TikTok</button>
+  <button class="tab-btn" onclick="switchTab('tab2', this)"><span class="tab-num">2</span>Tiến Trình Live</button>
+  <button class="tab-btn" onclick="switchTab('tab3', this)"><span class="tab-num">3</span>Setup Trước Live</button>
+  <button class="tab-btn" onclick="switchTab('tab4', this)"><span class="tab-num">4</span>Đọc Dữ Liệu</button>
+</div>
+
+<!-- ===================== TAB 1 ===================== -->
+<div id="tab1" class="section active">
+  <div class="sec-header">
+    <div class="sec-tag">Module 01</div>
+    <div class="sec-title">Hiểu Thuật Toán & Cơ Chế Phòng Live</div>
+    <div class="sec-desc">Mọi câu nói, hành động trên Livestream phải xuất phát từ việc thấu hiểu thuật toán TikTok. Đây là nền tảng để xây dựng toàn bộ chiến lược.</div>
+  </div>
+
+  <!-- Quy trình -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-red">🔄</div>Quy Trình Cốt Lõi</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-label">Học<br>Thuật Toán</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-label">Viết<br>Kịch Bản</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-label">Viết<br>Lời Thoại</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-label">Phân Tích<br>Dữ Liệu</div></div>
+    </div>
+    <div class="highlight gold">⚠️ <strong>Live fail không phải do lời thoại, deal hay quà tặng</strong> – mà do chưa hiểu thuật toán và chuẩn bị chưa kỹ cho phiên live.</div>
+  </div>
+
+  <!-- Mục tiêu -->
+  <div class="grid3" style="margin-bottom:20px">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title"><div class="card-icon icon-teal">🎯</div>Với TikTok</div>
+      <ul class="check-list">
+        <li>Tạo kênh bán hàng</li>
+        <li>Thu tiền hoa hồng</li>
+        <li>Thu tiền quảng cáo</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title"><div class="card-icon icon-gold">🏪</div>Với Nhà Bán</div>
+      <ul class="check-list">
+        <li>Bán hàng trực tiếp</li>
+        <li>Đánh dấu KH tiềm năng</li>
+        <li>Tiếp cận khách hàng mới</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title"><div class="card-icon icon-purple">👥</div>Với Khách Hàng</div>
+      <ul class="check-list">
+        <li>Giải trí</li>
+        <li>Mua hàng</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Cơ chế đua ngựa - 3 nguyên tắc -->
+  <div class="card">
+    <div class="card-title" style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.3px;margin-bottom:18px"><div class="card-icon icon-green" style="width:48px;height:48px;font-size:24px;border-radius:12px">🏇</div>Nguyên Lý "Đua Ngựa" — Cách TikTok Phân Bổ Traffic</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:18px;line-height:1.7">TikTok không phát traffic ngẫu nhiên. Mỗi phòng live phải <strong style="color:var(--text)">"đua"</strong> với các phòng cùng nhóm để giành traffic — dựa trên 3 nguyên tắc sau:</p>
+
+    <div class="race-rules">
+      <div class="race-rule">
+        <div class="race-num">1</div>
+        <div>
+          <div class="race-rule-title">TikTok nhóm phòng live vào cùng 1 đường đua</div>
+          <div class="race-rule-desc">Phải cùng <strong>Ngành hàng + Ngách</strong> · cùng <strong>Hạng (level)</strong> · cùng <strong>Khung giờ live</strong>. Chỉ những phòng đủ 3 yếu tố mới được so sánh với nhau.</div>
+        </div>
+      </div>
+      <div class="race-rule">
+        <div class="race-num">2</div>
+        <div>
+          <div class="race-rule-title">TikTok ra "đề thi" riêng cho từng hạng</div>
+          <div class="race-rule-desc">Mỗi level phòng phải đạt chỉ số khác nhau — như đề thi theo cấp học. Phòng nào đạt điểm cao hơn theo đề của cấp mình sẽ được TikTok cấp thêm traffic.</div>
+        </div>
+      </div>
+      <div class="race-rule">
+        <div class="race-num">3</div>
+        <div>
+          <div class="race-rule-title">TikTok đo điểm real-time & phân bổ traffic</div>
+          <div class="race-rule-desc">Liên tục đo chỉ số các phòng trong cùng nhóm. Phòng nào đang dẫn điểm → nhận thêm traffic như phần thưởng. Cuộc đua diễn ra suốt phiên live.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mô phỏng cuộc đua -->
+    <div class="race-sim-title">Mô Phỏng — Cuộc Đua Traffic Real-Time</div>
+    <div class="race-sim">
+      <div class="race-sim-meta">
+        <span class="race-tag lvl">Nhóm: Nội Y Nữ</span>
+        <span class="race-tag">Hạng: Mới</span>
+        <span class="race-tag">19:00 – 21:00</span>
+        <span class="race-tag test">Đề thi: Giữ chân + Vào phòng</span>
+      </div>
+      <div class="race-bars" id="raceBars">
+        <div class="race-bar-row">
+          <div class="race-bar-name me">Phòng A (mình)</div>
+          <div class="race-bar-track"><div class="race-bar-fill" style="width:72%;background:linear-gradient(90deg,#0F6E56,#1D9E75)">72 điểm</div></div>
+          <div class="race-bar-score">72</div>
+        </div>
+        <div class="race-bar-row">
+          <div class="race-bar-name">Phòng B</div>
+          <div class="race-bar-track"><div class="race-bar-fill" style="width:55%;background:linear-gradient(90deg,#854F0B,#BA7517)">55 điểm</div></div>
+          <div class="race-bar-score">55</div>
+        </div>
+        <div class="race-bar-row">
+          <div class="race-bar-name">Phòng C</div>
+          <div class="race-bar-track"><div class="race-bar-fill" style="width:48%;background:linear-gradient(90deg,#3C3489,#7F77DD)">48 điểm</div></div>
+          <div class="race-bar-score">48</div>
+        </div>
+        <div class="race-bar-row">
+          <div class="race-bar-name">Phòng D</div>
+          <div class="race-bar-track"><div class="race-bar-fill" style="width:31%;background:linear-gradient(90deg,#791F1F,#A32D2D)">31 điểm</div></div>
+          <div class="race-bar-score">31</div>
+        </div>
+      </div>
+      <div class="race-sim-footer">
+        <div class="race-winner">🏆 Phòng A đang dẫn đầu → <span style="color:var(--green)">+Traffic</span></div>
+        <button class="race-refresh" onclick="refreshRace()">⟲ Làm mới</button>
+      </div>
+    </div>
+
+    <!-- So sánh hệ thống đề thi -->
+    <div class="race-sim-title">"Đề Thi" Theo Cấp Level — Chỉ Số Được Tính Điểm Khác Nhau</div>
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="analogy-card-hd">🏫 Trường Học</div>
+        <div class="analogy-row"><strong>Cấp 1</strong><span>— Cộng trừ nhân chia</span></div>
+        <div class="analogy-row"><strong>Cấp 2</strong><span>— Giải phương trình</span></div>
+        <div class="analogy-row"><strong>Cấp 3</strong><span>— Tích phân, vi phân</span></div>
+        <div class="analogy-row"><strong>Đại học</strong><span>— Nghiên cứu chuyên sâu</span></div>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-card-hd">📱 TikTok Live</div>
+        <div class="analogy-row"><strong>Phòng Mới</strong><span>— Giữ chân + Vào phòng</span></div>
+        <div class="analogy-row"><strong>Phòng TB</strong><span>— Tương tác + Xem SP</span></div>
+        <div class="analogy-row"><strong>Phòng Lớn</strong><span>— Bỏ giỏ + Đặt hàng</span></div>
+        <div class="analogy-row"><strong>Mega Live</strong><span>— GMV + Tỉ lệ thành công</span></div>
+      </div>
+    </div>
+    <div class="highlight gold">💡 <strong>Kết luận thực chiến:</strong> Phòng Mới mà tập trung thúc đơn sớm = đang làm bài "đề cấp 3" trong khi chưa qua được "đề cấp 1". TikTok sẽ không cấp thêm traffic dù GMV có tốt. Phải làm đúng đề của cấp mình trước.</div>
+  </div>
+
+  <!-- Công thức Label -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-teal">🏷️</div>Cách TikTok Gắn Nhãn Phòng Live</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:16px">TikTok không hiểu sản phẩm như con người. Nó xây dựng <strong>nhãn (Label)</strong> của phòng Live dựa trên 3 lớp dữ liệu:</p>
+    <div class="grid3" style="margin-bottom:16px">
+      <div class="script-block">
+        <div class="script-phase">Lớp 1 – Nhãn sản phẩm & ngành hàng</div>
+        <ul class="check-list">
+          <li>Sản phẩm đang bán là gì?</li>
+          <li>Thuộc ngành hàng nào?</li>
+          <li>Giá bán bao nhiêu?</li>
+          <li>Phân khúc KH thường mua?</li>
+        </ul>
+      </div>
+      <div class="script-block">
+        <div class="script-phase">Lớp 2 – Nhãn KH truy cập phiên Live</div>
+        <ul class="check-list">
+          <li>Giới tính, độ tuổi, khu vực</li>
+          <li>Hành vi mua sắm</li>
+          <li>Hành vi xem video</li>
+        </ul>
+      </div>
+      <div class="script-block">
+        <div class="script-phase">Lớp 3 – Nhãn KH ở lại & tương tác ⚡</div>
+        <ul class="check-list">
+          <li>Ai xem lâu? Ai comment?</li>
+          <li>Ai follow? Ai xem giỏ?</li>
+          <li>Ai thêm giỏ? Ai mua hàng?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="formula">
+      <div class="formula-title">Công thức Label Phòng Live</div>
+      <div class="formula-eq">
+        <span class="f-term">Label SP + Ngành hàng</span>
+        <span class="f-plus">+</span>
+        <span class="f-term">Label Người Xem</span>
+        <span class="f-plus">+</span>
+        <span class="f-highlight">Label Người Tương Tác</span>
+        <span class="f-plus">+</span>
+        <span class="f-highlight">Label Người Mua Hàng</span>
+      </div>
+      <div class="f-note">⚡ <strong style="color:var(--gold)">Label Người Tương Tác & Người Mua Hàng có trọng số cao nhất</strong></div>
+    </div>
+  </div>
+
+  <!-- Chỉ số theo tiến trình KH -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-teal">📊</div>Các Chỉ Số Cốt Lõi Theo Tiến Trình Khách Hàng</div>
+    <style>
+      .kpi-wrap { padding: 4px 0; }
+      .kpi-sec-hd { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #8888aa; padding: 10px 0 5px; border-bottom: 1px solid #ffffff0d; margin-bottom: 6px; }
+      .kpi-row { display: flex; gap: 8px; margin-bottom: 4px; align-items: stretch; }
+      .kpi-lbl { width: 140px; flex-shrink: 0; display: flex; align-items: center; }
+      .kpi-lbl-txt { font-size: 11px; color: #8888aa; line-height: 1.4; }
+      .kpi-inner { border-left: 3px solid var(--kpi-bd); padding: 9px 13px; border-radius: 0 8px 8px 0; background: var(--kpi-bg); flex: 1; }
+      .kpi-inner-name { font-size: 13px; font-weight: 600; color: #e8e8f0; margin-bottom: 3px; }
+      .kpi-inner-sub  { font-size: 11px; color: #8888aa; margin-bottom: 6px; }
+      .kpi-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+      .kchip { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--kc-bd); color: var(--kc-txt); background: var(--kc-bg); white-space: nowrap; }
+      .ks-traffic { --kpi-bd:#1D9E75; --kpi-bg:#04342C33; --kc-bg:#085041; --kc-bd:#0F6E56; --kc-txt:#9FE1CB; }
+      .ks-retain  { --kpi-bd:#185FA5; --kpi-bg:#042C5333; --kc-bg:#0C447C; --kc-bd:#185FA5; --kc-txt:#B5D4F4; }
+      .ks-engage  { --kpi-bd:#7F77DD; --kpi-bg:#26215C33; --kc-bg:#3C3489; --kc-bd:#534AB7; --kc-txt:#CECBF6; }
+      .ks-convert { --kpi-bd:#BA7517; --kpi-bg:#41240233; --kc-bg:#633806; --kc-bd:#854F0B; --kc-txt:#FAC775; }
+      .ks-close   { --kpi-bd:#E24B4A; --kpi-bg:#50131333; --kc-bg:#791F1F; --kc-bd:#A32D2D; --kc-txt:#F7C1C1; }
+      .kpi-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; padding-top: 10px; border-top: 1px solid #ffffff0d; }
+      .kpi-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #8888aa; }
+      .kpi-leg-dot  { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    </style>
+    <div class="kpi-wrap">
+
+      <div class="kpi-sec-hd">Giai đoạn 1 — Tiếp cận & Hiển thị</div>
+      <div class="kpi-row">
+        <div class="kpi-lbl"><span class="kpi-lbl-txt">KH thấy phiên live trên feed</span></div>
+        <div class="kpi-inner ks-traffic">
+          <div class="kpi-inner-name">Hiển thị & Tỉ lệ vào phòng</div>
+          <div class="kpi-inner-sub">Impression → click vào phiên live</div>
+          <div class="kpi-chips">
+            <span class="kchip ks-traffic">Lượt hiển thị (Impression)</span>
+            <span class="kchip ks-traffic">Tỉ lệ vào phòng</span>
+            <span class="kchip ks-traffic">Nguồn traffic: Free / Ads / Buff</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-sec-hd">Giai đoạn 2 — Giữ chân người xem</div>
+      <div class="kpi-row">
+        <div class="kpi-lbl"><span class="kpi-lbl-txt">KH ở lại xem live</span></div>
+        <div class="kpi-inner ks-retain">
+          <div class="kpi-inner-name">Giữ chân (Retention)</div>
+          <div class="kpi-inner-sub">Nền tảng để TikTok đẩy thêm traffic</div>
+          <div class="kpi-chips">
+            <span class="kchip ks-retain">Thời lượng xem trung bình</span>
+            <span class="kchip ks-retain">Lượt xem (Peak & trung bình)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-sec-hd">Giai đoạn 3 — Tương tác với phiên live</div>
+      <div class="kpi-row">
+        <div class="kpi-lbl"><span class="kpi-lbl-txt">KH phản hồi với Host</span></div>
+        <div class="kpi-inner ks-engage">
+          <div class="kpi-inner-name">Tương tác cộng đồng</div>
+          <div class="kpi-inner-sub">Tín hiệu Label — TikTok xác định đối tượng phòng</div>
+          <div class="kpi-chips">
+            <span class="kchip ks-engage">Thả tim</span>
+            <span class="kchip ks-engage">Bình luận (Comment)</span>
+            <span class="kchip ks-engage">Follow mới</span>
+            <span class="kchip ks-engage">Share</span>
+            <span class="kchip ks-engage">Huy hiệu nhóm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-sec-hd">Giai đoạn 4 — Tương tác với sản phẩm</div>
+      <div class="kpi-row">
+        <div class="kpi-lbl"><span class="kpi-lbl-txt">KH xem xét mua hàng</span></div>
+        <div class="kpi-inner ks-convert">
+          <div class="kpi-inner-name">Điều hướng sản phẩm</div>
+          <div class="kpi-inner-sub">Chuyển từ xem → quan tâm SP cụ thể</div>
+          <div class="kpi-chips">
+            <span class="kchip ks-convert">Tỉ lệ click sản phẩm</span>
+            <span class="kchip ks-convert">Tỉ lệ xem giỏ hàng</span>
+            <span class="kchip ks-convert">Tỉ lệ Add to Cart</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-sec-hd">Giai đoạn 5 — Chốt đơn & Hoàn thành</div>
+      <div class="kpi-row">
+        <div class="kpi-lbl"><span class="kpi-lbl-txt">KH thanh toán thành công</span></div>
+        <div class="kpi-inner ks-close">
+          <div class="kpi-inner-name">Chốt đơn → GMV</div>
+          <div class="kpi-inner-sub">Đích đến cuối — doanh thu & chất lượng đơn</div>
+          <div class="kpi-chips">
+            <span class="kchip ks-close">Tỉ lệ đặt hàng thành công</span>
+            <span class="kchip ks-close">GMV</span>
+            <span class="kchip ks-close">GMV / giờ</span>
+            <span class="kchip ks-close">Tỉ lệ hủy đơn</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-legend">
+        <div class="kpi-leg-item"><div class="kpi-leg-dot" style="background:#1D9E75"></div>Traffic & Hiển thị</div>
+        <div class="kpi-leg-item"><div class="kpi-leg-dot" style="background:#185FA5"></div>Giữ chân</div>
+        <div class="kpi-leg-item"><div class="kpi-leg-dot" style="background:#7F77DD"></div>Tương tác</div>
+        <div class="kpi-leg-item"><div class="kpi-leg-dot" style="background:#BA7517"></div>Điều hướng SP</div>
+        <div class="kpi-leg-item"><div class="kpi-leg-dot" style="background:#E24B4A"></div>Chốt đơn</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phân loại phòng live -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-gold">📊</div>Phân Loại Phòng Live</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Cấp độ</th><th>Quy mô người xem</th><th>Đặc điểm</th></tr></thead>
+        <tbody>
+          <tr><td>🟢 Cấp 1 – Mới</td><td>Dưới 500 người/phiên</td><td>Ưu tiên tỉ lệ giữ chân & tương tác</td></tr>
+          <tr><td>🟡 Cấp 2 – TB</td><td>500 – 10.000 người/phiên</td><td>Cân bằng tương tác & chốt đơn</td></tr>
+          <tr><td>🟠 Cấp 3 – Lớn</td><td>Trên 10.000 người/phiên</td><td>Tối ưu tỉ lệ chuyển đổi GMV</td></tr>
+          <tr><td>🔴 Cấp 4 – Mega</td><td>Trên 100.000 người/phiên</td><td>Quy mô chiến dịch, deal cực sốc</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight teal">🎯 3 tiêu chí để TikTok nhóm phòng live vào cùng nhóm cạnh tranh: <strong>Ngành nghề + Cấp độ phòng + Khung giờ live</strong> – chỉ cùng 3 yếu tố mới so sánh với nhau.</div>
+  </div>
+
+  <!-- Chỉ số ưu tiên theo level -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-gold">⭐</div>Chỉ Số Cần Tối Ưu Theo Level Phòng Live</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:6px;line-height:1.7">Mỗi level phòng live được TikTok đánh giá theo <strong style="color:var(--text)">bộ chỉ số ưu tiên khác nhau</strong>. Tối ưu sai chỉ số = lãng phí nguồn lực, không lên level được.</p>
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px">⭐ = mức độ quan trọng của chỉ số với phòng live ở level đó (càng nhiều sao = TikTok càng coi trọng)</p>
+
+    <!-- Bảng sao chi tiết -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #ffffff0d">Bảng Chi Tiết Mức Độ Ưu Tiên Chỉ Số Theo Level</div>
+    <div class="tbl-wrap" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:180px">Chỉ số</th>
+            <th class="td-center" style="min-width:90px">🟢 Mới</th>
+            <th class="td-center" style="min-width:90px">🟡 TB</th>
+            <th class="td-center" style="min-width:90px">🟠 Lớn</th>
+            <th class="td-center" style="min-width:90px">🔴 Mega</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tỉ lệ giữ chân người xem</strong><br><span style="font-size:11px;color:var(--text-dim)">Thời lượng xem trung bình</span></td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★</td>
+          </tr>
+          <tr>
+            <td><strong>Tỉ lệ vào phòng</strong><br><span style="font-size:11px;color:var(--text-dim)">Từ impression → vào phòng live</span></td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★</td>
+          </tr>
+          <tr>
+            <td><strong>Tỉ lệ tương tác</strong><br><span style="font-size:11px;color:var(--text-dim)">Follow, comment, tim, share</span></td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★</td>
+          </tr>
+          <tr>
+            <td><strong>Tỉ lệ xem sản phẩm</strong><br><span style="font-size:11px;color:var(--text-dim)">Click vào giỏ / xem chi tiết SP</span></td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★★</td>
+          </tr>
+          <tr>
+            <td><strong>Tỉ lệ bỏ sản phẩm vào giỏ</strong><br><span style="font-size:11px;color:var(--text-dim)">Add to cart</span></td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+          </tr>
+          <tr>
+            <td><strong>Tỉ lệ đặt hàng thành công</strong><br><span style="font-size:11px;color:var(--text-dim)">Checkout → GMV</span></td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★</td>
+            <td class="td-center" style="color:var(--text-dim);letter-spacing:2px">★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+            <td class="td-center" style="color:var(--gold);letter-spacing:2px">★★★★★</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Level cards tóm tắt -->
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #ffffff0d">Chiến Lược Tối Ưu Theo Từng Level</div>
+    <div class="grid2" style="margin-bottom:16px">
+      <div style="background:var(--dark4);border:1px solid #00e67620;border-radius:14px;padding:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#00e676;flex-shrink:0"></div>
+          <div style="font-size:15px;font-weight:800">Phòng Mới</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-left:auto">&lt; 500 người</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">Ưu tiên hàng đầu: <strong style="color:var(--green)">giữ chân & kéo người vào phòng</strong>. TikTok cần thấy phòng có khả năng giữ người xem trước khi đẩy thêm traffic. Chưa cần tỉ lệ đặt hàng cao.</div>
+      </div>
+      <div style="background:var(--dark4);border:1px solid #f5c84220;border-radius:14px;padding:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#f5c842;flex-shrink:0"></div>
+          <div style="font-size:15px;font-weight:800">Phòng TB</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-left:auto">500 – 10K người</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">Cân bằng tất cả chỉ số. Đặc biệt <strong style="color:var(--gold)">tỉ lệ xem sản phẩm phải cao nhất</strong> (5★) – TikTok đánh giá đây là phòng đang chuyển dịch từ tương tác sang mua hàng.</div>
+      </div>
+      <div style="background:var(--dark4);border:1px solid #ff6b3520;border-radius:14px;padding:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#ff6b35;flex-shrink:0"></div>
+          <div style="font-size:15px;font-weight:800">Phòng Lớn</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-left:auto">&gt; 10K người</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">Trọng tâm dịch chuyển hoàn toàn sang <strong style="color:var(--accent2)">bỏ giỏ & đặt hàng thành công</strong> (5★). Giữ chân & vào phòng không còn là ưu tiên – traffic đã đủ lớn.</div>
+      </div>
+      <div style="background:var(--dark4);border:1px solid #ff005030;border-radius:14px;padding:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0"></div>
+          <div style="font-size:15px;font-weight:800">Mega Live</div>
+          <div style="font-size:11px;color:var(--text-dim);margin-left:auto">&gt; 100K người</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.7">Chiến lược <strong style="color:var(--red-light)">chốt đơn thuần túy</strong>. Bỏ giỏ & đặt hàng đều 5★. Các chỉ số khác giảm tầm quan trọng – phòng đã có đủ thương hiệu và traffic.</div>
+      </div>
+    </div>
+
+    <div class="highlight red" style="border-left-color:var(--red);background:#ff005010">🚀 <strong>Nguyên tắc lên level:</strong> Muốn TikTok nâng phòng lên cấp cao hơn, phải đạt ngưỡng tốt ở các chỉ số <strong>★★★★★ của level hiện tại</strong> trước. Không thể bỏ qua bước – phòng Mới chưa giữ được người xem thì dù chốt đơn tốt cũng không được đẩy traffic mạnh hơn.</div>
+  </div>
+
+  <!-- Loại traffic -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-orange">🚦</div>Phân Loại Traffic & Khách Hàng</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nguồn Traffic</th>
+            <th class="td-center">KH Thân Thiết</th>
+            <th class="td-center">KH Tiềm Năng</th>
+            <th class="td-center">Vãng Lai</th>
+            <th class="td-center">Seeding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🌱 Traffic Free (tự nhiên)</td>
+            <td class="td-center"><span class="pct pct-high">70%</span></td>
+            <td class="td-center"><span class="pct pct-mid">20%</span></td>
+            <td class="td-center"><span class="pct pct-low">10%</span></td>
+            <td class="td-center"><span class="pct pct-low">0%</span></td>
+          </tr>
+          <tr>
+            <td>💰 Traffic Ads (quảng cáo)</td>
+            <td class="td-center"><span class="pct pct-low">10%</span></td>
+            <td class="td-center"><span class="pct pct-high">50%</span></td>
+            <td class="td-center"><span class="pct pct-mid">40%</span></td>
+            <td class="td-center"><span class="pct pct-low">0%</span></td>
+          </tr>
+          <tr>
+            <td>👁️ Traffic Buff (mắt ảo)</td>
+            <td class="td-center"><span class="pct pct-low">0%</span></td>
+            <td class="td-center"><span class="pct pct-low">0%</span></td>
+            <td class="td-center"><span class="pct pct-low">0%</span></td>
+            <td class="td-center"><span class="pct pct-high">100%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Vai trò nhân sự -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-purple">👥</div>Vai Trò Nhân Sự Trong Phòng Live</div>
+    <div class="grid2">
+      <div class="role-card"><div class="role-badge">Chủ chốt</div><div class="role-icon">🎛️</div><div class="role-name">Vận Hành</div><div class="role-desc">Chịu trách nhiệm chính toàn bộ buổi livestream. Điều phối mọi hoạt động từ kịch bản đến xử lý tình huống phát sinh.</div></div>
+      <div class="role-card"><div class="role-icon">🎤</div><div class="role-name">Mẫu / Host</div><div class="role-desc">Giới thiệu sản phẩm, voice chính của phiên live. Tạo năng lượng và dẫn dắt khách hàng theo kịch bản.</div></div>
+      <div class="role-card"><div class="role-icon">🤝</div><div class="role-name">Trợ Live</div><div class="role-desc">Hỗ trợ giới thiệu sản phẩm, xử lý phần mềm, seeding bình luận và tạo không khí phòng live.</div></div>
+      <div class="role-card"><div class="role-icon">⚙️</div><div class="role-name">Kỹ Thuật</div><div class="role-desc">Xử lý máy móc kỹ thuật, hỗ trợ phần mềm OBS/ Tiktok Livestudio, đảm bảo luồng phát ổn định.</div></div>
+    </div>
+  </div>
+
+  <!-- Mục tiêu hành vi KH -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">🎯</div>7 Mục Tiêu Điều Hướng Hành Vi Khách Hàng</div>
+    <div class="grid2">
+      <div class="script-block">
+        <div class="script-phase">Giai đoạn đầu phiên</div>
+        <ul class="script-steps">
+          <li><strong>GIỮ</strong> – Giữ KH xem trong 3s, 5s đầu</li>
+          <li><strong>KÉO</strong> – Kéo KH nhấn vào phiên live</li>
+          <li><strong>KÊU GỌI</strong> – KH tương tác (Follow, Comment, Tim)</li>
+        </ul>
+      </div>
+      <div class="script-block">
+        <div class="script-phase">Giai đoạn chốt đơn</div>
+        <ul class="script-steps">
+          <li><strong>ĐIỀU HƯỚNG</strong> – KH xem giỏ hàng / sản phẩm</li>
+          <li><strong>THÔI THÚC</strong> – KH bỏ sản phẩm vào giỏ</li>
+          <li><strong>THÚC GIỤC</strong> – KH thanh toán đơn hàng</li>
+          <li><strong>TẠO TÒ MÒ</strong> – Giữ chân KH khi chuyển mã</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHẦN 1: 3 nhóm yếu tố gợi mở -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-orange">⚡</div>Các Yếu Tố Ảnh Hưởng Đến Hành Vi Khách Hàng Với Phòng Live</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:20px;line-height:1.7">Mọi hành động của khách hàng trong phòng live – từ việc dừng lại xem 3 giây đầu đến hoàn thành đơn hàng – đều chịu tác động từ <strong style="color:var(--text)">3 nhóm yếu tố</strong> sau:</p>
+    <div class="grid3">
+      <div style="background:var(--dark4);border:1px solid #ffffff0d;border-radius:14px;padding:22px;text-align:center">
+        <div style="font-size:36px;margin-bottom:12px">🎬</div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:8px;color:var(--text)">Bối Cảnh &<br>Ngoại Hình Mẫu Live</div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.6">Thumbnail, ánh sáng, phục trang, background phòng live — yếu tố <em>thị giác</em> quyết định người xem có dừng lại hay không.</div>
+      </div>
+      <div style="background:var(--dark4);border:1px solid #ff005030;border-radius:14px;padding:22px;text-align:center;position:relative">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 14px;border-radius:0 0 10px 10px;letter-spacing:1px;white-space:nowrap">QUAN TRỌNG NHẤT</div>
+        <div style="font-size:36px;margin-bottom:12px;margin-top:16px">🎤</div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:8px;color:var(--text)">Năng Lượng<br>Mẫu / Host Live</div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.6">Giọng nói, biểu cảm, tốc độ nói, sự hứng khởi — ảnh hưởng trực tiếp đến <em>toàn bộ</em> hành trình từ xem đến mua hàng.</div>
+      </div>
+      <div style="background:var(--dark4);border:1px solid #ffffff0d;border-radius:14px;padding:22px;text-align:center">
+        <div style="font-size:36px;margin-bottom:12px">📢</div>
+        <div style="font-size:15px;font-weight:800;margin-bottom:8px;color:var(--text)">Nội Dung<br>Truyền Tải</div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.6">Hook, USP, deal, urgency — chất lượng nội dung quyết định KH có <em>tương tác và mua hàng</em> hay không.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHẦN 2: Bảng chi tiết theo từng giai đoạn hành vi -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-teal">📋</div>Yếu Tố Ảnh Hưởng Theo Từng Giai Đoạn Hành Vi Khách Hàng</div>
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;line-height:1.7">Bảng dưới đây chỉ rõ <strong style="color:var(--text)">yếu tố nào tác động ở giai đoạn nào</strong> trong hành trình của khách hàng. Vận hành & Host cần nắm để ưu tiên đúng điểm cần cải thiện.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:180px">Giai Đoạn Hành Vi KH</th>
+            <th class="td-center" style="min-width:140px">🎬 Bối Cảnh /<br>Ngoại Hình Mẫu</th>
+            <th class="td-center" style="min-width:140px">🎤 Năng Lượng<br>Mẫu / Host</th>
+            <th class="td-center" style="min-width:140px">📢 Nội Dung<br>Truyền Tải</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Xem 3s đầu tiên</strong><br><span style="font-size:11px;color:var(--text-dim)">Dừng lại hay bỏ qua?</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--dark4);font-size:16px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>Xem 5s tiếp theo</strong><br><span style="font-size:11px;color:var(--text-dim)">Có ở lại xem thêm không?</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+          </tr>
+          <tr>
+            <td><strong>Nhấn vào phòng live</strong><br><span style="font-size:11px;color:var(--text-dim)">Từ ngoài feed vào phòng</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tương tác với phiên live</strong><br><span style="font-size:11px;color:var(--text-dim)">Follow, comment, thả tim</span></td>
+            <td class="td-center"><span style="color:var(--dark4);font-size:16px">—</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tương tác với sản phẩm</strong><br><span style="font-size:11px;color:var(--text-dim)">Xem thông tin SP, click giỏ</span></td>
+            <td class="td-center"><span style="color:var(--dark4);font-size:16px">—</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tiến trình mua hàng</strong><br><span style="font-size:11px;color:var(--text-dim)">Xem giỏ → Thêm SP → Checkout</span></td>
+            <td class="td-center"><span style="color:var(--dark4);font-size:16px">—</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+          </tr>
+          <tr>
+            <td><strong>Hoàn thành đơn hàng</strong><br><span style="font-size:11px;color:var(--text-dim)">Thanh toán thành công</span></td>
+            <td class="td-center"><span style="color:var(--dark4);font-size:16px">—</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+            <td class="td-center"><span style="color:var(--green);font-size:18px">✔</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight gold" style="margin-top:14px">💡 <strong>Insight quan trọng:</strong> Bối cảnh & ngoại hình chỉ đóng vai trò ở <strong>3 giây đầu tiên</strong> để giữ người xem dừng lại. Từ bước tương tác trở đi, <strong>Năng lượng Host và Nội dung truyền tải</strong> mới là hai đòn bẩy chính quyết định KH có mua hàng hay không.</div>
+  </div>
+</div>
+
+<!-- ===================== TAB 2 ===================== -->
+<div id="tab2" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">Module 02</div>
+    <div class="sec-title">Tiến Trình Của Một Buổi Livestream</div>
+    <div class="sec-desc">Từ phân loại sản phẩm → cấu trúc Loop 30 phút → kịch bản Loop 3 phút → hệ thống trigger điều chỉnh real-time</div>
+  </div>
+
+  <!-- ============ PHẦN 1: PHÂN LOẠI SP ============ -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-red">🧩</div>Phân Loại Sản Phẩm Trong Phiên Live (SKU Role Map)</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:14px;line-height:1.7">Mỗi sản phẩm lên live <strong style="color:var(--text)">không có vai trò giống nhau</strong>. Vận hành phải hiểu 5 vai trò SKU để biết sản phẩm nào dùng vào lúc nào trong kịch bản:</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:50px">STT</th><th>Vai trò SKU</th><th>Mô tả & mục đích</th><th>Tiêu chí chọn SKU</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="td-center"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)"></span></td>
+            <td><strong style="color:var(--accent)">🚦 Traffic SKU</strong></td>
+            <td>Giá hấp dẫn / deal sốc — kéo lượt xem (view), giữ chân khách vào phòng.</td>
+            <td>SP hot trend, tỉ lệ giữ chân cao, CTR không nhất thiết cao</td>
+          </tr>
+          <tr>
+            <td class="td-center"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red)"></span></td>
+            <td><strong style="color:var(--red-light)">🎯 Hero SKU</strong></td>
+            <td>Sản phẩm chủ lực, đại diện thương hiệu/phòng live — chốt từ đầu để giữ khách. Kéo GMV chính toàn phiên.</td>
+            <td>SP gắn với chiến lược nhận diện phiên live</td>
+          </tr>
+          <tr>
+            <td class="td-center"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold)"></span></td>
+            <td><strong style="color:var(--gold)">⚡ Conversion SKU</strong></td>
+            <td>Dễ ra đơn nhất — combo giá tốt, deal giờ vàng, tạo tỉ lệ chuyển đổi cao tại 1 thời điểm.</td>
+            <td>Add to cart/Purchase cao, CTR cao, deal tốt</td>
+          </tr>
+          <tr>
+            <td class="td-center"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green)"></span></td>
+            <td><strong style="color:var(--green)">💰 Profit SKU</strong></td>
+            <td>Biên lợi nhuận cao — đẩy ở giữa/cuối phiên khi khách đã tin tưởng.</td>
+            <td>Biên LN cao, có khả năng chốt</td>
+          </tr>
+          <tr>
+            <td class="td-center"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#9c27b0"></span></td>
+            <td><strong style="color:#ce93d8">🎁 Combo SKU</strong></td>
+            <td>Gói bán kèm — tăng AOV (giá trị đơn trung bình), khai thác LTV khách thân thiết.</td>
+            <td>SP basic, dễ kết hợp</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="loop-order">
+      <span class="lo-step" style="background:#00f2ea20;color:var(--accent)">Traffic</span>
+      <span class="lo-arrow">→</span>
+      <span class="lo-step" style="background:#ff005020;color:var(--red-light)">Hero</span>
+      <span class="lo-arrow">→</span>
+      <span class="lo-step" style="background:#f5c84220;color:var(--gold)">Conversion</span>
+      <span class="lo-arrow">→</span>
+      <span class="lo-step" style="background:#00e67620;color:var(--green)">Profit</span>
+      <span class="lo-arrow">→</span>
+      <span class="lo-step" style="background:#9c27b020;color:#ce93d8">Combo</span>
+    </div>
+
+    <div class="highlight">💡 <strong>Insight:</strong> Traffic SKU mở đầu để giữ view + feed dữ liệu chuyển đổi tốt cho TikTok real-time → Hero SKU chốt định vị + GMV chính → Conversion SKU tạo đơn nhanh khi lượt xem tăng đột biến → Profit SKU đẩy biên LN, tạo đa dạng → Combo SKU chốt AOV cuối loop.</div>
+  </div>
+
+  <!-- ============ PHẦN 2: LOOP 30' → LOOP 3' ============ -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-teal">🔁</div>Tiến Trình Buổi Live: Loop 30 Phút → Loop 3 Phút</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:14px;line-height:1.7">Với phiên live <strong style="color:var(--text)">kéo dài 12 giờ</strong>, buổi live không chạy ngẫu nhiên theo sản phẩm — nó được chia thành các <strong style="color:var(--accent)">Loop 30 phút</strong> chạy nối tiếp liên tục, và mỗi sản phẩm trong đó chạy theo <strong style="color:var(--red-light)">Loop 3 phút</strong> (kịch bản chi tiết).</p>
+
+    <div class="kpi-group-title" style="margin-top:6px">Cấp 1 — Loop 30 Phút (Khung Sản Phẩm)</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Phút</th><th>Vai trò SKU</th><th>Mục tiêu chính</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0'–3'</strong></td><td>Traffic</td><td>Tái lập nhịp xem đầu loop — làm mới phòng sau loop trước, kéo UV hiện tại lên trước khi vào Hero</td></tr>
+          <tr><td><strong>3'–6'</strong></td><td>Hero</td><td>Định vị SP chủ lực, tạo trust</td></tr>
+          <tr><td><strong>6'–9'</strong></td><td>Traffic</td><td>Giữ view sau Hero, tránh tụt nhịp</td></tr>
+          <tr><td><strong>9'–12'</strong></td><td>Hero (lần 2)</td><td>Đẩy đơn Hero, nhắc đếm ngược</td></tr>
+          <tr><td><strong>12'–15'</strong></td><td>Profit</td><td>Tăng AOV, nâng biên LN</td></tr>
+          <tr><td><strong>15'–18'</strong></td><td>Traffic</td><td>Lấy lại view sau Profit</td></tr>
+          <tr><td><strong>18'–21'</strong></td><td>Conversion</td><td>Đẩy đơn nhanh, tăng AOV</td></tr>
+          <tr><td><strong>21'–24'</strong></td><td>Traffic</td><td>Giữ người ở lại sau Conversion</td></tr>
+          <tr><td><strong>24'–27'</strong></td><td>Conversion (lần 2)</td><td>Chốt đơn combo cuối loop</td></tr>
+          <tr><td><strong>27'–30'</strong></td><td>Traffic (chuyển tiếp)</td><td>Bàn giao nhịp sang loop kế tiếp — không đứt mạch xem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight gold">⚠️ <strong>Lưu ý khi live 12h liên tục:</strong> "Loop 30 phút" không phải 1 chu kỳ độc lập — đây là một <strong>đơn vị lặp (repeating unit)</strong> chạy nối tiếp suốt phiên. Traffic SKU ở vị trí 0'-3' và 27'-30' của mỗi loop đóng vai trò <strong>"điểm nối" (transition point)</strong> giữa 2 loop liên tiếp, giúp lượt xem không bị rớt khi chuyển đợt bán hàng. Chỉ có loop <strong>đầu tiên duy nhất của cả phiên 12h</strong> mới thực sự mang nghĩa "mở phiên, kéo UV mới".</div>
+
+    <div class="kpi-group-title" style="margin-top:20px">Nguyên Tắc Xuyên Suốt</div>
+    <div class="highlight teal">📌 <strong>Traffic SKU không được lặp quá 2 vòng liên tiếp mà không có đơn</strong> — nếu vi phạm, phải chuyển ngay sang Hero/Conversion. Cấp 2 (Loop 3 phút — kịch bản chi tiết 1 sản phẩm) sẽ được trình bày ở phần tiếp theo.</div>
+  </div>
+
+  <!-- ============ PHẦN 3: 2 CÁCH TRIỂN KHAI LOOP 3' ============ -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-gold">🎬</div>2 Cách Triển Khai Loop 3 Phút (Kịch Bản 1 Sản Phẩm)</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:6px;line-height:1.7">Loop 3 phút không có một khuôn duy nhất — có <strong style="color:var(--text)">nhiều cách triển khai</strong> tùy vào vai trò SKU và mục tiêu tại thời điểm đó. Dưới đây là 2 cách phổ biến nhất:</p>
+
+    <div class="compare-wrap">
+      <!-- CÁCH 1 -->
+      <div class="compare-card">
+        <div class="compare-hd a">🅰️ <span>Hook – RTB – RTBuy – CTA</span><span class="compare-badge a" style="margin-left:auto">Performance / Sales</span></div>
+        <div class="compare-body">
+          <div class="compare-row">
+            <div class="compare-time">0:00–0:30</div>
+            <div class="compare-step"><strong>HOOK</strong><span>Tận dụng nội dung đang có traffic: gắn KOL liên quan, hoặc angle drama-curiosity</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">0:30–1:00</div>
+            <div class="compare-step"><strong>Reason to Believe</strong><span>Đọc 1-2 bảo chứng phù hợp: số liệu bán hàng, chứng nhận SP, clip KOL review</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">1:00–2:00</div>
+            <div class="compare-step"><strong>Reason to Buy</strong><span>Tuần tự: Chất liệu → Cảm giác dùng → Pain point → Bối cảnh dùng → Giá + Bảo hành</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">2:00–2:30</div>
+            <div class="compare-step"><strong>CTA</strong><span>1 action duy nhất theo tình trạng phòng: traffic thấp → "Follow + Comment size"; traffic cao → "Check giỏ hàng ngay"</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">2:30–3:00</div>
+            <div class="compare-step"><strong>Chốt & chuyển</strong><span>Nhắc lại giá + ưu đãi, báo SP tiếp theo để giữ chân</span></div>
+          </div>
+        </div>
+        <div class="compare-fit a">→ <strong>Phù hợp khi:</strong> cần tốc độ, tối ưu theo tín hiệu real-time, đội ngũ host đã quen kịch bản bán hàng performance.</div>
+      </div>
+
+      <!-- CÁCH 2 -->
+      <div class="compare-card">
+        <div class="compare-hd b">🅱️ <span>Hint – Hook – USP – Proof – Deal – Close</span><span class="compare-badge b" style="margin-left:auto">Trust Building</span></div>
+        <div class="compare-body">
+          <div class="compare-row">
+            <div class="compare-time">① Hint</div>
+            <div class="compare-step"><strong>Intro</strong><span>Gợi mở SP sắp ra, tạo kỳ vọng</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">② Hook</div>
+            <div class="compare-step"><strong>Điểm đau</strong><span>Chạm vấn đề thật của khách hàng</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">③ USP</div>
+            <div class="compare-step"><strong>Giải pháp</strong><span>Giải pháp khác biệt giải quyết điểm đau</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">④ Proof</div>
+            <div class="compare-step"><strong>Bằng chứng / Viễn cảnh</strong><span>Review, trải nghiệm thực tế, vẽ viễn cảnh dùng SP</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">⑤ Deal</div>
+            <div class="compare-step"><strong>Lên Deal + Thúc đơn</strong><span>Đếm ngược, set deal, thúc giục</span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-time">⑥ Close</div>
+            <div class="compare-step"><strong>Đóng deal – Qua mã</strong><span>Chuyển sản phẩm, tạo tò mò giữ chân</span></div>
+          </div>
+        </div>
+        <div class="compare-fit b">→ <strong>Phù hợp khi:</strong> cần xây dựng niềm tin sâu trước khi bán (SP mới, ngành hàng cần giải thích nhiều), host có khả năng storytelling tốt.</div>
+      </div>
+    </div>
+
+    <div class="highlight">🔑 <strong>Điểm khác biệt cốt lõi:</strong> Cách 1 thiên về <em>tốc độ + tín hiệu real-time</em> (rút ngắn phần niềm tin, vào CTA nhanh) — phù hợp Traffic/Conversion SKU. Cách 2 thiên về <em>xây dựng niềm tin sâu</em> trước khi chốt (tách biệt Hook + USP + Proof, kỹ hơn) — phù hợp Hero/Profit SKU. Vận hành chọn cách theo loại SKU đang chạy và theo tín hiệu phòng live tại thời điểm đó.</div>
+  </div>
+
+  <!-- ============ PHẦN 4: RULE TRIGGER ============ -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">⚙️</div>Hệ Thống Rule Trigger Trong Loop 3 Phút</div>
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:14px;line-height:1.7">Kịch bản chỉ là khung — vận hành & host phải biết <strong style="color:var(--text)">đọc tín hiệu real-time</strong> để chủ động điều chỉnh, không chạy cứng theo timeline:</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Tín hiệu real-time</th><th>Hành động ngay</th></tr></thead>
+        <tbody>
+          <tr><td>View tăng đột biến (có clip/KOL viral)</td><td>Lên Hero/Conversion để tạo nhận diện kênh + lấy chuyển đổi</td></tr>
+          <tr><td>CTR &gt; 6% trong Traffic SKU</td><td>Chuyển ngay sang Hero/Conversion, bỏ Traffic vòng tiếp</td></tr>
+          <tr><td>Đơn về liên tục trong Conversion</td><td>Không chuyển SKU, chạy thêm 1–2 vòng Conversion đến khi chậm lại</td></tr>
+          <tr><td>View rớt sau Profit SKU hoặc do live yếu</td><td>Lên SP Traffic + kịch bản review hút mắt xem</td></tr>
+          <tr><td>Comment hỏi size / chất liệu nhiều</td><td>Host dừng kịch bản, trả lời trực tiếp 60s, vận hành ghim lại SP</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight gold">⚠️ <strong>Nguyên tắc vận hành:</strong> Kịch bản là bản đồ, không phải đường ray. Trigger rule giúp host + vận hành phản ứng đúng lúc thay vì máy móc theo giờ — đây là yếu tố phân biệt phòng live "amateur" và "chuyên nghiệp".</div>
+  </div>
+</div>
+
+<!-- ===================== TAB 3 ===================== -->
+<div id="tab3" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">Module 03</div>
+    <div class="sec-title">Setup Trước Livestream</div>
+    <div class="sec-desc">Checklist đầy đủ cần chuẩn bị trước khi bắt đầu phiên live. Chuẩn bị kỹ = live thành công.</div>
+  </div>
+
+  <!-- Teasing -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-red">📣</div>Teasing Trước Live</div>
+    <div class="highlight">📌 Thực hiện đăng teasing trước phiên live để báo hiệu lịch live, sản phẩm và deal. Giúp kéo lượng KH thân thiết vào ngay từ đầu live, cải thiện tín hiệu phòng.</div>
+  </div>
+
+  <!-- Checklist accordion -->
+  <div class="accordion">
+    <div class="acc-header open" onclick="toggleAcc(this)">
+      <div class="acc-icon">👤</div>
+      <div class="acc-title">Nhân Sự</div>
+      <div class="acc-arrow">▼</div>
+    </div>
+    <div class="acc-body open">
+      <ul class="acc-check">
+        <li>Xác nhận Vận hành có mặt đúng giờ</li>
+        <li>Xác nhận Mẫu / Host đã thuộc kịch bản và lời thoại</li>
+        <li>Xác nhận Trợ live nắm kịch bản, chuẩn bị seeding sẵn</li>
+        <li>Xác nhận Kỹ thuật đã test thiết bị và phần mềm</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">📋</div>
+      <div class="acc-title">Kịch Bản Phiên Live</div>
+      <div class="acc-arrow">▼</div>
+    </div>
+    <div class="acc-body">
+      <ul class="acc-check">
+        <li>Danh sách sản phẩm theo thứ tự xuất hiện</li>
+        <li>Chương trình khuyến mãi toàn live</li>
+        <li>Deal đầu live (sản phẩm mồi, deal sốc nhất)</li>
+        <li>Kịch bản giới thiệu chi tiết từng sản phẩm (Hint → Intro → Hook → USP → Deal → Thúc đơn)</li>
+        <li>Lời thoại đã soạn sẵn cho từng bước</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">💻</div>
+      <div class="acc-title">Thiết Bị & Phần Mềm</div>
+      <div class="acc-arrow">▼</div>
+    </div>
+    <div class="acc-body">
+      <ul class="acc-check">
+        <li>Setup bối cảnh: PC, máy quay, mic, hệ đèn</li>
+        <li>Setup thiết bị: 03 điện thoại seeding</li>
+        <li>Setup tài khoản: TikTok Seller, TK TikTok Seeding, TK buff mắt live</li>
+        <li>Setup phần mềm OBS – test kết nối, test bitrate</li>
+        <li>Setup TikTok Livestudio – test âm thanh, hình ảnh</li>
+        <li>Kiểm tra kết nối internet ổn định</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">📦</div>
+      <div class="acc-title">Hàng Hóa</div>
+      <div class="acc-arrow">▼</div>
+    </div>
+    <div class="acc-body">
+      <ul class="acc-check">
+        <li>List hàng vật lý theo đúng thứ tự kịch bản</li>
+        <li>Setup tồn kho theo tồn kho thực tế (không để 0 tồn)</li>
+        <li>Setup giỏ hàng phiên live theo thứ tự trên kịch bản</li>
+        <li>Setup chương trình khuyến mãi phiên live theo kịch bản</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">📢</div>
+      <div class="acc-title">Quảng Cáo</div>
+      <div class="acc-arrow">▼</div>
+    </div>
+    <div class="acc-body">
+      <ul class="acc-check">
+        <li>Thông báo lịch live trên các kênh (TikTok, Zalo, SMS)</li>
+        <li>Yêu cầu team marketing setup quảng cáo livestream (nếu có)</li>
+        <li>Xác nhận ngân sách và target quảng cáo</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Form kịch bản -->
+  <div class="card" style="margin-top:8px">
+    <div class="card-title"><div class="card-icon icon-gold">📄</div>Form Mẫu Kịch Bản Phiên Live</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Mã / Tên SP</th>
+            <th>Giá Gốc</th>
+            <th>Giá Giảm</th>
+            <th>Deal Sốc</th>
+            <th>Hint – Intro</th>
+            <th>Điểm Đau – Hook</th>
+            <th>USP</th>
+            <th>Viễn Cảnh</th>
+            <th>Thúc Đơn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:700;color:var(--red)">Deal Đầu</td>
+            <td style="color:var(--text-dim)">...</td>
+            <td style="color:var(--text-dim)">...</td>
+            <td style="color:var(--green)">...</td>
+            <td style="color:var(--gold)">...</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+          </tr>
+          <tr>
+            <td>SP 1</td>
+            <td style="color:var(--text-dim)">...</td>
+            <td style="color:var(--text-dim)">...</td>
+            <td style="color:var(--green)">...</td>
+            <td style="color:var(--gold)">...</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+            <td style="color:var(--text-dim)">1. 2. 3.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--text-dim)">SP 2 → 20</td>
+            <td colspan="9" style="color:var(--text-dim);text-align:center">Điền theo form tương tự...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight gold" style="margin-top:12px">💡 Kịch bản phải được hoàn thiện <strong>trước live ít nhất 24 giờ</strong> để Host / Mẫu có thời gian thuộc lời thoại và Vận hành có thể review toàn bộ.</div>
+  </div>
+</div>
+
+<!-- ===================== TAB 4 ===================== -->
+<div id="tab4" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">Module 04</div>
+    <div class="sec-title">Đọc Dữ Liệu & Tối Ưu Phiên Live</div>
+    <div class="sec-desc">Sau mỗi phiên live, cả team cần dành 10–15 phút đọc và phân tích dữ liệu để rút kinh nghiệm và cải thiện phiên tiếp theo.</div>
+  </div>
+
+  <!-- KPI groups -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-green">📈</div>Nhóm Chỉ Số Cần Theo Dõi Sau Live</div>
+
+    <div class="kpi-group">
+      <div class="kpi-group-title">💰 Kết Quả Kinh Doanh</div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Doanh thu (GMV)</div><div class="kpi-val green">VNĐ</div></div>
+        <div class="kpi"><div class="kpi-label">Số lượng đơn hàng</div><div class="kpi-val green">đơn</div></div>
+        <div class="kpi"><div class="kpi-label">GMV per hour</div><div class="kpi-val gold">VNĐ/h</div></div>
+        <div class="kpi"><div class="kpi-label">Danh sách SP bán được</div><div class="kpi-val teal">mã</div></div>
+      </div>
+    </div>
+
+    <div class="kpi-group">
+      <div class="kpi-group-title">👁️ Chỉ Số Traffic & Giữ Chân</div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Lượt hiển thị (Impression)</div><div class="kpi-val teal">lượt</div></div>
+        <div class="kpi"><div class="kpi-label">Tỉ lệ vào phòng</div><div class="kpi-val teal">%</div></div>
+        <div class="kpi"><div class="kpi-label">Thời gian xem TB</div><div class="kpi-val gold">giây</div></div>
+        <div class="kpi"><div class="kpi-label">Peak người xem</div><div class="kpi-val red">người</div></div>
+      </div>
+    </div>
+
+    <div class="kpi-group">
+      <div class="kpi-group-title">💬 Chỉ Số Tương Tác</div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Lượt thả tim</div><div class="kpi-val red">♥</div></div>
+        <div class="kpi"><div class="kpi-label">Bình luận</div><div class="kpi-val teal">💬</div></div>
+        <div class="kpi"><div class="kpi-label">Follow mới</div><div class="kpi-val green">+👤</div></div>
+        <div class="kpi"><div class="kpi-label">Share</div><div class="kpi-val gold">↗</div></div>
+      </div>
+    </div>
+
+    <div class="kpi-group">
+      <div class="kpi-group-title">🛒 Chỉ Số Chuyển Đổi</div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Tỉ lệ xem giỏ hàng</div><div class="kpi-val teal">%</div></div>
+        <div class="kpi"><div class="kpi-label">Tỉ lệ Add to Cart</div><div class="kpi-val gold">%</div></div>
+        <div class="kpi"><div class="kpi-label">Tỉ lệ chốt đơn</div><div class="kpi-val green">%</div></div>
+        <div class="kpi"><div class="kpi-label">Tỉ lệ hủy đơn</div><div class="kpi-val red">%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cách đọc -->
+  <div class="card">
+    <div class="card-title"><div class="card-icon icon-teal">🔍</div>Cách Đọc & Phân Tích Dữ Liệu</div>
+    <div class="grid2">
+      <div class="script-block">
+        <div class="script-phase">Tỉ lệ vào phòng thấp → Vấn đề TRAFFIC</div>
+        <ul class="check-list">
+          <li>Thumbnail / ngoại hình mẫu chưa thu hút</li>
+          <li>Khung giờ live chưa phù hợp</li>
+          <li>Cần cải thiện teasing trước live</li>
+          <li>Xem xét tăng ngân sách quảng cáo</li>
+        </ul>
+      </div>
+      <div class="script-block">
+        <div class="script-phase">Thời gian xem ngắn → Vấn đề GIỮ CHÂN</div>
+        <ul class="check-list">
+          <li>Câu mở đầu chưa đủ kéo giữ trong 3–5s</li>
+          <li>Năng lượng Host / Mẫu thấp</li>
+          <li>Bối cảnh phòng live chưa hấp dẫn</li>
+          <li>Thiếu tạo tò mò khi chuyển mã</li>
+        </ul>
+      </div>
+      <div class="script-block">
+        <div class="script-phase">Tỉ lệ xem giỏ hàng thấp → Vấn đề ĐIỀU HƯỚNG</div>
+        <ul class="check-list">
+          <li>Chưa kêu gọi xem giỏ hàng đủ lần</li>
+          <li>USP sản phẩm chưa đủ sức thuyết phục</li>
+          <li>Deal chưa đủ hấp dẫn để click xem</li>
+        </ul>
+      </div>
+      <div class="script-block">
+        <div class="script-phase">Tỉ lệ chốt đơn thấp → Vấn đề THÚC ĐƠN</div>
+        <ul class="check-list">
+          <li>Thúc đơn chưa đủ urgency (khan hiếm, thời gian)</li>
+          <li>Chưa xử lý objection của KH</li>
+          <li>Deal chưa đủ sâu so với mong đợi</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight green" style="margin-top:4px">✅ Quy tắc vàng: <strong>Tùy từng phòng, từng thời điểm trong phòng phải có Action tương ứng</strong> với chỉ số đang xuất hiện. Không áp dụng kịch bản cứng nhắc khi dữ liệu nói lên điều khác.</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Santony – Tài liệu đào tạo nội bộ</strong> · Livestream TikTok Operations &amp; Host Training<br>
+  <span style="font-size:11px;margin-top:4px;display:block">Nội dung tài liệu có thể được cập nhật theo từng phiên bản. Vui lòng kiểm tra phiên bản mới nhất trước mỗi buổi đào tạo.</span>
+</div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function toggleAcc(header) {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+    if (isOpen) {
+      header.classList.remove('open');
+      body.classList.remove('open');
+    } else {
+      header.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  function refreshRace() {
+    const rows = document.querySelectorAll('#raceBars .race-bar-row');
+    const gradients = [
+      'linear-gradient(90deg,#0F6E56,#1D9E75)',
+      'linear-gradient(90deg,#854F0B,#BA7517)',
+      'linear-gradient(90deg,#3C3489,#7F77DD)',
+      'linear-gradient(90deg,#791F1F,#A32D2D)'
+    ];
+    let scores = [];
+    rows.forEach((row, i) => {
+      const score = Math.floor(Math.random() * 60) + 25;
+      scores.push({ row, score, i });
+    });
+    scores.sort((a, b) => b.score - a.score);
+    const maxScore = scores[0].score;
+
+    scores.forEach(({ row, score, i }) => {
+      const fill = row.querySelector('.race-bar-fill');
+      const scoreEl = row.querySelector('.race-bar-score');
+      const pct = Math.round((score / maxScore) * 100);
+      fill.style.width = pct + '%';
+      fill.style.background = gradients[i];
+      fill.textContent = score + ' điểm';
+      scoreEl.textContent = score;
+    });
+
+    const winnerName = scores[0].row.querySelector('.race-bar-name').textContent;
+    const winnerBox = document.querySelector('.race-winner');
+    const isMe = scores[0].row.querySelector('.race-bar-name').classList.contains('me');
+    winnerBox.innerHTML = `🏆 ${winnerName} đang dẫn đầu → <span style="color:var(--green)">+Traffic</span>`;
+  }
+</script>
+</body>
+</html>
